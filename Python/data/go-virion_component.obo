@@ -1,0 +1,478 @@
+format-version: 1.2
+data-version: releases/2022-10-07
+subsetdef: chebi_ph7_3 "Rhea list of ChEBI terms representing the major species at pH 7.3."
+subsetdef: gocheck_do_not_annotate "Term not to be used for direct annotation"
+subsetdef: gocheck_do_not_manually_annotate "Term not to be used for direct manual annotation"
+subsetdef: goslim_agr "AGR slim"
+subsetdef: goslim_aspergillus "Aspergillus GO slim"
+subsetdef: goslim_candida "Candida GO slim"
+subsetdef: goslim_chembl "ChEMBL protein targets summary"
+subsetdef: goslim_drosophila "Drosophila GO slim"
+subsetdef: goslim_flybase_ribbon "FlyBase Drosophila GO ribbon slim"
+subsetdef: goslim_generic "Generic GO slim"
+subsetdef: goslim_metagenomics "Metagenomics GO slim"
+subsetdef: goslim_mouse "Mouse GO slim"
+subsetdef: goslim_pir "PIR GO slim"
+subsetdef: goslim_plant "Plant GO slim"
+subsetdef: goslim_pombe "Fission yeast GO slim"
+subsetdef: goslim_synapse "synapse GO slim"
+subsetdef: goslim_yeast "Yeast GO slim"
+subsetdef: prokaryote_subset "GO subset for prokaryotes"
+synonymtypedef: syngo_official_label "label approved by the SynGO project"
+synonymtypedef: systematic_synonym "Systematic synonym" EXACT
+default-namespace: gene_ontology
+ontology: go
+
+[Term]
+id: GO:0019013
+name: viral nucleocapsid
+namespace: cellular_component
+alt_id: GO:0019014
+def: "The complete protein-nucleic acid complex that is the packaged form of the genome in a virus particle." [ISBN:0781702534]
+subset: goslim_chembl
+synonym: "core" BROAD []
+synonym: "nucleocapsid" EXACT []
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019028 ! viral capsid
+
+[Term]
+id: GO:0019028
+name: viral capsid
+namespace: cellular_component
+alt_id: GO:0046728
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles. It comprises numerous regularly arranged subunits, or capsomeres." [GOC:mtg_sensu, ISBN:0198506732]
+subset: goslim_chembl
+xref: Wikipedia:Capsid
+is_a: GO:0044423 ! virion component
+
+[Term]
+id: GO:0019029
+name: helical viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles; the subunits are arranged to form a protein helix with the genetic material contained within. Tobacco mosaic virus has such a capsid structure." [ISBN:071673706X, UniProtKB-KW:KW-1139, VZ:885]
+is_a: GO:0019028 ! viral capsid
+
+[Term]
+id: GO:0019030
+name: icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles; the subunits are arranged to form an icosahedron, a solid with 20 faces and 12 vertices. Icosahedral capsids have 12 pentamers plus 10(T-1) hexamers, where T is the triangulation number. Tobacco satellite necrosis virus has such a capsid structure." [GOC:bm, ISBN:0198506732, ISBN:071673706X, VZ:885, Wikipedia:Capsid]
+synonym: "quasispherical viral capsid" EXACT []
+is_a: GO:0019028 ! viral capsid
+
+[Term]
+id: GO:0019031
+name: viral envelope
+namespace: cellular_component
+def: "The lipid bilayer of a virion that surrounds the protein capsid. May also contain glycoproteins." [GOC:bf, GOC:bm, GOC:jl, ISBN:0781718325, Wikipedia:Viral_envelope]
+subset: goslim_chembl
+synonym: "viral glycoprotein" RELATED []
+synonym: "viral outside membrane" EXACT []
+xref: Wikipedia:Viral_envelope
+is_a: GO:0036338 ! viral membrane
+
+[Term]
+id: GO:0019033
+name: viral tegument
+namespace: cellular_component
+def: "A structure lying between the capsid and envelope of a virus, varying in thickness and often distributed asymmetrically." [ISBN:0721662544]
+xref: Wikipedia:Viral_tegument
+is_a: GO:0044423 ! virion component
+
+[Term]
+id: GO:0036338
+name: viral membrane
+namespace: cellular_component
+def: "The lipid bilayer of a virion, a complete fully infectious extracellular virus particle." [GOC:bm]
+is_a: GO:0044423 ! virion component
+
+[Term]
+id: GO:0039615
+name: T=1 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=1 symmetry. The T=1 capsid is composed of 12 pentameric capsomeres." [UniProtKB-KW:KW-1140, VZ:1057]
+xref: VZ:1057 "T=1 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039616
+name: T=2 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=2 symmetry. The T=2 capsid is composed of 12 pentameric dimers." [UniProtKB-KW:KW-1141, VZ:838]
+comment: The T=2 symmetry is an non-official appellation; strictly speaking the capsid has a T=1 symmetry with each unit composed of a homodimer.
+xref: VZ:838 "T=2 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039617
+name: T=3 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=3 symmetry. The T=3 capsid is composed of 12 pentameric and 20 hexameric capsomeres." [UniProtKB-KW:KW-1142, VZ:806]
+xref: VZ:806 "T=3 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039618
+name: T=pseudo3 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with pseudo T=3 symmetry. The T=pseudo3 capsid is composed of 12 pentameric and 20 hexameric capsomeres." [UniProtKB-KW:KW-1143, VZ:809]
+comment: T=pseudo3 capsids are not T=3 symmetry as described by Caspar and Klug (PMID:14019094) because the basic unit is composed of three different proteins. Since the three subunits are morphologically very similar, the structure is therefore a pseudo T=3.
+xref: VZ:809 "T=pseudo3 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039619
+name: T=4 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=4 symmetry. The T=4 capsid is composed of 12 pentameric and 30 hexameric capsomeres." [UniProtKB-KW:KW-1144, VZ:808]
+xref: VZ:808 "T=4 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039620
+name: T=7 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=7 symmetry. The T=7 capsid is composed of 12 pentameric and 60 hexameric capsomeres." [UniProtKB-KW:KW-1145, VZ:804]
+comment: Spherical viruses with T numbers greater than or equal to 7 are skewed. They are therefore described as either right-handed (dextro) or left-handed (laevo).
+xref: VZ:804 "T=7 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039621
+name: T=13 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=13 symmetry. The T=13 capsid is composed of 12 pentameric and 120 hexameric capsomeres." [UniProtKB-KW:KW-1146, VZ:260]
+xref: VZ:260 "T=13 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039622
+name: T=16 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=16 symmetry. The T=16 capsid is composed of 12 pentameric and 150 hexameric capsomeres." [UniProtKB-KW:KW-1147, VZ:807]
+xref: VZ:807 "T=16 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039623
+name: T=25 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=25 symmetry. The T=25 capsid is composed of 12 pentameric and 240 hexameric capsomeres." [UniProtKB-KW:KW-1148, VZ:810]
+xref: VZ:810 "T=25 icosahedral capsid protein"
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039624
+name: viral outer capsid
+namespace: cellular_component
+def: "The outer layer of a double or triple concentric icosahedral capsid. Outer capsids are part of reoviridae and cystoviridae virions." [UniProtKB-KW:KW-1152]
+synonym: "outer capsid" EXACT [GOC:bf]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039625
+name: viral inner capsid
+namespace: cellular_component
+def: "The inner layer of a double or triple concentric icosahedral capsid. Inner capsids are part of reoviridae and cystoviridae virions." [UniProtKB-KW:KW-1153]
+synonym: "inner capsid" EXACT [GOC:bf]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039626
+name: viral intermediate capsid
+namespace: cellular_component
+def: "The intermediate layer of a triple concentric icosahedral capsid. Intermediate capsids are part of reoviridae virions." [UniProtKB-KW:KW-1154]
+synonym: "intermediate capsid" EXACT [GOC:bf]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039627
+name: T=147 icosahedral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=147 symmetry. T=147 icosahedral capsid is composed of 12 pentameric and 1460 hexameric capsomeres for a total of 8820 capsid proteins." [GOC:plm, UniProtKB-KW:KW-0167]
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039628
+name: T=169 icosahedral viral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=169 symmetry. T=169 icosahedral capsid is composed of 12 pentameric and 1680 hexameric capsomeres for a total of 10140 capsid proteins." [GOC:plm, UniProtKB-KW:KW-1150]
+synonym: "T=169 icosahedral capsid" EXACT [GOC:bf]
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039629
+name: T=219 icosahedral capsid
+namespace: cellular_component
+def: "The protein coat that surrounds the infective nucleic acid in some virus particles where the subunits (capsomeres) are arranged to form an icosahedron with T=219 symmetry. T=219 icosahedral capsid is composed of 12 pentameric and 2180 hexameric capsomeres for a total of 13140 capsid proteins." [GOC:plm, UniProtKB-KW:KW-1151]
+is_a: GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0039641
+name: viral inner membrane
+namespace: cellular_component
+def: "The lipid bilayer of a virion contained inside the protein capsid." [GOC:bm, PMID:15331712]
+synonym: "virion inner membrane" EXACT [GOC:bf, GOC:bm, GOC:jl]
+is_a: GO:0036338 ! viral membrane
+
+[Term]
+id: GO:0039642
+name: virion nucleoid
+namespace: cellular_component
+def: "The region of a virion in which the nucleic acid is confined." [GOC:bm, PMID:14291596]
+is_a: GO:0044423 ! virion component
+
+[Term]
+id: GO:0039670
+name: viral capsid, turret
+namespace: cellular_component
+def: "A turret-like appendage formed at the vertices of an icosahedral capsid." [GOC:jh2, PMID:20592081]
+is_a: GO:0098021 ! viral capsid, decoration
+relationship: part_of GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0044423
+name: virion component
+namespace: cellular_component
+alt_id: GO:0019012
+def: "Any constituent part of a virion, a complete fully infectious extracellular virus particle." [GOC:jl]
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_pir
+synonym: "complete virus particle" RELATED []
+synonym: "virion" RELATED []
+synonym: "virion part" EXACT []
+xref: Wikipedia:Virus
+
+[Term]
+id: GO:0046727
+name: capsomere
+namespace: cellular_component
+def: "Any of the protein subunits that comprise the closed shell or coat (capsid) of certain viruses." [ISBN:0198506732]
+synonym: "capsomer" EXACT []
+xref: Wikipedia:Capsomere
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019028 ! viral capsid
+
+[Term]
+id: GO:0046729
+name: viral procapsid
+namespace: cellular_component
+def: "A stable empty viral capsid produced during the assembly of viruses." [ISBN:0072370319, ISBN:1555811272]
+is_a: GO:0044423 ! virion component
+
+[Term]
+id: GO:0046798
+name: viral portal complex
+namespace: cellular_component
+def: "A multimeric ring of proteins through which the DNA enters and exits the viral capsid." [PMID:11602732]
+relationship: part_of GO:0019028 ! viral capsid
+
+[Term]
+id: GO:0046806
+name: viral scaffold
+namespace: cellular_component
+def: "A complex of proteins that form a scaffold around which the viral capsid is constructed." [ISBN:0072370319]
+relationship: part_of GO:0019028 ! viral capsid
+
+[Term]
+id: GO:0055036
+name: virion membrane
+namespace: cellular_component
+def: "The lipid bilayer surrounding a virion." [GOC:jid, GOC:rph, PMID:213106]
+subset: goslim_chembl
+is_a: GO:0044423 ! virion component
+
+[Term]
+id: GO:0098015
+name: virus tail
+namespace: cellular_component
+def: "Part of the virion that may be used to recognize, attach and inject the viral genome and accessory proteins into the host cell." [GOC:bm]
+comment: Many bacteriophages with dsDNA genomes, or Caudovirales, have a tail. The viral tail can be short (Podoviridae), long and non-contractile (Siphoviridae) or long and contractile (Myoviridae). The tail is the channel through which the phage genome is injected into the host bacterial cell.
+synonym: "bacteriophage tail" NARROW [GOC:bm]
+synonym: "viral tail" RELATED [GOC:bf]
+is_a: GO:0044423 ! virion component
+
+[Term]
+id: GO:0098017
+name: viral capsid, major subunit
+namespace: cellular_component
+def: "The part of the viral capsid that comprises the most common capsomere type. For example, in a T=3 icosahedral capsid, which is composed of 12 pentameric and 20 hexameric capsomeres, the hexameric capsomeres are major subunits." [GOC:bm]
+synonym: "major capsomere" EXACT [GOC:bf, GOC:bm, GOC:jl]
+synonym: "major head protein" RELATED []
+is_a: GO:0046727 ! capsomere
+
+[Term]
+id: GO:0098018
+name: viral capsid, minor subunit
+namespace: cellular_component
+def: "The part of the viral capsid that comprises the less common capsomere type. For example, in a T=3 icosahedral capsid, which is composed of 12 pentameric and 20 hexameric capsomeres, the pentameric capsomeres are minor subunits." [GOC:bm]
+synonym: "minor capsomere" EXACT [GOC:bf, GOC:bm, GOC:jl]
+synonym: "minor head protein" RELATED []
+is_a: GO:0046727 ! capsomere
+
+[Term]
+id: GO:0098021
+name: viral capsid, decoration
+namespace: cellular_component
+def: "Component of the virus capsid (head), located on the outer head surface. Involved in the stabilization of the head structure and usually non-essential." [GOC:bm]
+synonym: "decoration protein" RELATED [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019028 ! viral capsid
+
+[Term]
+id: GO:0098022
+name: viral capsid, fiber
+namespace: cellular_component
+def: "A type of capsid decoration composed of fiber structures." [GOC:bm]
+synonym: "head/capsid fiber" RELATED [GOC:bm]
+is_a: GO:0098021 ! viral capsid, decoration
+
+[Term]
+id: GO:0098023
+name: virus tail, tip
+namespace: cellular_component
+def: "The basal end of the virus tail, which is used by the virus to attach to the host cell." [GOC:bm]
+synonym: "bacteriophage tail tip" NARROW [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0098015 ! virus tail
+
+[Term]
+id: GO:0098024
+name: virus tail, fiber
+namespace: cellular_component
+def: "The fibrous region of the virus tail used to scan, recognize and attach to the host cell." [GOC:bm]
+comment: For tailed bacteriophages, fibers typically bind to particular Lipopolysaccharide (LPS), polysaccharide or protein receptors on the cell surface.
+synonym: "bacteriophage tail fiber" NARROW [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0098015 ! virus tail
+
+[Term]
+id: GO:0098025
+name: virus tail, baseplate
+namespace: cellular_component
+def: "Multiprotein component at the distal (head) end of the virus tail to which fibers of tailed viruses may be attached." [GOC:bm]
+comment: Tail fibers are often attached to the baseplate of Caudovirales (tailed bacteriophages with dsDNA genomes). Sometimes referred to as the tail tip or tip structure in Siphoviridae.
+synonym: "bacteriophage baseplate" NARROW [GOC:bm]
+synonym: "tail structure" RELATED [GOC:bm]
+synonym: "tail tip" RELATED [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0098015 ! virus tail
+
+[Term]
+id: GO:0098026
+name: virus tail, tube
+namespace: cellular_component
+def: "The internal tube of the contractile tails of some viruses. The virus tail tube is the channel for DNA ejection into the host cytoplasm." [GOC:bm]
+comment: Applies in particular the Myoviridae bacteriophages.
+synonym: "bacteriophage tail tube" NARROW [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0098015 ! virus tail
+
+[Term]
+id: GO:0098027
+name: virus tail, sheath
+namespace: cellular_component
+def: "The external contractile envelope of the tail of some viruses. Its contraction ensures ejection of the virus DNA into the host cytoplasm." [GOC:bm]
+synonym: "bacteriophage tail sheath" NARROW [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0098015 ! virus tail
+
+[Term]
+id: GO:0098028
+name: virus tail, shaft
+namespace: cellular_component
+def: "The tube of the non-contractile tails of some viruses." [GOC:bm]
+comment: This term applies in particular to the Siphoviridae bacteriophages, where the shaft is the channel for DNA translocation into the host cytoplasm.
+synonym: "bacteriophage tail shaft" NARROW [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0098015 ! virus tail
+
+[Term]
+id: GO:0098029
+name: icosahedral viral capsid, spike
+namespace: cellular_component
+def: "A short structure attached to an icosahedral virion capsid, and used for attachment to the host cell." [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0098030
+name: icosahedral viral capsid, neck
+namespace: cellular_component
+def: "A region of constriction located below the head and above the tail sheath of viruses with contractile tails (Myoviridae)." [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0098031
+name: icosahedral viral capsid, collar
+namespace: cellular_component
+def: "A small disk located at the base of some icosahedral virus capsids." [GOC:bm]
+is_a: GO:0044423 ! virion component
+relationship: part_of GO:0019030 ! icosahedral viral capsid
+
+[Term]
+id: GO:0098032
+name: icosahedral viral capsid, collar fiber
+namespace: cellular_component
+def: "A fiber attached to the collar structure of some icosahedral viral capsids." [GOC:bm]
+is_a: GO:0098022 ! viral capsid, fiber
+relationship: part_of GO:0098031 ! icosahedral viral capsid, collar
+
+[Term]
+id: GO:0098033
+name: icosahedral viral capsid, neck fiber
+namespace: cellular_component
+def: "A fiber attached to the neck at the base of some icosahedral viral capsids." [GOC:bm]
+is_a: GO:0098022 ! viral capsid, fiber
+relationship: part_of GO:0098030 ! icosahedral viral capsid, neck
+
+[Term]
+id: GO:0098061
+name: viral capsid, internal space
+namespace: cellular_component
+def: "The region of a virus contained within the capsid shell, and usually containing the viral genome and accessory proteins." [GOC:bm]
+synonym: "internal head protein" EXACT [GOC:bm]
+is_a: GO:0044423 ! virion component
+
+[Typedef]
+id: negatively_regulates
+name: negatively regulates
+namespace: external
+xref: RO:0002212
+is_a: regulates ! regulates
+
+[Typedef]
+id: part_of
+name: part of
+namespace: external
+xref: BFO:0000050
+is_transitive: true
+
+[Typedef]
+id: positively_regulates
+name: positively regulates
+namespace: external
+xref: RO:0002213
+holds_over_chain: negatively_regulates negatively_regulates
+is_a: regulates ! regulates
+
+[Typedef]
+id: regulates
+name: regulates
+namespace: external
+xref: RO:0002211
+is_transitive: true
+
+[Typedef]
+id: term_tracker_item
+name: term tracker item
+namespace: external
+xref: IAO:0000233
+is_metadata_tag: true
+is_class_level: true
+

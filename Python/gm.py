@@ -101,10 +101,11 @@ def BFS(g, s) :
     while len(attente) != 0: # tant que la file n'est pas vide, la boucle continue
         u = attente.pop(0) # extraction du premier sommet de la file, pour signifier qu'on le visite
         for voisin in g['edges'][u]:# pour chaque voisin du sommet u
-            etat[voisin] = 'gris' # on le marque comme en cours de visite (etat gris)
-            distances[voisin] = distances[u] + 1 # on met à jour la distance du voisin en fonction de la distance du sommet u
-            parents[voisin] = u # on met à jour le parent du voisin comme étant u
-            attente.append(voisin) # et on les rajoutes dans la file d'attente
+            if voisin not in etat: # si le voisin n'a pas encore été visité
+                etat[voisin] = 'gris' # on le marque comme en cours de visite (etat gris)
+                distances[voisin] = distances[u] + 1 # on met à jour la distance du voisin en fonction de la distance du sommet u
+                parents[voisin] = u # on met à jour le parent du voisin comme étant u
+                attente.append(voisin) # et on les rajoutes dans la file d'attente
         etat[u] = 'noir' #sommet visité, on le marque en noir
     return {"état" : etat, "Distance" : distances, "parents" : parents, "source" : s}
 
