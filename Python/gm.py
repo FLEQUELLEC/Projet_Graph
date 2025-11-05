@@ -1,104 +1,307 @@
 #!/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Graph Manipulation Library (gm.py)
+==================================
+Auteurs : Florent LE QUELLEC
 
-### Graph Manipulation Library (gm.py)
-## Auteurs : Florent LE QUELLEC
-
-## librairie ##
+Cette bibliothèque fournit un ensemble de fonctions pour manipuler des graphes
+représentés sous forme de dictionnaires Python. Compatible avec des graphes
+dirigés ou non dirigés, pondérés ou non, et intégrable dans des workflows
+bioinformatiques ou analytiques légers.
+"""
 
 import polars as pl
 import pandas as pd
 from pprint import pprint
 
-#CODE
 
-
-def create_graph(directed = True, weighted = False, weight_attribute = None):
+def create_graph(directed=True, weighted=False, weight_attribute=None):
     """
     Crée et renvoie un graphe représenté par un dictionnaire.
+
+    Parameters
+    ----------
+    directed : bool, optional
+        Indique si le graphe est dirigé (True) ou non dirigé (False).
+    weighted : bool, optional
+        Indique si le graphe possède des poids d’arêtes.
+    weight_attribute : str, optional
+        Nom de l’attribut de poids si applicable.
+
+    Returns
+    -------
+    dict
+        Graphe initialisé avec clés : 'nodes', 'edges', 'directed',
+        'weighted', 'weight_attribute'.
     """
-    g = { 'nodes': {}, 'edges': {}, 'directed': directed, 'weighted': weighted, 'weight_attribute': weight_attribute }
+    g = {
+        'nodes': {},
+        'edges': {},
+        'directed': directed,
+        'weighted': weighted,
+        'weight_attribute': weight_attribute
+    }
     return g
 
-def node_exists(g,n): return n in g['nodes']
 
-def add_node(g, node_id, attributes = None):
+def node_exists(g, n):
     """
-    add a node with node_id (node id provided as a string or int) to the graph g.
-    attributes on the node can be provided by a dict.
-    returns the node n attributes.
+    Vérifie si un nœud existe dans le graphe.
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+    n : str or int
+        Identifiant du nœud à tester.
+
+    Returns
+    -------
+    bool
+        True si le nœud existe, False sinon.
     """
-    if not node_exists(g, node_id): # ensure node does not already exist
-        if attributes is None: # create empty attributes if not provided
+    return n in g['nodes']
+
+
+def add_node(g, node_id, attributes=None):
+    """
+    Ajoute un nœud au graphe s’il n’existe pas déjà.
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+    node_id : str or int
+        Identifiant du nœud à ajouter.
+    attributes : dict, optional
+        Dictionnaire d’attributs associés au nœud.
+
+    Returns
+    -------
+    dict
+        Dictionnaire des attributs du nœud ajouté (ou existant).
+    """
+    if not node_exists(g, node_id):
+        if attributes is None:
             attributes = {}
         g['nodes'][node_id] = attributes
-        g['edges'][node_id] = {} # init outgoing edges
-    return g['nodes'][node_id] # return node attributes
-
-def edge_exists(g, n1, n2): return node_exists(g, n1) and n2 in g['edges'].get(n1, {})
+        g['edges'][node_id] = {}  # initialise les arêtes sortantes
+    return g['nodes'][node_id]
 
 
-def add_edge(g, node_id1, node_id2, attributes = None):
-    # create nodes if they do not exist
-    if not node_exists(g, node_id1): add_node(g, node_id1)
-    if not node_exists(g, node_id2): add_node(g, node_id2)
-    # add edge(s) only if they do not exist
-    if not edge_exists(g,node_id1,node_id2):
-        if attributes is None: # create empty attributes if not provided
+def edge_exists(g, n1, n2):
+    """
+    Vérifie si une arête entre deux nœuds existe dans le graphe.
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+    n1 : str or int
+        Nœud source.
+    n2 : str or int
+        Nœud cible.
+
+    Returns
+    -------
+    bool
+        True si l’arête (n1, n2) existe, False sinon.
+    """
+    return node_exists(g, n1) and n2 in g['edges'].get(n1, {})
+
+
+def add_edge(g, node_id1, node_id2, attributes=None):
+    """
+    Ajoute une arête entre deux nœuds. Crée les nœuds si nécessaire.
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+    node_id1 : str or int
+        Identifiant du nœud source.
+    node_id2 : str or int
+        Identifiant du nœud cible.
+    attributes : dict, optional
+        Dictionnaire d’attributs de l’arête.
+
+    Returns
+    -------
+    dict
+        Dictionnaire des attributs de l’arête ajoutée.
+    """
+    if not node_exists(g, node_id1):
+        add_node(g, node_id1)
+    if not node_exists(g, node_id2):
+        add_node(g, node_id2)
+
+    if not edge_exists(g, node_id1, node_id2):
+        if attributes is None:
             attributes = {}
         g['edges'][node_id1][node_id2] = attributes
         if not g['directed']:
-            g['edges'][node_id2][node_id1] = g['edges'][node_id1][node_id2] # share the same attributes as n1->n2
-    return g['edges'][node_id1][node_id2] # return edge attributes
+            g['edges'][node_id2][node_id1] = g['edges'][node_id1][node_id2]
+    return g['edges'][node_id1][node_id2]
 
 
 def read_delim(filename, column_separator='\t', directed=True, weighted=False, weight_attribute=None):
     """
     Lit un fichier délimité (ex: TSV, CSV) et construit un graphe.
+
     Les deux premières colonnes représentent les nœuds connectés,
-    les suivantes sont des attributs d’arête.
+    les suivantes contiennent les attributs d’arêtes.
+
+    Parameters
+    ----------
+    filename : str
+        Chemin vers le fichier à lire.
+    column_separator : str, optional
+        Caractère de séparation des colonnes (par défaut : tabulation).
+    directed : bool, optional
+        Indique si le graphe doit être dirigé.
+    weighted : bool, optional
+        Indique si le graphe doit être pondéré.
+    weight_attribute : str, optional
+        Nom de l’attribut de poids.
+
+    Returns
+    -------
+    dict
+        Graphe construit à partir du fichier.
     """
-    # Lecture rapide avec Polars
     df = pl.read_csv(
-        filename, # chemin du fichier
-        separator=column_separator, # séparateur de colonnes
-        has_header=True, # le fichier a une ligne d'en-tête
-        infer_schema_length=1000, # nombre de lignes pour inférer le schéma
-        quote_char=None # pas de caractère de citation
+        filename,
+        separator=column_separator,
+        has_header=True,
+        infer_schema_length=1000,
+        quote_char=None
     )
 
-    cols = df.columns # obtenir les noms des colonnes
-    if len(cols) < 2: # vérifier qu'il y a au moins deux colonnes
-        raise ValueError("Le fichier doit contenir au moins deux colonnes (source et target).")
+    cols = df.columns
+    if len(cols) < 2:
+        raise ValueError("Le fichier doit contenir au moins deux colonnes (source, target).")
 
-    src_col, tgt_col = cols[0], cols[1] # les deux premières colonnes sont source et target
-    att_cols = cols[2:] # les colonnes restantes sont des attributs d'arête
+    src_col, tgt_col = cols[0], cols[1]
+    att_cols = cols[2:]
 
-    g = create_graph(directed, weighted, weight_attribute) # créer le graphe
+    g = create_graph(directed, weighted, weight_attribute)
+    pdf = df.to_pandas()
 
-    # Conversion en Pandas pour itération plus simple si nécessaire
-    pdf = df.to_pandas() # convertir en DataFrame Pandas
-
-    for _, row in pdf.iterrows(): # itérer sur les lignes
-        u = row[src_col] # obtenir la source
-        v = row[tgt_col] # obtenir la cible
-        att = {col: row[col] for col in att_cols} # construire le dictionnaire d'attributs
-        add_edge(g, u, v, att) # ajouter l'arête au graphe
+    for _, row in pdf.iterrows():
+        u = row[src_col]
+        v = row[tgt_col]
+        att = {col: row[col] for col in att_cols}
+        add_edge(g, u, v, att)
 
     return g
 
 
+def nodes(g):
+    """
+    Renvoie la liste triée des identifiants de nœuds du graphe.
 
-def nodes(g) : return sorted(g['nodes'].keys())
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
 
-def nb_nodes(g): return len(g.get('nodes'))
+    Returns
+    -------
+    list
+        Liste triée des nœuds du graphe.
+    """
+    return sorted(g['nodes'].keys())
 
-def nb_edges(g): return len(g.get('edges'))
 
-def neighbors(g, node_id): return list(g['edges'][node_id].keys())
+def nb_nodes(g):
+    """
+    Renvoie le nombre de nœuds du graphe.
 
-def directed(g) : return g('directed')
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
 
-def edges_tuples (g) : return [(u,v) for u in nodes(g) for v in neighbors(g,u)]
+    Returns
+    -------
+    int
+        Nombre de nœuds.
+    """
+    return len(g.get('nodes'))
+
+
+def nb_edges(g):
+    """
+    Renvoie le nombre de sommets ayant au moins une arête sortante.
+
+    (Attention : pour les graphes non dirigés, chaque arête apparaît deux fois.)
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+
+    Returns
+    -------
+    int
+        Nombre d’entrées dans la table des arêtes.
+    """
+    return len(g.get('edges'))
+
+
+def neighbors(g, node_id):
+    """
+    Renvoie la liste des voisins d’un nœud donné.
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+    node_id : str or int
+        Identifiant du nœud.
+
+    Returns
+    -------
+    list
+        Liste des identifiants de nœuds voisins.
+    """
+    return list(g['edges'][node_id].keys())
+
+
+def directed(g):
+    """
+    Indique si le graphe est dirigé.
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+
+    Returns
+    -------
+    bool
+        True si le graphe est dirigé, False sinon.
+    """
+    return g['directed']
+
+
+def edges_tuples(g):
+    """
+    Renvoie la liste de toutes les arêtes sous forme de tuples (source, cible).
+
+    Parameters
+    ----------
+    g : dict
+        Graphe sous forme de dictionnaire.
+
+    Returns
+    -------
+    list of tuple
+        Liste de tuples (u, v) représentant les arêtes.
+    """
+    return [(u, v) for u in nodes(g) for v in neighbors(g, u)]
+
 
 def BFS(g, s) :
     """
