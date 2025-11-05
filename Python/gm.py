@@ -197,7 +197,7 @@ def read_delim(filename, column_separator='\t', directed=True, weighted=False, w
     return g
 
 
-def nodes(g):
+def nodes(g={}):
     """
     Renvoie la liste triée des identifiants de nœuds du graphe.
 
@@ -214,7 +214,7 @@ def nodes(g):
     return sorted(g['nodes'].keys())
 
 
-def nb_nodes(g):
+def nb_nodes(g = {}):
     """
     Renvoie le nombre de nœuds du graphe.
 
@@ -347,3 +347,17 @@ if __name__ == "__main__":
   add_node(g, 'B')
   add_edge(g, 'A', 'B', { 'weight': 5 } )
   pprint(g)
+
+# Créer un graphe d’exemple
+g = create_graph(directed=False)
+add_edge(g, 'A', 'B')
+add_edge(g, 'A', 'C')
+add_edge(g, 'B', 'D')
+add_edge(g, 'C', 'E')
+
+print("Graphe :")
+pprint(g)
+
+# Lancer BFS
+visited = BFS(g, 'A')
+print("\nOrdre de visite BFS depuis 'A' :", visited)
