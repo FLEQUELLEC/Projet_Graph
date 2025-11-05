@@ -1,8 +1,8 @@
 #!/bin/env python
 
 ### Graph Manipulation Library (gm.py)
-
 ## Auteurs : Florent LE QUELLEC
+
 ## librairie ##
 
 import polars as pl
@@ -11,11 +11,10 @@ from pprint import pprint
 
 #CODE
 
-from pprint import pprint
 
 def create_graph(directed = True, weighted = False, weight_attribute = None):
     """
-    create a dictionnary representing a graph and returns it.
+    Crée et renvoie un graphe représenté par un dictionnaire.
     """
     g = { 'nodes': {}, 'edges': {}, 'directed': directed, 'weighted': weighted, 'weight_attribute': weight_attribute }
     return g
