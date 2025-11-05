@@ -283,16 +283,15 @@ class graph :
         La fonction retourne un dictionnaire contenant pour chaque sommet son état (blanc, gris, noir), sa distance par rapport au sommet de départ, et son parent dans le parcours.
         """
     # création variable des états des sommets : couleurs pour chaque sommet non visité (blanc), en cours de visite (gris), visité (noir), distances pour la distance entre le sommet de départ et chaque sommet, parents pour le parent de chaque sommet dans le parcours
-        etat = dict()
-        distances = dict()
-        parents = dict()
+        etat, distances, parents = {}, {}, {}
 
         etat[s] = 'gris' # initialisation du sommet de départ, etat gris, c'est à dire en cours de visite , distance 0, pas de parent
         distances[s] = 0
         attente = [s] # création de la file d'attente pour le parcours
+
         while len(attente) != 0: # tant que la file n'est pas vide, la boucle continue
             u = attente.pop(0) # extraction du premier sommet de la file, pour signifier qu'on le visite
-            for voisin in g['edges'][u]:# pour chaque voisin du sommet u
+            for voisin in self.edges[u]:# pour chaque voisin du sommet u
                 if voisin not in etat: # si le voisin n'a pas encore été visité
                     etat[voisin] = 'gris' # on le marque comme en cours de visite (etat gris)
                     distances[voisin] = distances[u] + 1 # on met à jour la distance du voisin en fonction de la distance du sommet u
