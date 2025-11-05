@@ -6,4 +6,4 @@ test = gm.read_delim('data/dressing.tsv')
 pprint(test)
 
 #test BFS sur le noeud 'chemise' dans le graphe test
-pprint(gm.BFS(test, 'chemise'))
+pprint(gm.BFS(test, 'sous-vetements'))
