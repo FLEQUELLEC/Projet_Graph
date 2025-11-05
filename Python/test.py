@@ -9,4 +9,4 @@ from pprint import pprint
 #pprint(gm.BFS(test, 'sous-vetements'))
 
 prot_link = gm.read_delim('data/511145.protein.links.experimental.txt', column_separator=' ')
-pprint(gm.BFS(prot_link, '511145.b0014'))
+pprint(gm.BFS(prot_link, '511145.b0014')['parents']['511145.b3738'])
