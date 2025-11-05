@@ -1,5 +1,16 @@
 #!/bin/env python
 
+### Graph Manipulation Library (gm.py)
+
+## Auteurs : Florent LE QUELLEC
+## librairie ##
+
+import polars as pl
+import pandas as pd
+from pprint import pprint
+
+#CODE
+
 from pprint import pprint
 
 def create_graph(directed = True, weighted = False, weight_attribute = None):
@@ -40,33 +51,43 @@ def add_edge(g, node_id1, node_id2, attributes = None):
             g['edges'][node_id2][node_id1] = g['edges'][node_id1][node_id2] # share the same attributes as n1->n2
     return g['edges'][node_id1][node_id2] # return edge attributes
 
+
 def read_delim(filename, column_separator='\t', directed=True, weighted=False, weight_attribute=None):
     """
-    Parse a text file which columns are separated by the specified column_separator and
-    returns a graph.
-
-    line syntax: node_id1   node_id2    att1    att2    att3    ...
+    Lit un fichier délimité (ex: TSV, CSV) et construit un graphe.
+    Les deux premières colonnes représentent les nœuds connectés,
+    les suivantes sont des attributs d’arête.
     """
-    g = create_graph(directed, weighted, weight_attribute)
-    with open(filename) as f:
-        # GET COLUMNS NAMES
-        tmp = f.readline().rstrip()
-        attNames= tmp.split(column_separator)
-        # REMOVES FIRST TWO COLUMNS WHICH CORRESPONDS TO THE LABELS OF THE CONNECTED VERTICES
-        attNames.pop(0)  # remove first column name (source node not to be in attribute names)
-        attNames.pop(0)  # remove second column (target node ...)
-        # PROCESS THE REMAINING LINES
-        row = f.readline().rstrip()
-        while row:
-            vals = row.split(column_separator)
-            u = vals.pop(0)
-            v = vals.pop(0)
-            att = {}
-            for i in range(len(attNames)):
-                att[ attNames[i] ] = vals[i]
-            add_edge(g, u, v, att)
-            row = f.readline().rstrip() # NEXT LINE
-        return g
+    # Lecture rapide avec Polars
+    df = pl.read_csv(
+        filename, # chemin du fichier
+        separator=column_separator, # séparateur de colonnes
+        has_header=True, # le fichier a une ligne d'en-tête
+        infer_schema_length=1000, # nombre de lignes pour inférer le schéma
+        quote_char=None # pas de caractère de citation
+    )
+
+    cols = df.columns # obtenir les noms des colonnes
+    if len(cols) < 2: # vérifier qu'il y a au moins deux colonnes
+        raise ValueError("Le fichier doit contenir au moins deux colonnes (source et target).")
+
+    src_col, tgt_col = cols[0], cols[1] # les deux premières colonnes sont source et target
+    att_cols = cols[2:] # les colonnes restantes sont des attributs d'arête
+
+    g = create_graph(directed, weighted, weight_attribute) # créer le graphe
+
+    # Conversion en Pandas pour itération plus simple si nécessaire
+    pdf = df.to_pandas() # convertir en DataFrame Pandas
+
+    for _, row in pdf.iterrows(): # itérer sur les lignes
+        u = row[src_col] # obtenir la source
+        v = row[tgt_col] # obtenir la cible
+        att = {col: row[col] for col in att_cols} # construire le dictionnaire d'attributs
+        add_edge(g, u, v, att) # ajouter l'arête au graphe
+
+    return g
+
+
 
 def nodes(g) : return sorted(g['nodes'].keys())
 
