@@ -11,7 +11,7 @@ def create_graph(directed = True, weighted = False, weight_attribute = None):
 
 def node_exists(g,n): return n in g['nodes']
 
-def add_node(g, node_id, attributes = None): 
+def add_node(g, node_id, attributes = None):
     """
     add a node with node_id (node id provided as a string or int) to the graph g.
     attributes on the node can be provided by a dict.
@@ -27,7 +27,7 @@ def add_node(g, node_id, attributes = None):
 def edge_exists(g, n1, n2): return node_exists(g, n1) and n2 in g['edges'].get(n1, {})
 
 
-def add_edge(g, node_id1, node_id2, attributes = None): 
+def add_edge(g, node_id1, node_id2, attributes = None):
     # create nodes if they do not exist
     if not node_exists(g, node_id1): add_node(g, node_id1)
     if not node_exists(g, node_id2): add_node(g, node_id2)
@@ -40,15 +40,15 @@ def add_edge(g, node_id1, node_id2, attributes = None):
             g['edges'][node_id2][node_id1] = g['edges'][node_id1][node_id2] # share the same attributes as n1->n2
     return g['edges'][node_id1][node_id2] # return edge attributes
 
-def read_delim(filename, column_separator='\t', directed=True, weighted=False, weight_attribute=None): 
+def read_delim(filename, column_separator='\t', directed=True, weighted=False, weight_attribute=None):
     """
-    Parse a text file which columns are separated by the specified column_separator and 
+    Parse a text file which columns are separated by the specified column_separator and
     returns a graph.
-    
+
     line syntax: node_id1   node_id2    att1    att2    att3    ...
     """
     g = create_graph(directed, weighted, weight_attribute)
-    with open(filename) as f: 
+    with open(filename) as f:
         # GET COLUMNS NAMES
         tmp = f.readline().rstrip()
         attNames= tmp.split(column_separator)
@@ -67,8 +67,8 @@ def read_delim(filename, column_separator='\t', directed=True, weighted=False, w
             add_edge(g, u, v, att)
             row = f.readline().rstrip() # NEXT LINE
         return g
-    
-def nodes(g) : return g['nodes']
+
+def nodes(g) : return sorted(g['nodes'].keys())
 
 def nb_nodes(g): return len(g.get('nodes'))
 
@@ -80,13 +80,42 @@ def directed(g) : return g('directed')
 
 def edges_tuples (g) : return [(u,v) for u in nodes(g) for v in neighbors(g,u)]
 
+def BFS(g, s) :
+    """
+    l'algorithme de parcours en largeur (Breadth-First Search) a pour objectif de visiter tous les sommets d'un graphe G, afin de determine le chemin le plus court entre un sommet de depart s et tous les autres sommets du graphe.
+
+    G est votre graphe sous forme de dictionnaire
+    s est le sommet de depart
+    """
+   # création variable des états des sommets : couleurs pour chaque sommet non visité (blanc), en cours de visite (gris), visité (noir), distances pour la distance entre le sommet de départ et chaque sommet, parents pour le parent de chaque sommet dans le parcours
+    couleur = dict()
+    distances = dict()
+    parents = dict()
+    for u in g['nodes']: # creation des données intiales pour chaque sommet avant parcours
+        couleur[u] = 'blanc'
+        distances[u] = float('inf')
+        parents[u] = None
+    couleur[s] = 'gris' # initialisation du sommet de départ, couleur gris, c'est à dire en cours de visite , distance 0, pas de parent
+    distances[s] = 0
+    attente = [s] # création de la file d'attente pour le parcours
+    while len(attente) != 0: # tant que la file n'est pas vide, la boucle continue
+        u = attente.pop(0) # extraction du premier sommet de la file, pour signifier qu'on le visite
+        for voisin in g['edges'][u]:# pour chaque voisin du sommet u
+            if couleur[voisin] == 'blanc': # si le voisin n'a pas été visité (couleur blanc)
+                couleur[voisin] = 'gris' # on le marque comme en cours de visite (couleur gris)
+                distances[voisin] = distances[u] + 1 # on met à jour la distance du voisin en fonction de la distance du sommet u
+                parents[voisin] = u # on met à jour le parent du voisin comme étant u
+                attente.append(voisin) # et on les rajoutes dans la file d'attente
+        couleur[u] = 'noir' #sommet visité, on le marque en noir
+    return couleur, distances, parents
+
 ##### main → tests #####
 if __name__ == "__main__":
   print("# Graph lib tests")
   print("## create_graph")
   g = create_graph()
   pprint(g)
-  
+
   print("## add nodes and edges")
   g = create_graph()
   add_node(g, 'A')
