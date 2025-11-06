@@ -8,5 +8,7 @@ from pprint import pprint
 #test BFS sur le noeud 'chemise' dans le graphe test
 #pprint(gm.BFS(test, 'sous-vetements'))
 
-prot_link = gm.read_delim('data/511145.protein.links.experimental.txt', column_separator=' ')
-pprint(gm.BFS(prot_link, '511145.b0014'))
+prot_link = gm.graph.read_delim('data/511145.protein.links.experimental.txt', column_separator=' ')
+#print(prot_link)
+
+pprint(prot_link.BFS('511145.b0014')['Distance']['511145.b0015'])

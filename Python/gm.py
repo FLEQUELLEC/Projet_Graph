@@ -268,14 +268,14 @@ class graph :
         src_col, tgt_col = cols[0], cols[1]
         att_cols = cols[2:]
 
-        g = cls(directed, directed=True, weighted=False, weight_attribute=None)
+        g = cls(directed=directed, weighted=weighted, weight_attribute=weight_attribute)
         pdf = df.to_pandas()
 
         for _, row in pdf.iterrows():
             u = row[src_col]
             v = row[tgt_col]
             att = {col: row[col] for col in att_cols}
-            g.add_edge(g, u, v, att)
+            g.add_edge(u, v, att)
 
         return g
 
@@ -311,28 +311,28 @@ class graph :
 
 ##### main → tests #####
 if __name__ == "__main__":
-  print("# Graph lib tests")
-  print("## create_graph")
-  g = graph()
-  print(g)
+    print("# Graph lib tests")
+    print("## create_graph")
+    g = graph()
+    print(g)
 
-  print("## add nodes and edges")
-  g = graph()
-  g.add_node('A')
-  g.add_node('B')
-  g.add_edge('A', 'B', { 'weight': 5 } )
-  print(g)
+    print("## add nodes and edges")
+    g = graph()
+    g.add_node('A')
+    g.add_node('B')
+    g.add_edge('A', 'B', { 'weight': 5 } )
+    print(g)
 
-# Créer un graphe d’exemple
-g = graph(directed=False)
-g.add_edge('A', 'B')
-g.add_edge('A', 'C')
-g.add_edge('B', 'D')
-g.add_edge('C', 'E')
+    # Créer un graphe d’exemple
+    g = graph(directed=False)
+    g.add_edge('A', 'B')
+    g.add_edge('A', 'C')
+    g.add_edge('B', 'D')
+    g.add_edge('C', 'E')
 
-print("Graphe :")
-pprint(g)
+    print("Graphe :")
+    pprint(g)
 
-# Lancer BFS
-test = g.BFS('A')
-print("\nOrdre de visite BFS depuis 'A' :", test)
+    # Lancer BFS
+    test = g.BFS('A')
+    print("\nOrdre de visite BFS depuis 'A' :", test)
