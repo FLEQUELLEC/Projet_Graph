@@ -35,6 +35,16 @@ class graph :
         self.weighted = weighted
         self.weight_attribute = weight_attribute
 
+    def __str__(self):
+        lines = [
+            f"Graphe {'dirigé' if self.directed else 'non dirigé'}",
+            f"Nœuds : {list(self.nodes.keys())}",
+            "Arêtes :"
+        ]
+        for u, targets in self.edges.items():
+            for v, attrs in targets.items():
+                lines.append(f"  {u} -> {v}  {attrs}")
+        return "\n".join(lines)
 
     def node_exists(self, n):
         """
@@ -73,7 +83,7 @@ class graph :
         dict
             Dictionnaire des attributs du nœud ajouté (ou existant).
         """
-        if node_id is not self.nodes:
+        if node_id not in self.nodes:
             self.nodes[node_id] = attributes or {}
             self.edges[node_id] = {}  # initialise les arêtes sortantes
         return self.nodes[node_id]
@@ -120,14 +130,11 @@ class graph :
         dict
             Dictionnaire des attributs de l’arête ajoutée.
         """
-        if node_id1 is not self.nodes:
-            self.add_node(node_id1)
-        if node_id2 is not self.nodes:
-            self.add_node(node_id2)
+        self.add_node(node_id1)
+        self.add_node(node_id2)
 
         if not  self.edge_exists(node_id1, node_id2):
-            if self.edge_exists(node_id1,node_id2) :
-                self.edges[node_id1][node_id2] = attributes or {}
+            self.edges[node_id1][node_id2] = attributes or {}
             if not self.directed:
                 self.edges[node_id2][node_id1] = self.edges[node_id1][node_id2]
         return self.edges[node_id1][node_id2]
@@ -182,7 +189,7 @@ class graph :
         int
             Nombre d’entrées dans la table des arêtes.
         """
-        return sum(len(v) for v in self.edges.values())
+        return sum(len(v) for v in self.edges.values()) // (2 if not self.directed else 1)
 
 
     def neighbors(self, node_id):
@@ -306,26 +313,26 @@ class graph :
 if __name__ == "__main__":
   print("# Graph lib tests")
   print("## create_graph")
-  g = create_graph()
-  pprint(g)
+  g = graph()
+  print(g)
 
   print("## add nodes and edges")
-  g = create_graph()
-  add_node(g, 'A')
-  add_node(g, 'B')
-  add_edge(g, 'A', 'B', { 'weight': 5 } )
-  pprint(g)
+  g = graph()
+  g.add_node('A')
+  g.add_node('B')
+  g.add_edge('A', 'B', { 'weight': 5 } )
+  print(g)
 
 # Créer un graphe d’exemple
-g = create_graph(directed=False)
-add_edge(g, 'A', 'B')
-add_edge(g, 'A', 'C')
-add_edge(g, 'B', 'D')
-add_edge(g, 'C', 'E')
+g = graph(directed=False)
+g.add_edge('A', 'B')
+g.add_edge('A', 'C')
+g.add_edge('B', 'D')
+g.add_edge('C', 'E')
 
 print("Graphe :")
 pprint(g)
 
 # Lancer BFS
-visited = BFS(g, 'A')
-print("\nOrdre de visite BFS depuis 'A' :", visited)
+test = g.BFS('A')
+print("\nOrdre de visite BFS depuis 'A' :", test)
