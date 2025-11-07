@@ -279,7 +279,7 @@ class graph :
 
         return g
 
-    def BFS(self, s) :
+    def BFS(self, s, cible = None, chemin=False) :
         """
         l'algorithme de parcours en largeur (Breadth-First Search) a pour objectif de visiter tous les sommets d'un graphe G, afin de determine le chemin le plus court entre un sommet de depart s et tous les autres sommets du graphe.
 
@@ -295,17 +295,29 @@ class graph :
         etat[s] = 'gris' # initialisation du sommet de départ, etat gris, c'est à dire en cours de visite , distance 0, pas de parent
         distances[s] = 0
         attente = [s] # création de la file d'attente pour le parcours
-
+        if chemin == True:
+            mem_ch = []
+        else : None 
         while len(attente) != 0: # tant que la file n'est pas vide, la boucle continue
             u = attente.pop(0) # extraction du premier sommet de la file, pour signifier qu'on le visite
+            if u == cible:
+                if chemin:
+                    mem_ch.append(u)
+                break
             for voisin in self.edges[u]:# pour chaque voisin du sommet u
                 if voisin not in etat: # si le voisin n'a pas encore été visité
                     etat[voisin] = 'gris' # on le marque comme en cours de visite (etat gris)
                     distances[voisin] = distances[u] + 1 # on met à jour la distance du voisin en fonction de la distance du sommet u
                     parents[voisin] = u # on met à jour le parent du voisin comme étant u
                     attente.append(voisin) # et on les rajoutes dans la file d'attente
+                    if chemin : 
+                        mem_ch.append(u)
+                    
             etat[u] = 'noir' #sommet visité, on le marque en noir
-        return {"état" : etat, "Distance" : distances, "parents" : parents, "source" : s}
+        if chemin  :
+            return {"Distance" : distances, "source" : s, "chemin" : mem_ch}
+        else :
+            return {"état" : etat, "Distance" : distances, "parents" : parents, "source" : s}
 
 
 
@@ -331,7 +343,7 @@ if __name__ == "__main__":
     g.add_edge('C', 'E')
 
     print("Graphe :")
-    pprint(g)
+    print(g)
 
     # Lancer BFS
     test = g.BFS('A')

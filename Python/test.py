@@ -11,4 +11,4 @@ from pprint import pprint
 prot_link = gm.graph.read_delim('data/511145.protein.links.experimental.txt', column_separator=' ')
 #print(prot_link)
 
-pprint(prot_link.BFS('511145.b0014')['Distance']['511145.b3738'])
+pprint(prot_link.BFS('511145.b0014', cible='511145.b3738', chemin=True))
