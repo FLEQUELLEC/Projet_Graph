@@ -258,7 +258,8 @@ class graph :
             separator=column_separator,
             has_header=True,
             infer_schema_length=1000,
-            quote_char=None
+            quote_char=None,
+            truncate_ragged_lines=True
         )
 
         cols = df.columns
@@ -279,7 +280,7 @@ class graph :
 
         return g
 
-    def BFS(self, s, cible = None, chemin=False) :
+    def BFS(self, s, cible = None) :
         """
         l'algorithme de parcours en largeur (Breadth-First Search) a pour objectif de visiter tous les sommets d'un graphe G, afin de determine le chemin le plus court entre un sommet de depart s et tous les autres sommets du graphe.
 
@@ -295,31 +296,95 @@ class graph :
         etat[s] = 'gris' # initialisation du sommet de départ, etat gris, c'est à dire en cours de visite , distance 0, pas de parent
         distances[s] = 0
         attente = [s] # création de la file d'attente pour le parcours
-        if chemin == True:
-            mem_ch = []
-        else : None 
+
         while len(attente) != 0: # tant que la file n'est pas vide, la boucle continue
             u = attente.pop(0) # extraction du premier sommet de la file, pour signifier qu'on le visite
+
             if u == cible:
-                if chemin:
-                    mem_ch.append(u)
                 break
+
             for voisin in self.edges[u]:# pour chaque voisin du sommet u
                 if voisin not in etat: # si le voisin n'a pas encore été visité
                     etat[voisin] = 'gris' # on le marque comme en cours de visite (etat gris)
                     distances[voisin] = distances[u] + 1 # on met à jour la distance du voisin en fonction de la distance du sommet u
                     parents[voisin] = u # on met à jour le parent du voisin comme étant u
                     attente.append(voisin) # et on les rajoutes dans la file d'attente
-                    if chemin : 
-                        mem_ch.append(u)
-                    
             etat[u] = 'noir' #sommet visité, on le marque en noir
-        if chemin  :
-            return {"Distance" : distances, "source" : s, "chemin" : mem_ch}
-        else :
+        if cible and cible in parents or cible == s: # soit on a une cible (autre que None) et la cible a des parents (cas générale) soit notre cible est notre point de départ dans ce cas il n'a pas de parents
+            chemin = [cible] # on rajoute la cible a notre chemin
+            while chemin[-1] != s : # donc temps que le dernier de la liste n'est pas notre point de départ on continu
+                chemin.append(parents[chemin[-1]]) # il va regarder le dernier de notre liste du chemin donc au debut notre cible est le 1er on regarde son parents, on append, puis le parents devient le dernier qu'on va regarder ...
+            chemin.reverse()# cible => depart en depart => cible
+            return {"Distance" : distances[cible], "chemin" : chemin, "source" : s}
+        else :          
             return {"état" : etat, "Distance" : distances, "parents" : parents, "source" : s}
+        
+    def connected_components(self):
+        """
+        Identifie les composantes connexes d’un graphe non orienté à l’aide de l’algorithme BFS.
 
+        Cette fonction parcourt l’ensemble des sommets du graphe et applique un
+        parcours en largeur (Breadth-First Search) sur chaque sommet non encore visité.
+        Tous les sommets atteints lors d’un même parcours appartiennent à une même
+        composante connexe, à laquelle un identifiant unique (entier) est attribué.
 
+        Returns
+        -------
+        dict
+            Dictionnaire associant chaque sommet à l’identifiant de sa composante connexe.
+            Par exemple :
+                {
+                'A': 0,
+                'B': 0,
+                'C': 1
+                }
+            indique que A et B appartiennent à la même composante, tandis que C appartient à une autre.
+
+        Notes
+        -----
+        - Cette fonction suppose que le graphe est **non orienté**.
+        Si le graphe est dirigé, seules les composantes fortement connexes seront partiellement détectées.
+        - L’algorithme a une complexité en O(V + E), où V est le nombre de sommets
+        et E le nombre d’arêtes, car chaque nœud et arête est visité au plus une fois.
+        - Utilise la méthode interne `BFS()` pour explorer le graphe.
+        """
+        if not self.directed:
+            n_CC = 0
+            CC = {}
+            for u in self.nodes:
+                CC[u] = None
+            
+            for u in self.nodes:
+                if CC[u] == None: 
+                    parcours = self.BFS(u)
+                    CC[u] = n_CC
+                    for v in parcours['Distance'].keys():
+                        CC[v]= n_CC
+                    n_CC += 1
+            return CC
+        else :
+            print("votre graphe doit être non orienté !")
+
+    def sousgraphe_induit(self, nodes):
+        sg = graph(
+            directed=self.directed,
+            weighted=self.weighted,
+            weight_attribute=self.weight_attribute 
+        )
+
+        #ajout les noeuds au sous graph
+        for u in nodes:
+           if u in self.nodes:
+               sg.add_node(u,self.nodes[u])
+        
+        #
+        for u in nodes:
+            if u in self.edges:
+                for v, attrs in self.edges[u].items():
+                    if v in nodes:
+                        sg.add_edge(u, v, attrs)
+        
+        return sg
 
 ##### main → tests #####
 if __name__ == "__main__":
