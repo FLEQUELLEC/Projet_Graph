@@ -316,9 +316,9 @@ class graph :
                 chemin.append(parents[chemin[-1]]) # il va regarder le dernier de notre liste du chemin donc au debut notre cible est le 1er on regarde son parents, on append, puis le parents devient le dernier qu'on va regarder ...
             chemin.reverse()# cible => depart en depart => cible
             return {"Distance" : distances[cible], "chemin" : chemin, "source" : s}
-        else :          
+        else :
             return {"état" : etat, "Distance" : distances, "parents" : parents, "source" : s}
-        
+
     def connected_components(self):
         """
         Identifie les composantes connexes d’un graphe non orienté à l’aide de l’algorithme BFS.
@@ -331,31 +331,15 @@ class graph :
         Returns
         -------
         dict
-            Dictionnaire associant chaque sommet à l’identifiant de sa composante connexe.
-            Par exemple :
-                {
-                'A': 0,
-                'B': 0,
-                'C': 1
-                }
-            indique que A et B appartiennent à la même composante, tandis que C appartient à une autre.
-
-        Notes
-        -----
-        - Cette fonction suppose que le graphe est **non orienté**.
-        Si le graphe est dirigé, seules les composantes fortement connexes seront partiellement détectées.
-        - L’algorithme a une complexité en O(V + E), où V est le nombre de sommets
-        et E le nombre d’arêtes, car chaque nœud et arête est visité au plus une fois.
-        - Utilise la méthode interne `BFS()` pour explorer le graphe.
         """
         if not self.directed:
             n_CC = 0
             CC = {}
             for u in self.nodes:
                 CC[u] = None
-            
+
             for u in self.nodes:
-                if CC[u] == None: 
+                if CC[u] == None:
                     parcours = self.BFS(u)
                     CC[u] = n_CC
                     for v in parcours['Distance'].keys():
@@ -369,21 +353,21 @@ class graph :
         sg = graph(
             directed=self.directed,
             weighted=self.weighted,
-            weight_attribute=self.weight_attribute 
+            weight_attribute=self.weight_attribute
         )
 
         #ajout les noeuds au sous graph
         for u in nodes:
            if u in self.nodes:
                sg.add_node(u,self.nodes[u])
-        
+
         #
         for u in nodes:
             if u in self.edges:
                 for v, attrs in self.edges[u].items():
                     if v in nodes:
                         sg.add_edge(u, v, attrs)
-        
+
         return sg
 
 ##### main → tests #####
