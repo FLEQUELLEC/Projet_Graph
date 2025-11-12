@@ -2,166 +2,166 @@
 !Generated: 2020-03-26 11:32
 !GO-version: http://purl.obolibrary.org/obo/go/releases/2020-03-24/extensions/go-plus.owl
 !
-UniProtKB	P0DTC1	P0DTC1		GO:0003723	GO_REF:0000043	IEA	UniProtKB-KW:KW-0694	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0004518	GO_REF:0000043	IEA	UniProtKB-KW:KW-0540	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0004519	GO_REF:0000043	IEA	UniProtKB-KW:KW-0255	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0006508	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0008233	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0008234	GO_REF:0000043	IEA	UniProtKB-KW:KW-0788	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0016787	GO_REF:0000043	IEA	UniProtKB-KW:KW-0378	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0030683	GO_REF:0000043	IEA	UniProtKB-KW:KW-0899	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0033644	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0380	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0036459	GO_REF:0000003	IEA	EC:3.4.19.12	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039502	GO_REF:0000043	IEA	UniProtKB-KW:KW-1114	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039503	GO_REF:0000043	IEA	UniProtKB-KW:KW-1090	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039520	GO_REF:0000043	IEA	UniProtKB-KW:KW-1072	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039548	GO_REF:0000043	IEA	UniProtKB-KW:KW-1092	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039579	GO_REF:0000043	IEA	UniProtKB-KW:KW-1095	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039595	GO_REF:0000043	IEA	UniProtKB-KW:KW-1132	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1127	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1130	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0039657	GO_REF:0000043	IEA	UniProtKB-KW:KW-1190	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0044220	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0382	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0046872	GO_REF:0000043	IEA	UniProtKB-KW:KW-0479	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC1	P0DTC1		GO:0090305	GO_REF:0000108	IEA	GO:0004518	P	Replicase polyprotein 1a		protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTC1	P0DTC1		GO:0090305	GO_REF:0000108	IEA	GO:0004519	P	Replicase polyprotein 1a		protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTC2	S		GO:0005515	PMID:32132184	IPI	UniProtKB:Q9BYF1	F	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt		
-UniProtKB	P0DTC2	S		GO:0009405	GO_REF:0000043	IEA	UniProtKB-KW:KW-0843	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0019031	GO_REF:0000043	IEA	UniProtKB-KW:KW-0261	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0019062	GO_REF:0000043	IEA	UniProtKB-KW:KW-1161	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0020002	GO_REF:0000043	IEA	UniProtKB-KW:KW-1032	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0020002	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0375	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0039654	GO_REF:0000043	IEA	UniProtKB-KW:KW-1170	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0039663	GO_REF:0000043	IEA	UniProtKB-KW:KW-1168	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0044173	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0392	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0044650	GO_REF:0000108	IEA	GO:0046789	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTC2	S		GO:0046718	GO_REF:0000043	IEA	UniProtKB-KW:KW-1160	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0046718	GO_REF:0000043	IEA	UniProtKB-KW:KW-1162	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC2	S		GO:0046718	PMID:32132184	IDA		P	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt		
-UniProtKB	P0DTC2	S		GO:0046718	PMID:32142651	IDA		P	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt		
-UniProtKB	P0DTC2	S		GO:0046789	PMID:32132184	IDA		F	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt		
-UniProtKB	P0DTC2	S		GO:0055036	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0275	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0005576	GO_REF:0000043	IEA	UniProtKB-KW:KW-0964	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0005576	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0243	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0019012	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0274	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0020002	GO_REF:0000043	IEA	UniProtKB-KW:KW-1032	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0020002	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0375	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0030430	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0381	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC3	3a		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC4	E		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC4	E		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC4	E		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC4	E		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC4	E		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0019031	GO_REF:0000043	IEA	UniProtKB-KW:KW-0261	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0030683	GO_REF:0000043	IEA	UniProtKB-KW:KW-0899	P	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0039660	GO_REF:0000043	IEA	UniProtKB-KW:KW-0468	F	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC5	P0DTC5		GO:0055036	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0275	C	Membrane protein		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC6	6		GO:0009405	GO_REF:0000043	IEA	UniProtKB-KW:KW-0843	P	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC6	6		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC6	6		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC6	6		GO:0044165	GO_REF:0000043	IEA	UniProtKB-KW:KW-1038	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC6	6		GO:0044167	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0390	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC6	6		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC6	6		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0019012	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0274	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0039646	GO_REF:0000043	IEA	UniProtKB-KW:KW-1077	P	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0044165	GO_REF:0000043	IEA	UniProtKB-KW:KW-1038	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0044167	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0390	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0044173	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0392	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC7	7a		GO:0060153	GO_REF:0000043	IEA	UniProtKB-KW:KW-1121	P	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC9	N		GO:0003723	GO_REF:0000043	IEA	UniProtKB-KW:KW-0694	F	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC9	N		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC9	N		GO:0019012	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0274	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC9	N		GO:0019013	GO_REF:0000043	IEA	UniProtKB-KW:KW-0543	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC9	N		GO:0044172	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0391	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC9	N		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTC9	N		GO:0044177	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0395	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0000166	GO_REF:0000043	IEA	UniProtKB-KW:KW-0547	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0001172	GO_REF:0000108	IEA	GO:0003968	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTD1	rep		GO:0003678	GO_REF:0000003	IEA	EC:3.6.4.12	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0003723	GO_REF:0000043	IEA	UniProtKB-KW:KW-0694	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0003724	GO_REF:0000003	IEA	EC:3.6.4.13	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0003968	GO_REF:0000003	IEA	EC:2.7.7.48	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0003968	GO_REF:0000043	IEA	UniProtKB-KW:KW-0696	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0004386	GO_REF:0000043	IEA	UniProtKB-KW:KW-0347	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0004518	GO_REF:0000043	IEA	UniProtKB-KW:KW-0540	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0004519	GO_REF:0000043	IEA	UniProtKB-KW:KW-0255	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0004527	GO_REF:0000043	IEA	UniProtKB-KW:KW-0269	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0005524	GO_REF:0000043	IEA	UniProtKB-KW:KW-0067	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0006508	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0008168	GO_REF:0000043	IEA	UniProtKB-KW:KW-0489	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0008233	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0008234	GO_REF:0000043	IEA	UniProtKB-KW:KW-0788	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0016740	GO_REF:0000043	IEA	UniProtKB-KW:KW-0808	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0016779	GO_REF:0000043	IEA	UniProtKB-KW:KW-0548	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0016787	GO_REF:0000043	IEA	UniProtKB-KW:KW-0378	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0030430	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0381	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0030683	GO_REF:0000043	IEA	UniProtKB-KW:KW-0899	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0032259	GO_REF:0000043	IEA	UniProtKB-KW:KW-0489	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0032508	GO_REF:0000108	IEA	GO:0003678	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTD1	rep		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0033644	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0380	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0036459	GO_REF:0000003	IEA	EC:3.4.19.12	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039502	GO_REF:0000043	IEA	UniProtKB-KW:KW-1114	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039503	GO_REF:0000043	IEA	UniProtKB-KW:KW-1090	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039520	GO_REF:0000043	IEA	UniProtKB-KW:KW-1072	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039579	GO_REF:0000043	IEA	UniProtKB-KW:KW-1095	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039595	GO_REF:0000043	IEA	UniProtKB-KW:KW-1132	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1100	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1127	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1130	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0039657	GO_REF:0000043	IEA	UniProtKB-KW:KW-1190	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0044172	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0391	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0044220	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0382	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0046872	GO_REF:0000043	IEA	UniProtKB-KW:KW-0479	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD1	rep		GO:0090305	GO_REF:0000108	IEA	GO:0004518	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTD1	rep		GO:0090305	GO_REF:0000108	IEA	GO:0004519	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTD1	rep		GO:0090305	GO_REF:0000108	IEA	GO:0004527	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC		
-UniProtKB	P0DTD2	P0DTD2		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein 9b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD2	P0DTD2		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Protein 9b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD2	P0DTD2		GO:0030430	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0381	C	Protein 9b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD2	P0DTD2		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein 9b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD2	P0DTD2		GO:0044161	GO_REF:0000043	IEA	UniProtKB-KW:KW-1036	C	Protein 9b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD2	P0DTD2		GO:0044162	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0387	C	Protein 9b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD3	ORF14		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Uncharacterized protein 14	ORF14	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD3	ORF14		GO:0016020	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0162	C	Uncharacterized protein 14	ORF14	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD3	ORF14		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Uncharacterized protein 14	ORF14	protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD8	P0DTD8		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD8	P0DTD8		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD8	P0DTD8		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt		
-UniProtKB	P0DTD8	P0DTD8		GO:0033644	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0380	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt		
+UniProtKB	P0DTC1	P0DTC1		GO:0003723	GO_REF:0000043	IEA	UniProtKB-KW:KW-0694	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0004518	GO_REF:0000043	IEA	UniProtKB-KW:KW-0540	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0004519	GO_REF:0000043	IEA	UniProtKB-KW:KW-0255	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0006508	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0008233	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0008234	GO_REF:0000043	IEA	UniProtKB-KW:KW-0788	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0016787	GO_REF:0000043	IEA	UniProtKB-KW:KW-0378	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0030683	GO_REF:0000043	IEA	UniProtKB-KW:KW-0899	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0033644	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0380	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0036459	GO_REF:0000003	IEA	EC:3.4.19.12	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039502	GO_REF:0000043	IEA	UniProtKB-KW:KW-1114	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039503	GO_REF:0000043	IEA	UniProtKB-KW:KW-1090	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039520	GO_REF:0000043	IEA	UniProtKB-KW:KW-1072	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039548	GO_REF:0000043	IEA	UniProtKB-KW:KW-1092	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039579	GO_REF:0000043	IEA	UniProtKB-KW:KW-1095	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039595	GO_REF:0000043	IEA	UniProtKB-KW:KW-1132	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1127	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1130	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0039657	GO_REF:0000043	IEA	UniProtKB-KW:KW-1190	P	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0044220	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0382	C	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0046872	GO_REF:0000043	IEA	UniProtKB-KW:KW-0479	F	Replicase polyprotein 1a		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC1	P0DTC1		GO:0090305	GO_REF:0000108	IEA	GO:0004518	P	Replicase polyprotein 1a		protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTC1	P0DTC1		GO:0090305	GO_REF:0000108	IEA	GO:0004519	P	Replicase polyprotein 1a		protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTC2	S		GO:0005515	PMID:32132184	IPI	UniProtKB:Q9BYF1	F	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt
+UniProtKB	P0DTC2	S		GO:0009405	GO_REF:0000043	IEA	UniProtKB-KW:KW-0843	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0019031	GO_REF:0000043	IEA	UniProtKB-KW:KW-0261	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0019062	GO_REF:0000043	IEA	UniProtKB-KW:KW-1161	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0020002	GO_REF:0000043	IEA	UniProtKB-KW:KW-1032	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0020002	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0375	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0039654	GO_REF:0000043	IEA	UniProtKB-KW:KW-1170	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0039663	GO_REF:0000043	IEA	UniProtKB-KW:KW-1168	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0044173	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0392	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0044650	GO_REF:0000108	IEA	GO:0046789	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTC2	S		GO:0046718	GO_REF:0000043	IEA	UniProtKB-KW:KW-1160	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0046718	GO_REF:0000043	IEA	UniProtKB-KW:KW-1162	P	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC2	S		GO:0046718	PMID:32132184	IDA		P	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt
+UniProtKB	P0DTC2	S		GO:0046718	PMID:32142651	IDA		P	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt
+UniProtKB	P0DTC2	S		GO:0046789	PMID:32132184	IDA		F	Spike glycoprotein	S|2	protein	taxon:2697049	20200320	UniProt
+UniProtKB	P0DTC2	S		GO:0055036	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0275	C	Spike glycoprotein	S|2	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0005576	GO_REF:0000043	IEA	UniProtKB-KW:KW-0964	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0005576	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0243	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0019012	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0274	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0020002	GO_REF:0000043	IEA	UniProtKB-KW:KW-1032	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0020002	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0375	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0030430	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0381	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC3	3a		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Protein 3a	3a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC4	E		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC4	E		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC4	E		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC4	E		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC4	E		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Envelope small membrane protein	E|4	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0019031	GO_REF:0000043	IEA	UniProtKB-KW:KW-0261	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0030683	GO_REF:0000043	IEA	UniProtKB-KW:KW-0899	P	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0039660	GO_REF:0000043	IEA	UniProtKB-KW:KW-0468	F	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC5	P0DTC5		GO:0055036	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0275	C	Membrane protein		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC6	6		GO:0009405	GO_REF:0000043	IEA	UniProtKB-KW:KW-0843	P	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC6	6		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC6	6		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC6	6		GO:0044165	GO_REF:0000043	IEA	UniProtKB-KW:KW-1038	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC6	6		GO:0044167	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0390	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC6	6		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC6	6		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Non-structural protein 6	6	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0019012	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0274	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0039646	GO_REF:0000043	IEA	UniProtKB-KW:KW-1077	P	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0044165	GO_REF:0000043	IEA	UniProtKB-KW:KW-1038	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0044167	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0390	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0044173	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0392	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0044178	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0426	C	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC7	7a		GO:0060153	GO_REF:0000043	IEA	UniProtKB-KW:KW-1121	P	Protein 7a	7a	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC9	N		GO:0003723	GO_REF:0000043	IEA	UniProtKB-KW:KW-0694	F	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC9	N		GO:0019012	GO_REF:0000043	IEA	UniProtKB-KW:KW-0946	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC9	N		GO:0019012	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0274	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC9	N		GO:0019013	GO_REF:0000043	IEA	UniProtKB-KW:KW-0543	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC9	N		GO:0044172	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0391	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC9	N		GO:0044177	GO_REF:0000043	IEA	UniProtKB-KW:KW-1040	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTC9	N		GO:0044177	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0395	C	Nucleoprotein	N	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0000166	GO_REF:0000043	IEA	UniProtKB-KW:KW-0547	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0001172	GO_REF:0000108	IEA	GO:0003968	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTD1	rep		GO:0003678	GO_REF:0000003	IEA	EC:3.6.4.12	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0003723	GO_REF:0000043	IEA	UniProtKB-KW:KW-0694	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0003724	GO_REF:0000003	IEA	EC:3.6.4.13	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0003968	GO_REF:0000003	IEA	EC:2.7.7.48	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0003968	GO_REF:0000043	IEA	UniProtKB-KW:KW-0696	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0004386	GO_REF:0000043	IEA	UniProtKB-KW:KW-0347	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0004518	GO_REF:0000043	IEA	UniProtKB-KW:KW-0540	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0004519	GO_REF:0000043	IEA	UniProtKB-KW:KW-0255	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0004527	GO_REF:0000043	IEA	UniProtKB-KW:KW-0269	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0005524	GO_REF:0000043	IEA	UniProtKB-KW:KW-0067	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0006508	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0008168	GO_REF:0000043	IEA	UniProtKB-KW:KW-0489	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0008233	GO_REF:0000043	IEA	UniProtKB-KW:KW-0645	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0008234	GO_REF:0000043	IEA	UniProtKB-KW:KW-0788	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0016032	GO_REF:0000043	IEA	UniProtKB-KW:KW-0945	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0016740	GO_REF:0000043	IEA	UniProtKB-KW:KW-0808	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0016779	GO_REF:0000043	IEA	UniProtKB-KW:KW-0548	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0016787	GO_REF:0000043	IEA	UniProtKB-KW:KW-0378	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0030430	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0381	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0030683	GO_REF:0000043	IEA	UniProtKB-KW:KW-0899	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0032259	GO_REF:0000043	IEA	UniProtKB-KW:KW-0489	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0032508	GO_REF:0000108	IEA	GO:0003678	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTD1	rep		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0033644	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0380	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0036459	GO_REF:0000003	IEA	EC:3.4.19.12	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039502	GO_REF:0000043	IEA	UniProtKB-KW:KW-1114	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039503	GO_REF:0000043	IEA	UniProtKB-KW:KW-1090	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039520	GO_REF:0000043	IEA	UniProtKB-KW:KW-1072	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039579	GO_REF:0000043	IEA	UniProtKB-KW:KW-1095	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039595	GO_REF:0000043	IEA	UniProtKB-KW:KW-1132	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1100	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1127	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039648	GO_REF:0000043	IEA	UniProtKB-KW:KW-1130	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0039657	GO_REF:0000043	IEA	UniProtKB-KW:KW-1190	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0044172	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0391	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0044220	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0382	C	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0046872	GO_REF:0000043	IEA	UniProtKB-KW:KW-0479	F	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD1	rep		GO:0090305	GO_REF:0000108	IEA	GO:0004518	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTD1	rep		GO:0090305	GO_REF:0000108	IEA	GO:0004519	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTD1	rep		GO:0090305	GO_REF:0000108	IEA	GO:0004527	P	Replicase polyprotein 1ab	rep|1a-1b	protein	taxon:2697049	20200322	GOC
+UniProtKB	P0DTD2	P0DTD2		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein 9b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD2	P0DTD2		GO:0030430	GO_REF:0000043	IEA	UniProtKB-KW:KW-1035	C	Protein 9b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD2	P0DTD2		GO:0030430	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0381	C	Protein 9b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD2	P0DTD2		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein 9b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD2	P0DTD2		GO:0044161	GO_REF:0000043	IEA	UniProtKB-KW:KW-1036	C	Protein 9b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD2	P0DTD2		GO:0044162	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0387	C	Protein 9b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD3	ORF14		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Uncharacterized protein 14	ORF14	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD3	ORF14		GO:0016020	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0162	C	Uncharacterized protein 14	ORF14	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD3	ORF14		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Uncharacterized protein 14	ORF14	protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD8	P0DTD8		GO:0016020	GO_REF:0000043	IEA	UniProtKB-KW:KW-0472	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD8	P0DTD8		GO:0016021	GO_REF:0000043	IEA	UniProtKB-KW:KW-0812	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD8	P0DTD8		GO:0033644	GO_REF:0000043	IEA	UniProtKB-KW:KW-1043	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt
+UniProtKB	P0DTD8	P0DTD8		GO:0033644	GO_REF:0000044	IEA	UniProtKB-SubCell:SL-0380	C	Protein non-structural 7b		protein	taxon:2697049	20200321	UniProt

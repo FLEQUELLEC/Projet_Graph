@@ -370,6 +370,37 @@ class graph :
 
         return sg
 
+    #def edges_filter():
+
+
+
+    def DFS(self):
+        a = {'etat' : {}, 'parents' : {}, 'temps' : 0}
+        for u in self.nodes:
+            a['etat'][u] = 'inexplore'
+            a['parents'][u]= None
+
+        for u in self.nodes:
+            if a['etat'][u] == 'inexeplore':
+                self.DFSvisite(u, a)
+        return a
+
+    def DFSvisite(self,u, a):
+        decouvert=[]
+        a['etat'][u] = 'decouvert'
+        a['temps'] +=1
+        decouvert[u] = a['temps']
+        for v in self.neighbors(u):
+            if a['etat'][v] == 'inexplore':
+                a['parents'][v] = u
+                a['classification'][(u, v)] = 'branche'
+            elif a['etat'][v] == 'decouvert':
+                a['classification'][(u, v)] = 'retour'
+            elif decouvert[u] > decouvert[v]:
+                a['classification'][(u, v)] = 'transversale'
+            else : a['classification'] = 'arete avant'
+        return a
+
 ##### main → tests #####
 if __name__ == "__main__":
     print("# Graph lib tests")

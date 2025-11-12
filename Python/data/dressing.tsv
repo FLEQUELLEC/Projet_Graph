@@ -1,10 +1,10 @@
 id1	id2
 chaussettes	chaussures
 pantalon	chaussures
-chemise	cravate	
+chemise	cravate
 chemise	ceinture
 cravate	veste
 ceinture	veste
 pantalon	ceinture
 sous-vetements	chaussures
-sous-vetements	pantalons
+sous-vetements	pantalon

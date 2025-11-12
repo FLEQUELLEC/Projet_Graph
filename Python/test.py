@@ -2,6 +2,8 @@
 from turtle import distance
 import gm
 from pprint import pprint
+import geneontology as gom
+
 test = gm.graph.read_delim('Python/data/dressing.tsv', column_separator="\t")
 
 #print(test)
@@ -19,3 +21,6 @@ pprint(test.BFS('sous-vetements', cible=None))
 print('test : sous graphe\n')
 subgraph = test.sousgraphe_induit(test.BFS('sous-vetements')['Distance'])
 print(subgraph)
+
+print("\nDFS\n")
+pprint (test.DFS())
