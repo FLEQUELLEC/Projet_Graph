@@ -1,4 +1,5 @@
 #!/bin/env python
+from turtle import distance
 import gm
 from pprint import pprint
 test = gm.graph.read_delim('Python/data/dressing.tsv', column_separator="\t")
@@ -13,10 +14,8 @@ test = gm.graph.read_delim('Python/data/dressing.tsv', column_separator="\t")
 
 #pprint(test.BFS('sous-vetements'))
 #pprint(test.sousgraphe_induit('sous-vetement'))
-
-bfs_result = test.BFS('sous-vetements')
-
-visited_nodes = list(bfs_result['Distance'].keys())
-
-subgraph = test.sousgraphe_induit(visited_nodes)
+print('test : BFS\n')
+pprint(test.BFS('sous-vetements', cible=None))
+print('test : sous graphe\n')
+subgraph = test.sousgraphe_induit(test.BFS('sous-vetements')['Distance'])
 print(subgraph)
