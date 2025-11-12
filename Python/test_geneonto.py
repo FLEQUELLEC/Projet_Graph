@@ -24,7 +24,7 @@ for u, attr in vir.edges.items():
       po +=1
 print(ia, po) #45 is a et 20 part of apres est ce que c'est bon tel est la question !
 
-pprint(vir.nodes.values())
+
 
 cc, bp, mf = 0, 0, 0
 for attr in vir.nodes.values():

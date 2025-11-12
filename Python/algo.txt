@@ -1,0 +1,49 @@
+DFS(G)
+
+Pour chaque sommet u ∈ V[G]
+
+    faire état[u] ← INEXPLORÉ
+
+        prédecesseur[u] ← AUCUN
+
+temps ← 0
+
+Pour chaque sommet u ∈ V[G]
+
+    si état[u] = INEXPLORÉ alors
+
+        DFS-VISITE(u)
+
+DFS-VISITE(u)
+
+état[u] ← DÉCOUVERT ⟾ le sommet inexploité vient d’être découvert
+
+temps ← temps + 1
+
+découvert[u] ← temps
+
+Pour chaque v ∈ Adjacent[u] ⟾ explorer l’arête (u, v)
+
+    si état[v] = INEXPLORÉ alors
+
+        prédecesseur[v] ← u
+
+        classification[(u, v)] ← ARÊTE D’ARBRE
+
+        DFS-VISITE(v)
+
+    sinon si état[v] = DÉCOUVERT alors
+
+        classification[(u, v)] ← ARÊTE DE RETOUR
+
+    sinon si découvert[u] > découvert[v] alors
+
+        classification[(u, v)] ← ARÊTE TRANSVERSALE
+
+    sinon
+
+        classification[(u, v)] ← ARÊTE AVANT
+
+état[u] ← TERMINÉ ⟾ fin du traitement du sommet u
+
+fini[u] ← temps ← temps + 1
