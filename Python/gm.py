@@ -370,7 +370,8 @@ class graph :
 
         return sg
 
-    #def edges_filter():
+    def edges_filter():
+        return
 
 
 
@@ -400,6 +401,8 @@ class graph :
             else : a['classification'] = 'arete avant'
         return a
 
+    def is_cylic():
+        return
 ##### main → tests #####
 if __name__ == "__main__":
     print("# Graph lib tests")
