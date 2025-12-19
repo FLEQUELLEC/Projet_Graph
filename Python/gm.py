@@ -370,9 +370,17 @@ class graph :
 
         return sg
 
-    def edges_filter():
-        return
-
+    def edges_filter(self, attribut, seuil):
+        G_filtre = graph(directed = self.directed)
+        for u in self.edges:
+            for v, attrs in self.edges[u].items():
+                if attribut in attrs and attrs[attribut] >= seuil:
+                    G_filtre.add_edge(u,v,attrs)
+        return G_filtre
+        
+    def clustering_coefficient(self):
+        coeffs = {}
+        for u in self.nodes
 
 
     def DFS(self):
@@ -414,7 +422,7 @@ class graph :
             
         return a
 
-    def is_acylic(self):
+    def is_acyclic(self):
         """
         Renvoie True si le graphe est acyclique (DAG), False s'il contient un cycle.
         Basé sur la détection d'arêtes 'retour' par le DFS.
@@ -425,8 +433,8 @@ class graph :
                 return False        
         return True
 
-    def tri_topologique(self) : 
-        if not self.is_acylic():
+    def topological_sort(self) : 
+        if not self.is_acyclic():
             print("Erreur : Le graphe contient un cycle, tri impossible.")
             return None
         res = self.DFS()
