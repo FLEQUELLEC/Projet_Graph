@@ -376,7 +376,15 @@ class graph :
 
 
     def DFS(self):
-        a = {'etat' : {}, 'parents' : {}, 'temps' : 0}
+        a = {
+            'etat' : {},
+            'parents' : {},
+            'decouvert' : {},
+            'fin' : {},
+            'classification' : {},
+            'ordre_fin' : [],
+            'temps' : 0
+        }
         for u in self.nodes:
             a['etat'][u] = 'inexplore'
             a['parents'][u]= None
@@ -398,11 +406,35 @@ class graph :
                 a = self.DFSvisite(v, a)
             elif a['etat'][v] == 'decouvert': a['classification'][(u, v)] = 'retour'
             elif a['decouvert'][u] > a['decouvert'][v]: a['classification'][(u, v)] = 'transversale'
-            else : a['classification'] = 'arete avant'
+            else : a['classification'][(u,v)] = 'arete avant'
+        a['etat'][u] = 'traite'
+        a['temps'] +=1
+        if 'ordre_fin' in a :
+            a['ordre_fin'].append(u)
+            
         return a
 
-    def is_cylic():
-        return
+    def is_acylic(self):
+        """
+        Renvoie True si le graphe est acyclique (DAG), False s'il contient un cycle.
+        Basé sur la détection d'arêtes 'retour' par le DFS.
+        """
+        res = self.DFS()
+        for i in res['classification'].values():
+            if i == 'retour':
+                return False        
+        return True
+
+    def tri_topologique(self) : 
+        if not self.is_acylic():
+            print("Erreur : Le graphe contient un cycle, tri impossible.")
+            return None
+        res = self.DFS()
+        ordre_croissant = res['ordre_fin']
+        ordre_decroissant = ordre_croissant[::-1]
+        return ordre_decroissant
+        
+                
 ##### main → tests #####
 if __name__ == "__main__":
     print("# Graph lib tests")
