@@ -210,7 +210,23 @@ class graph :
         """
         return list(self.edges[node_id].keys())
 
-
+    def predecessors(self, node_id):
+        """
+        Renvoie la liste des nœuds qui pointent vers node_id.
+        (Parents dans un arbre, ou prédécesseurs dans un graphe orienté).
+        """
+        # Si le graphe n'est pas orienté, voisins = prédécesseurs
+        if not self.directed:
+            return self.neighbors(node_id)
+            
+        preds = []
+        # On parcourt tous les nœuds sources possibles
+        for u in self.edges:
+            # Si node_id fait partie des voisins de u, alors u est un prédécesseur
+            if node_id in self.edges[u]:
+                preds.append(u)
+        return preds
+        
     def edges_tuples(self):
         """
         Renvoie la liste de toutes les arêtes sous forme de tuples (source, cible).
@@ -371,7 +387,10 @@ class graph :
         return sg
 
     def edges_filter(self, attribut, seuil):
-        G_filtre = graph(directed = self.directed)
+        G_filtre = graph(directed = self.directed, weighted=self.weighted)
+        for node_id, attrs in self.nodes.items():
+            G_filtre.add_node(node_id, attrs)
+            
         for u in self.edges:
             for v, attrs in self.edges[u].items():
                 if attribut in attrs and attrs[attribut] >= seuil:
@@ -380,7 +399,23 @@ class graph :
         
     def clustering_coefficient(self):
         coeffs = {}
-        for u in self.nodes
+        for node_id in self.nodes:
+            voisin = self.neighbors(node_id) 
+            k = len(self.neighbors(node_id))
+            if k < 2 :
+                coeffs[u] = 0
+                continue
+                
+            liens = 0
+            for v1 in voisin:
+                for v2 in voisin:
+                    if v1 != v2:
+                        if self.edge_exists(v1, v2):
+                            liens += 1
+            valeur = lien / (k * (k-1))
+            coeffs[node_id] = valeur
+        return coeffs
+             
 
 
     def DFS(self):

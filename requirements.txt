@@ -1,0 +1,9 @@
+# --- Bibliothèques de manipulation de données (utilisées dans gm.py) ---
+pandas
+polars
+
+# --- Moteur recommandé pour Polars/Pandas ---
+pyarrow
+
+# --- Outils de Qualité de Code & CI/CD ---
+pylint

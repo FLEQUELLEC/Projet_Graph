@@ -1,3 +1,14 @@
-.venv/
-.vscode/
+# Fichiers de données (trop gros pour Git)
+*.obo
+*.goa
+*.gaf
 
+# Caches Python et Environnements virtuels
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# Fichiers systèmes
+.DS_Store
