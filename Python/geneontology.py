@@ -284,8 +284,6 @@ def max_depth(go):
     resultats = {}
     memo = {}
 
-    # --- OPTIMISATION CRITIQUE ---
-    # On construit un dictionnaire inversé UNE SEULE FOIS au début.
     # Structure : { Enfant : [Liste des Parents/Predecessors] }
     print("   [Optimisation] Construction de l'index inversé...", end='', flush=True)
     reverse_graph = {}

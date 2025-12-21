@@ -60,7 +60,8 @@
   pdfsubject={Master BI/BEE – MG2E},
   pdfkeywords={spéciation, admixture, hybridation, génomique, bioinformatique}
 }
-
+\usepackage[ruled,vlined,linesnumbered,french]{algorithm2e}
+% 'ruled' pour les traits horizontaux, 'linesnumbered' pour les numéros de ligne
 % ============================
 % CITATIONS & BIBLIOGRAPHIE
 % ============================
@@ -180,8 +181,239 @@
 \setcounter{page}{1}
 
 % ==========================
+\section{Contexte}
+Ce projet s'inscrit dans le cadre de l'Unité d'Enseignement \textit{Graphes}, dont l'objet est de fournir des méthodes d'analyse pour des volumes de données conséquents. L'objectif principal est le développement de librairies Python permettant la modélisation et l'exploration de la \textit{Gene Ontology} (GO). Ce projet bioinformatique vise à standardiser et structurer la description des gènes et des produits géniques à travers les différents organismes.
+
+Pour cette étude, nous avons sélectionné \textit{Rattus norvegicus}, communément appelé rat brun. Organisme modèle incontournable dans la communauté scientifique, il est, à l'instar de la souris, prédominant dans les expérimentations \textit{in vivo}, notamment en pharmacologie et en recherche biomédicale. En conséquence, son génome est extrêmement bien documenté ; il fut d'ailleurs l'un des premiers mammifères à être entièrement séquencé en 2004.
+
+\section{Analyse}
+Notre analyse repose sur l'exploitation conjointe de deux sources de données :
+\begin{itemize}
+  \item Le fichier \textbf{OBO} : il contient les informations structurelles du graphe, à savoir les termes \textit{Gene Ontology} et leurs relations (arcs).
+  \item Le fichier \textbf{GOA} : il contient les annotations spécifiques à \textit{Rattus norvegicus}, liant les produits de gènes aux termes du fichier OBO.
+\end{itemize}
+
+Il nous faut donc d'une part pouvoir analyser et modéliser des graphes de manière générique, et d'autre part disposer d'outils pour traiter et parser les fichiers spécifiques à la GO. Pour répondre à ces besoins, nous allons développer deux modules distincts : la librairie \textit{gm.py} (GraphMaster) pour la gestion mathématique des graphes, et le module \textit{geneontology.py} pour l'exploitation des données biologiques.
+
+\section{Conception}
+
+\subsection{Représentation des données}
+Au vu de la nature hiérarchique et interconnectée de nos données, le choix le plus pertinent est une représentation sous forme de \textbf{graphe orienté}.
+Dans ce modèle :
+\begin{itemize}
+  \item Les \textbf{nœuds} représentent soit des termes de l'ontologie (\textit{GOTerm}), soit des produits géniques (\textit{GeneProduct}).
+  \item Les \textbf{arcs} représentent les relations sémantiques (orientées de l'enfant vers le parent pour \textit{is\_a} et \textit{part\_of}) ou les annotations (du gène vers le terme).
+\end{itemize}
+
+Pour mettre en œuvre cette architecture, nous avons conçu deux librairies Python distinctes : la première dédiée à la manipulation générique de graphes, et la seconde spécialisée dans le traitement des données de la \textit{Gene Ontology} (GO).
+
+\subsection{Fonctionnalités développées}
+
+Dans notre première librairie, nommée \textit{gm.py} (GraphMaster), nous avons implémenté une classe \textit{graph} qui encapsule les informations suivantes :
+\begin{itemize}
+  \item Le dictionnaire des nœuds et leurs attributs.
+  \item Le dictionnaire des arcs (liste d'adjacence) et leurs poids éventuels.
+  \item Le caractère dirigé (orienté) ou non du graphe.
+\end{itemize}
+
+Les méthodes suivantes ont été implémentées pour manipuler cette structure :
+\begin{itemize}
+  \item \textit{add\_node} / \textit{add\_edge} : Permettent l'ajout dynamique de nœuds et d'arcs.
+  \item \textit{node\_exists} / \textit{edge\_exists} : Vérifient la présence d'un élément dans le graphe.
+  \item \textit{nodes} : Renvoie la liste triée de tous les nœuds.
+  \item \textit{nb\_nodes} / \textit{nb\_edges} : Renvoient respectivement le nombre total de sommets et d'arêtes.
+  \item \textit{neighbors} : Renvoie la liste des voisins (successeurs) d'un nœud donné.
+  \item \textit{predecessors} : Renvoie la liste des prédécesseurs d'un nœud (utile pour remonter les relations parents-enfants).
+  \item \textit{read\_delim} : Fonction utilitaire pour charger un graphe depuis un fichier texte délimité (CSV/TXT).
+  \item \textit{BFS} (Breadth-First Search) : Parcours en largeur, permettant notamment de calculer les plus courts chemins depuis un nœud source.
+  \item \textit{DFS} (Depth-First Search) : Parcours en profondeur, utilisé pour l'exploration exhaustive des branches.
+  \item \textit{connected\_components} : Identifie les sous-graphes disjoints (pour les graphes non orientés).
+  \item \textit{edges\_filter} : Crée un sous-graphe en filtrant les arcs selon un critère de poids.
+  \item \textit{clustering\_coefficient} : Calcule le coefficient de clustering (transitivité locale) d'un nœud.
+  \item \textit{is\_acyclic} : Vérifie si le graphe est un DAG (Directed Acyclic Graph), c'est-à-dire s'il ne contient aucun cycle.
+  \item \textit{topological\_sort} : Propose un ordre linéaire des nœuds respectant la direction des arcs (uniquement si le graphe est acyclique).
+\end{itemize}
+
+\subsection{Module spécifique Gene Ontology}
+Notre seconde librairie, \textit{geneontology.py}, hérite des capacités de \textit{gm.py} pour manipuler les données biologiques. Elle implémente les fonctions métiers suivantes :
+
+\begin{itemize}
+  \item \textit{load\_OBO} : Parse le fichier de structure de l'ontologie (.obo). Cette fonction gère les références anticipées (\textit{forward references}) pour garantir la connectivité du graphe.
+  \item \textit{load\_GOA} : Charge le fichier d'annotations (.goa/.gaf) et lie les produits géniques aux termes GO correspondants.
+  \item \textit{GOTerms} : Récupère les termes GO associés à un produit génique donné. Une option récursive permet de remonter l'arbre pour inclure tous les termes parents (ancêtres).
+  \item \textit{GeneProducts} : Récupère les produits géniques associés à un terme GO. L'option récursive permet de descendre dans l'arbre pour inclure les gènes annotés sur des termes plus spécifiques (descendants).
+  \item \textit{max\_depth} : Calcule la profondeur maximale des trois sous-ontologies (BP, MF, CC). Cette fonction utilise une optimisation par index inversé pour réduire la complexité temporelle du parcours.
+\end{itemize}
+\subsection{Algorithmes}
+\subsubsection{Algorithme : GOTerms;}
 
 
+Cet algorithme décrit la remontée vers les ancêtres (parents) pour trouver tous les termes associés à un gène.
+Extrait de code
+
+\begin{algorithm}[H]
+  \caption{Récupération des termes GO d'un produit génique}
+  \SetKwInOut{Input}{Entrées}
+  \SetKwInOut{Output}{Sortie}
+
+  \Input{Graphe $G=(V,E)$, Identifiant Gène $g$, Booléen $recursif$}
+  \Output{Ensemble des termes GO associés $T$}
+
+  $T \leftarrow \text{VoisinsSortants}(G, g)$\;
+
+  \If{$recursif$ est Vrai}{
+    $File \leftarrow \text{Liste}(T)$\;
+    $Visites \leftarrow T$\;
+
+    \While{$File$ n'est pas vide}{
+      $u \leftarrow \text{Defiler}(File)$\;
+      $Parents \leftarrow \text{VoisinsSortants}(G, u)$ \tcp*{Relation is\_a}
+
+      \ForEach{$p \in Parents$}{
+        \If{$p \notin Visites$}{
+          Ajouter $p$ à $T$\;
+          Ajouter $p$ à $Visites$\;
+          Enfiler $p$ dans $File$\;
+        }
+      }
+    }
+  }
+  \Return $T$\;
+\end{algorithm}
+
+\subsubsection{2. Algorithme : GeneProducts}
+
+Ici, on décrit la descente vers les termes plus spécifiques (descendants) pour agglomérer tous les gènes concernés.
+Extrait de code
+
+\begin{algorithm}[H]
+  \caption{Récupération des gènes associés à un terme GO}
+  \SetKwInOut{Input}{Entrées}
+  \SetKwInOut{Output}{Sortie}
+
+  \Input{Graphe $G=(V,E)$, Identifiant Terme $t_{racine}$, Booléen $recursif$}
+  \Output{Ensemble des gènes $P$}
+
+  $TermesCibles \leftarrow \{t_{racine}\}$\;
+
+  \tcc{Étape 1 : Expansion des termes (Descente vers les enfants)}
+  \If{$recursif$ est Vrai}{
+    $File \leftarrow \{t_{racine}\}$\;
+    $Visites \leftarrow \{t_{racine}\}$\;
+
+    \While{$File$ n'est pas vide}{
+      $u \leftarrow \text{Depiler}(File)$\;
+      $Enfants \leftarrow \text{Predecesseurs}(G, u)$ \tcp*{Sens inverse des arcs}
+
+      \ForEach{$v \in Enfants$}{
+        \If{$Type(v) == \text{"GOTerm"}$ \textbf{et} $v \notin Visites$}{
+          Ajouter $v$ à $TermesCibles$\;
+          Ajouter $v$ à $Visites$\;
+          Empiler $v$ dans $File$\;
+        }
+      }
+    }
+  }
+
+  \tcc{Étape 2 : Collecte des gènes annotés}
+  $P \leftarrow \emptyset$\;
+  \ForEach{$t \in TermesCibles$}{
+    $Sources \leftarrow \text{Predecesseurs}(G, t)$\;
+    \ForEach{$s \in Sources$}{
+      \If{$Type(s) == \text{"GeneProduct"}$}{
+        Ajouter $s$ à $P$\;
+      }
+    }
+  }
+  \Return $P$\;
+\end{algorithm}
+
+\subsubsection{Algorithme : Max Depth (Optimisé)}
+
+C'est l'algorithme le plus important à détailler. Il faut bien montrer la phase de pré-calcul (index inversé) et la récursion avec mémoïsation.
+Extrait de code
+
+\begin{algorithm}[H]
+  \caption{Calcul de la Profondeur Maximale (Optimisé)}
+  \SetKwInOut{Input}{Entrées}
+  \SetKwInOut{Output}{Sortie}
+  \SetKwFunction{FHeight}{Hauteur}
+
+  \Input{Graphe $G=(V,E)$, Liste des Racines $R = \{BP, MF, CC\}$}
+  \Output{Dictionnaire des profondeurs $D$}
+
+  \tcc{1. Pré-calcul de l'index inversé (Optimisation complexité)}
+  $IndexEnfants \leftarrow \text{DictionnaireVide}()$\;
+  \ForEach{Arc $(u, v) \in E$}{
+    Ajouter $u$ à $IndexEnfants[v]$ \tcp*{u est enfant de v}
+  }
+
+  $Memo \leftarrow \text{DictionnaireVide}()$\;
+
+  \tcc{2. Définition de la fonction récursive interne}
+  \SetKwProg{Fn}{Fonction}{:}{}
+  \Fn{\FHeight{$u$}}{
+    \If{$u \in Memo$}{
+      \Return $Memo[u]$\;
+    }
+
+    $Candidats \leftarrow IndexEnfants[u]$\;
+    $EnfantsValides \leftarrow \emptyset$\;
+
+    \ForEach{$c \in Candidats$}{
+      \If{$Type(c) \neq \text{"GeneProduct"}$}{
+        Ajouter $c$ à $EnfantsValides$\;
+      }
+    }
+
+    \If{$EnfantsValides$ est vide}{
+      $Memo[u] \leftarrow 0$\;
+      \Return $0$\;
+    }
+
+    $MaxH \leftarrow 0$\;
+    \ForEach{$enfant \in EnfantsValides$}{
+      $h \leftarrow \FHeight{$enfant$}$\;
+      \If{$h > MaxH$}{
+        $MaxH \leftarrow h$\;
+      }
+    }
+
+    $Memo[u] \leftarrow 1 + MaxH$\;
+    \Return $1 + MaxH$\;
+  }
+
+  \tcc{3. Exécution principale}
+  $D \leftarrow \text{DictionnaireVide}()$\;
+  \ForEach{$racine \in R$}{
+    Vider $Memo$\;
+    $D[racine] \leftarrow \FHeight{$racine$}$\;
+  }
+  \Return $D$\;
+\end{algorithm}
+
+\section{Résultat}
+
+\section{Section spéciale : Méthodologie de travail}
+
+Dans le cadre de ce projet, j'ai travaillé en autonomie pour l'analyse, la conception et l'implémentation des modules. J'ai également consulté les supports de cours ainsi que la documentation officielle de la \textit{Gene Ontology} pour comprendre la structure des fichiers OBO.
+
+Conformément aux consignes, je déclare avoir eu recours à l'intelligence artificielle générative (Gemini) comme assistant de développement. Ce recours a été transparent et s'est limité à trois aspects spécifiques :
+
+\begin{itemize}
+  \item \textbf{Débogage syntaxique :} Aide à la correction d'erreurs Python et à la gestion des exceptions lors du parsing des fichiers textes.
+  \item \textbf{Optimisation algorithmique :} C'est sur ce point que l'aide a été la plus cruciale. Lors du développement de la fonction \texttt{max\_depth}, la première version de l'algorithme demandait trop de ressources (temps de calcul excessif lié à une complexité quadratique). Gemini m'a aidé à diagnostiquer ce goulot d'étranglement et a proposé une solution basée sur un pré-calcul des relations (index inversé), permettant de passer d'un temps d'exécution de plusieurs heures à quelques secondes.
+  \item \textbf{Rédaction technique :} Assistance pour la formalisation des algorithmes en pseudo-code (utilisés dans ce rapport) et la vérification de la clarté des docstrings.
+\end{itemize}
+j'ai configuré l'assistant avec une consigne système (\textit{System Prompt}) imposant des contraintes pédagogiques strictes :
+
+\begin{itemize}
+  \item \textbf{Interdiction de fournir du code source :} L'IA avait pour consigne explicite de \textit{« ne jamais fournir de code directement »} mais exclusivement du pseudocode ou des descriptions algorithmiques, m'obligeant à traduire moi-même la logique en Python.
+  \item \textbf{Rôle d'expert-conseil :} L'assistant a été paramétré pour agir en tant qu'\textit{« expert en bioinformatique spécialisé dans la théorie des graphes »}, avec pour but de guider la conception sans donner la solution finale.
+  \item \textbf{Ancrage dans le cours :} Les explications devaient faire le lien avec les concepts théoriques du cours et les structures de données du TP (listes d'adjacence, dictionnaires), assurant la cohérence avec l'enseignement reçu.
+\end{itemize}
+
+Cette approche m'a permis de débloquer des points techniques complexes (notamment l'optimisation de \texttt{max\_depth}) tout en maîtrisant intégralement la production du code final.
 \nolinenumbers
 \printbibliography
 \end{document}
