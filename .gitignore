@@ -12,7 +12,7 @@ venv/
 
 #fichier latex
 *.bbl
-*.sunctex.gz
+*.synctex.gz
 
 # Fichiers systèmes
 .DS_Store
