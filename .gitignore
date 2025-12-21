@@ -10,5 +10,9 @@ __pycache__/
 venv/
 .env
 
+#fichier latex
+*.bbl
+*.sunctex.gz
+
 # Fichiers systèmes
 .DS_Store

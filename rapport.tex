@@ -1,0 +1,187 @@
+% !TeX root = ./rapport.tex
+% !TeX program = xelatex
+\documentclass[12pt,a4paper]{article}
+% ============================
+% ENCODAGE & LANGUE
+% ============================
+\usepackage{fontspec}             % gestion moderne des polices (XeLaTeX obligatoire)
+\usepackage[french]{babel}
+\babelfont{rm}{TeX Gyre Heros}    % équivalent libre d’Arial (avec petites capitales)
+\babelfont{sf}{TeX Gyre Heros}
+\babelfont{tt}{TeX Gyre Cursor}
+% ============================
+% MISE EN PAGE
+% ============================
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing                   % interligne 1,5
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{1em}
+\usepackage{booktabs, multirow}
+\usepackage{enumitem}
+\usepackage[left,modulo]{lineno}
+\setlist{noitemsep}
+\usepackage{multicol}
+\usepackage{etoolbox}
+
+% ============================
+% MATH, COULEURS, SYMBOLES
+% ============================
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+
+% ============================
+% IMAGES & TABLEAUX
+% ============================
+\usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{labelfont=bf}
+\usepackage{float}
+\usepackage{minted}
+% Configuration globale (optionnel)
+\setminted{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    breaklines=true       % Règle votre problème de lignes trop longues !
+}
+% ============================
+% LIENS HYPERTEXTES
+% ============================
+\usepackage[hidelinks,unicode]{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  citecolor=teal,
+  pdfauthor={Florent Le Quellec},
+  pdftitle={Revue MG2E – Admixture & Spéciation},
+  pdfsubject={Master BI/BEE – MG2E},
+  pdfkeywords={spéciation, admixture, hybridation, génomique, bioinformatique}
+}
+
+% ============================
+% CITATIONS & BIBLIOGRAPHIE
+% ============================
+\usepackage{csquotes} % doit être avant biblatex
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  citestyle=authoryear-comp,
+  sorting=nyt,
+  maxcitenames=2,
+  maxbibnames=99,
+  giveninits=true,
+  uniquename=false,
+  url=false,
+  doi=true,
+  eprint=false,
+  language=french
+]{biblatex}
+
+\DefineBibliographyStrings{french}{
+  andothers = {et al.}
+}
+
+\addbibresource{references.bib}
+% Style compact pour la bibliographie
+\renewcommand*{\bibfont}{\footnotesize} % police réduite
+\setlength{\bibitemsep}{0.25em}         % espace entre entrées
+
+% Ajout d'une puce avant chaque entrée
+\makeatletter
+\renewbibmacro*{begentry}{
+  \par\smallskip\noindent\textbullet\space
+}
+\makeatother
+
+% ============================
+% DIVERS / AJUSTEMENTS
+% ============================
+\frenchspacing   % espace uniforme après les points
+\sloppy          % évite les dépassements de marges
+\setstretch{1.25}
+
+% ====== Informations de la page de titre ======
+% ==========================
+% PAGE DE TITRE PERSONNALISÉE
+% ==========================
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    % ---- En-tête avec logos ----
+    \begin{minipage}{0.45\textwidth}
+      \begin{flushleft}
+        % Assurez-vous d'avoir ce fichier ou commentez la ligne
+        \includegraphics[width=4cm, height=1.5cm, keepaspectratio]{figures/logo_UT.png}
+      \end{flushleft}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+      \begin{flushright}
+        % Assurez-vous d'avoir ce fichier ou commentez la ligne
+        \includegraphics[width=4cm, height=1.5cm, keepaspectratio]{figures/logobgesansfond.png}
+      \end{flushright}
+    \end{minipage}
+
+    \vspace{1.5cm}
+
+    % ---- Institution ----
+    {\Large \textsc{Université de Toulouse}}\\[0.5em]
+    {\large Master BI/BEE – Mention Bioinformatique et Génomique Environnementale}\\[1cm]
+
+    % ---- Ligne de séparation ----
+    \rule{\linewidth}{0.5mm} \\[1cm]
+
+    % ---- Titre du Projet (Adapté au travail fait) ----
+    {\Huge \textbf{Analyse et Manipulation de la\\ Gene Ontology}}\\[0.8em]
+
+    {\LARGE \textit{Modélisation de graphe\\ de Rattus norvegicus}}\\[1cm]
+
+    \rule{\linewidth}{0.5mm} \\[2cm]
+
+    % ---- Auteur ----
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \large
+        \emph{Auteur :}\\
+        Florent \textsc{LE QUELLEC}
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushright} \large
+        \emph{Cadre du projet :}\\
+        UE \textit{Graphes}\\
+      \end{flushright}
+    \end{minipage}
+
+    \vfill
+
+    % ---- Date ----
+    {\large Année universitaire 2024–2025}\\[1.5cm]
+
+    % ---- Licence CC ----
+    \includegraphics[width=2cm]{figures/cc-by-nc.png}\\[0.5em]
+    {\small Licence \textbf{Creative Commons BY–NC 4.0}}\\
+    \url{https://creativecommons.org/licenses/by-nc/4.0/}
+
+  \end{center}
+\end{titlepage}
+
+
+\pagenumbering{gobble}
+
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+\linenumbers
+\modulolinenumbers[10]
+\setcounter{page}{1}
+
+% ==========================
+
+
+\nolinenumbers
+\printbibliography
+\end{document}
