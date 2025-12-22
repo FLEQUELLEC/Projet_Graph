@@ -94,53 +94,53 @@
 
 % --- Page de Titre ---
 \begin{titlepage}
-  \begin{center}
-    \begin{minipage}{0.45\textwidth}
-      \begin{flushleft}
-        % Mettez vos images ou commentez si absentes
-        \includegraphics[width=4cm, height=1.5cm, keepaspectratio]{figures/logo_UT.png}
-      \end{flushleft}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.45\textwidth}
-      \begin{flushright}
-        \includegraphics[width=4cm, height=1.5cm, keepaspectratio]{figures/logobgesansfond.png}
-      \end{flushright}
-    \end{minipage}
+    \begin{center}
+        \begin{minipage}{0.45\textwidth}
+            \begin{flushleft}
+                % Mettez vos images ou commentez si absentes
+                \includegraphics[width=4cm, height=1.5cm, keepaspectratio]{figures/logo_UT.png}
+            \end{flushleft}
+        \end{minipage}
+        \hfill
+        \begin{minipage}{0.45\textwidth}
+            \begin{flushright}
+                \includegraphics[width=5cm, height=2.5cm, keepaspectratio]{figures/logobgesansfond.png}
+            \end{flushright}
+        \end{minipage}
 
-    \vspace{1.5cm}
+        \vspace{1.5cm}
 
-    {\Large \textsc{Université de Toulouse}}\\[0.5em]
-    {\large Master BI/BEE – Mention Bioinformatique et Génomique Environnementale}\\[1cm]
+        {\Large \textsc{Université de Toulouse}}\\[0.5em]
+        {\large Master BI/BEE – Mention Bioinformatique et Génomique Environnementale}\\[1cm]
 
-    \rule{\linewidth}{0.5mm} \\[1cm]
+        \rule{\linewidth}{0.5mm} \\[1cm]
 
-    {\Huge \textbf{Analyse et Manipulation de la\\ Gene Ontology}}\\[0.8em]
-    {\LARGE \textit{Modélisation de graphe\\ de Rattus norvegicus}}\\[1cm]
+        {\Huge \textbf{Analyse et Manipulation de la\\ Gene Ontology}}\\[0.8em]
+        {\LARGE \textit{Modélisation de graphe\\ de Rattus norvegicus}}\\[1cm]
 
-    \rule{\linewidth}{0.5mm} \\[2cm]
+        \rule{\linewidth}{0.5mm} \\[2cm]
 
-    \begin{minipage}{0.4\textwidth}
-      \begin{flushleft} \large
-        \emph{Auteur :}\\
-        Florent \textsc{LE QUELLEC}
-      \end{flushleft}
-    \end{minipage}
-    \begin{minipage}{0.4\textwidth}
-      \begin{flushright} \large
-        \emph{Cadre du projet :}\\
-        UE \textit{Algorithmique des Graphes}
-      \end{flushright}
-    \end{minipage}
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushleft} \large
+                \emph{Auteur :}\\
+                Florent \textsc{LE QUELLEC}
+            \end{flushleft}
+        \end{minipage}
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushright} \large
+                \emph{Cadre du projet :}\\
+                UE \textit{Algorithmique des Graphes}
+            \end{flushright}
+        \end{minipage}
 
-    \vfill
+        \vfill
 
-    {\large Année universitaire 2024–2025}\\[1.5cm]
+        {\large Année universitaire 2024–2025}\\[1.5cm]
 
-    \includegraphics[width=2cm]{figures/cc-by-nc.png}\\[0.5em]
-    {\small Licence \textbf{Creative Commons BY–NC 4.0}}
+        \includegraphics[width=2cm]{figures/cc-by-nc.png}\\[0.5em]
+        {\small Licence \textbf{Creative Commons BY–NC 4.0}}
 
-  \end{center}
+    \end{center}
 \end{titlepage}
 
 \pagenumbering{gobble}
@@ -156,18 +156,18 @@
 % ============================
 
 \section{Contexte}
-Ce projet s'inscrit dans le cadre de l'Unité d'Enseignement \textit{Graphes}, dont l'objet est de fournir des méthodes d'analyse pour des volumes de données conséquents. L'objectif principal est le développement de librairies Python permettant la modélisation et l'exploration de la \textit{Gene Ontology} (GO). Ce projet bioinformatique vise à standardiser et structurer la description des gènes et des produits géniques à travers les différents organismes.
+Ce projet s'inscrit dans le cadre de l'UE \textit{Graphes}, dont l'objet est de fournir des méthodes d'analyse pour des volumes de données conséquents. L'objectif principal est le développement de librairies Python permettant la modélisation et l'exploration de la \textit{Gene Ontology} (GO). Ce projet bioinformatique vise à standardiser et structurer la description des gènes et des produits géniques à travers les différents organismes.
 
 Pour cette étude, nous avons sélectionné \textit{Rattus norvegicus}, communément appelé rat brun. Organisme modèle incontournable dans la communauté scientifique, il est, à l'instar de la souris, prédominant dans les expérimentations \textit{in vivo}, notamment en pharmacologie et en recherche biomédicale. En conséquence, son génome est extrêmement bien documenté ; il fut d'ailleurs l'un des premiers mammifères à être entièrement séquencé en 2004.
 
 \section{Analyse}
 Notre analyse repose sur l'exploitation conjointe de deux sources de données :
 \begin{itemize}
-  \item Le fichier \textbf{OBO} : il contient les informations structurelles du graphe, à savoir les termes \textit{Gene Ontology} et leurs relations (arcs).
-  \item Le fichier \textbf{GOA} : il contient les annotations spécifiques à \textit{Rattus norvegicus}, liant les produits de gènes aux termes du fichier OBO.
+    \item Le fichier \textbf{OBO} : il contient les informations structurelles du graphe, à savoir les termes \textit{Gene Ontology} et leurs relations (arcs).
+    \item Le fichier \textbf{GOA} : il contient les annotations spécifiques à \textit{Rattus norvegicus}, liant les produits de gènes aux termes du fichier OBO.
 \end{itemize}
 
-Il nous faut donc d'une part pouvoir analyser et modéliser des graphes de manière générique, et d'autre part disposer d'outils pour traiter et parser les fichiers spécifiques à la GO. Pour répondre à ces besoins, nous allons développer deux modules distincts : la librairie \textit{gm.py} (GraphMaster) pour la gestion mathématique des graphes, et le module \textit{geneontology.py} pour l'exploitation des données biologiques.
+Il nous faut donc d'une part pouvoir analyser et modéliser des graphes de manière générique, et d'autre part disposer d'outils pour traiter et analyser la synthaxe des fichiers spécifiques à la GO. Pour répondre à ces besoins, nous allons développer deux modules distincts : la librairie \textit{gm.py} (GraphMaster) pour la gestion mathématique des graphes, et le module \textit{geneontology.py} pour l'exploitation des données biologiques.
 
 \section{Conception}
 
@@ -175,49 +175,49 @@ Il nous faut donc d'une part pouvoir analyser et modéliser des graphes de mani�
 Au vu de la nature hiérarchique et interconnectée de nos données, le choix le plus pertinent est une représentation sous forme de \textbf{graphe orienté}.
 Dans ce modèle :
 \begin{itemize}
-  \item Les \textbf{nœuds} représentent soit des termes de l'ontologie (\textit{GOTerm}), soit des produits géniques (\textit{GeneProduct}).
-  \item Les \textbf{arcs} représentent les relations sémantiques (orientées de l'enfant vers le parent pour \textit{is\_a} et \textit{part\_of}) ou les annotations (du gène vers le terme).
+    \item Les \textbf{nœuds} représentent soit des termes de l'ontologie (\textit{GOTerm}), soit des produits géniques (\textit{GeneProduct}).
+    \item Les \textbf{arcs} représentent les relations sémantiques (orientées de l'enfant vers le parent pour \textit{is\_a} et \textit{part\_of}) ou les annotations (du gène vers le terme).
 \end{itemize}
 
-Pour mettre en œuvre cette architecture, nous avons conçu deux librairies Python distinctes : la première dédiée à la manipulation générique de graphes, et la seconde spécialisée dans le traitement des données de la \textit{Gene Ontology} (GO).
+Pour mettre en œuvre ce projet, nous avons conçu deux librairies Python distinctes : la première dédiée à la manipulation générique de graphes, et la seconde spécialisée dans le traitement des données de la \textit{Gene Ontology} (GO).
 
 \subsection{Fonctionnalités développées}
 L'ensemble du projet a été réalisé avec Python 3 et les librairies standards telles que \texttt{re}, \texttt{sys} et \texttt{os}. Cependant, deux librairies tierces sont nécessaires : \texttt{pandas} et \texttt{polars}. Elles sont utilisées au sein de la fonction \texttt{read\_delim} pour optimiser les performances de lecture.
 
 Dans notre première librairie, nommée \textit{gm.py} (GraphMaster), nous avons implémenté une classe \textit{graph} qui encapsule les informations suivantes :
 \begin{itemize}
-  \item Le dictionnaire des nœuds et leurs attributs.
-  \item Le dictionnaire des arcs (liste d'adjacence) et leurs poids éventuels.
-  \item Le caractère dirigé (orienté) ou non du graphe.
+    \item Le dictionnaire des nœuds et leurs attributs.
+    \item Le dictionnaire des arcs (liste d'adjacence) et leurs poids éventuels.
+    \item Le caractère dirigé (orienté) ou non du graphe.
 \end{itemize}
 
 Les méthodes suivantes ont été implémentées pour manipuler cette structure :
 \begin{itemize}
-  \item \textit{add\_node} / \textit{add\_edge} : Permettent l'ajout dynamique de nœuds et d'arcs.
-  \item \textit{node\_exists} / \textit{edge\_exists} : Vérifient la présence d'un élément dans le graphe.
-  \item \textit{nodes} : Renvoie la liste triée de tous les nœuds.
-  \item \textit{nb\_nodes} / \textit{nb\_edges} : Renvoient respectivement le nombre total de sommets et d'arêtes.
-  \item \textit{neighbors} : Renvoie la liste des voisins (successeurs) d'un nœud donné.
-  \item \textit{predecessors} : Renvoie la liste des prédécesseurs d'un nœud (utile pour remonter les relations parents-enfants).
-  \item \textit{read\_delim} : Fonction utilitaire pour charger un graphe depuis un fichier texte délimité (CSV/TXT).
-  \item \textit{BFS} (Breadth-First Search) : Parcours en largeur, permettant notamment de calculer les plus courts chemins depuis un nœud source.
-  \item \textit{DFS} (Depth-First Search) : Parcours en profondeur, utilisé pour l'exploration exhaustive des branches.
-  \item \textit{connected\_components} : Identifie les sous-graphes disjoints (pour les graphes non orientés).
-  \item \textit{edges\_filter} : Crée un sous-graphe en filtrant les arcs selon un critère de poids.
-  \item \textit{clustering\_coefficient} : Calcule le coefficient de clustering (transitivité locale) d'un nœud.
-  \item \textit{is\_acyclic} : Vérifie si le graphe est un DAG (Directed Acyclic Graph).
-  \item \textit{topological\_sort} : Propose un ordre linéaire des nœuds respectant la direction des arcs.
+    \item \textit{add\_node} / \textit{add\_edge} : Permettent l'ajout dynamique de nœuds et d'arcs.
+    \item \textit{node\_exists} / \textit{edge\_exists} : Vérifient la présence d'un élément dans le graphe.
+    \item \textit{nodes} : Renvoie la liste triée de tous les nœuds.
+    \item \textit{nb\_nodes} / \textit{nb\_edges} : Renvoient respectivement le nombre total de sommets et d'arêtes.
+    \item \textit{neighbors} : Renvoie la liste des voisins (successeurs) d'un nœud donné.
+    \item \textit{predecessors} : Renvoie la liste des prédécesseurs d'un nœud (utile pour remonter les relations parents-enfants).
+    \item \textit{read\_delim} : Fonction utilitaire pour charger un graphe depuis un fichier texte délimité (CSV/TXT).
+    \item \textit{BFS} (Breadth-First Search) : Parcours en largeur, permettant notamment de calculer les plus courts chemins depuis un nœud source.
+    \item \textit{DFS} (Depth-First Search) : Parcours en profondeur, utilisé pour l'exploration exhaustive des branches.
+    \item \textit{connected\_components} : Identifie les sous-graphes disjoints (pour les graphes non orientés).
+    \item \textit{edges\_filter} : Crée un sous-graphe en filtrant les arcs selon un critère de poids.
+    \item \textit{clustering\_coefficient} : Calcule le coefficient de clustering (transitivité locale) d'un nœud.
+    \item \textit{is\_acyclic} : Vérifie si le graphe est un DAG (Directed Acyclic Graph).
+    \item \textit{topological\_sort} : Propose un ordre linéaire des nœuds respectant la direction des arcs.
 \end{itemize}
 
 \subsection{Module spécifique Gene Ontology}
 Notre seconde librairie, \textit{geneontology.py}, utilise les fonctions de \textit{gm.py} pour manipuler les données biologiques. Elle implémente les fonctions métiers suivantes :
 
 \begin{itemize}
-  \item \textit{load\_OBO} : Parse le fichier de structure de l'ontologie (.obo). Cette fonction gère les références anticipées (\textit{forward references}).
-  \item \textit{load\_GOA} : Charge le fichier d'annotations (.goa) et lie les produits géniques aux termes GO correspondants.
-  \item \textit{GOTerms} : Récupère les termes GO associés à un produit génique donné (avec récursion optionnelle).
-  \item \textit{GeneProducts} : Récupère les produits géniques associés à un terme GO (avec récursion optionnelle).
-  \item \textit{max\_depth} : Calcule la profondeur maximale des trois sous-ontologies (BP, MF, CC) en utilisant une optimisation par index inversé.
+    \item \textit{load\_OBO} : Analyse la syntaxe du fichier de structure de l'ontologie (.obo).
+    \item \textit{load\_GOA} : Charge le fichier d'annotations (.goa) et lie les produits géniques aux termes GO correspondants.
+    \item \textit{GOTerms} : Récupère les termes GO associés à un produit génique donné (avec récursion optionnelle).
+    \item \textit{GeneProducts} : Récupère les produits géniques associés à un terme GO (avec récursion optionnelle).
+    \item \textit{max\_depth} : Calcule la profondeur maximale des trois sous-ontologies (BP, MF, CC) en utilisant une optimisation par index inversé.
 \end{itemize}
 
 \subsection{Algorithmes}
@@ -227,156 +227,156 @@ Cet algorithme décrit la remontée vers les ancêtres (parents) pour trouver to
 
 
 \begin{algorithm}[H]
-  \caption{Récupération des termes GO d'un produit génique}
-  \SetKwInOut{Input}{Entrées}
-  \SetKwInOut{Output}{Sortie}
+    \caption{Récupération des termes GO d'un produit génique}
+    \SetKwInOut{Input}{Entrées}
+    \SetKwInOut{Output}{Sortie}
 
-  \Input{Graphe $G=(V,E)$, Identifiant Gène $g$, Booléen $recursif$}
-  \Output{Ensemble des termes GO associés $T$}
+    \Input{Graphe $G=(V,E)$, Identifiant Gène $g$, Booléen $recursif$}
+    \Output{Ensemble des termes GO associés $T$}
 
-  $T \leftarrow \text{VoisinsSortants}(G, g)$\;
+    $T \leftarrow \text{VoisinsSortants}(G, g)$\;
 
-  \If{$recursif$ est Vrai}{
-    $File \leftarrow \text{Liste}(T)$\;
-    $Visites \leftarrow T$\;
+    \If{$recursif$ est Vrai}{
+        $File \leftarrow \text{Liste}(T)$\;
+        $Visites \leftarrow T$\;
 
-    \While{$File$ n'est pas vide}{
-      $u \leftarrow \text{Defiler}(File)$\;
-      $Parents \leftarrow \text{VoisinsSortants}(G, u)$ \tcp*{Relation is\_a}
+        \While{$File$ n'est pas vide}{
+            $u \leftarrow \text{Defiler}(File)$\;
+            $Parents \leftarrow \text{VoisinsSortants}(G, u)$ \tcp*{Relation is\_a}
 
-      \ForEach{$p \in Parents$}{
-        \If{$p \notin Visites$}{
-          Ajouter $p$ à $T$\;
-          Ajouter $p$ à $Visites$\;
-          Enfiler $p$ dans $File$\;
+            \ForEach{$p \in Parents$}{
+                \If{$p \notin Visites$}{
+                    Ajouter $p$ à $T$\;
+                    Ajouter $p$ à $Visites$\;
+                    Enfiler $p$ dans $File$\;
+                }
+            }
         }
-      }
     }
-  }
-  \Return $T$\;
+    \Return $T$\;
 \end{algorithm}
 
 \subsubsection{Algorithme : GeneProducts}
 Ici, on décrit la descente vers les termes plus spécifiques (descendants) pour agglomérer tous les gènes concernés.
 
 \begin{algorithm}[H]
-  \caption{Récupération des gènes associés à un terme GO}
-  \SetKwInOut{Input}{Entrées}
-  \SetKwInOut{Output}{Sortie}
+    \caption{Récupération des gènes associés à un terme GO}
+    \SetKwInOut{Input}{Entrées}
+    \SetKwInOut{Output}{Sortie}
 
-  \Input{Graphe $G=(V,E)$, Identifiant Terme $t_{racine}$, Booléen $recursif$}
-  \Output{Ensemble des gènes $P$}
+    \Input{Graphe $G=(V,E)$, Identifiant Terme $t_{racine}$, Booléen $recursif$}
+    \Output{Ensemble des gènes $P$}
 
-  $TermesCibles \leftarrow \{t_{racine}\}$\;
+    $TermesCibles \leftarrow \{t_{racine}\}$\;
 
-  \tcc{Étape 1 : Expansion des termes (Descente vers les enfants)}
-  \If{$recursif$ est Vrai}{
-    $File \leftarrow \{t_{racine}\}$\;
-    $Visites \leftarrow \{t_{racine}\}$\;
+    \tcc{Étape 1 : Expansion des termes (Descente vers les enfants)}
+    \If{$recursif$ est Vrai}{
+        $File \leftarrow \{t_{racine}\}$\;
+        $Visites \leftarrow \{t_{racine}\}$\;
 
-    \While{$File$ n'est pas vide}{
-      $u \leftarrow \text{Depiler}(File)$\;
-      $Enfants \leftarrow \text{Predecesseurs}(G, u)$ \tcp*{Sens inverse des arcs}
+        \While{$File$ n'est pas vide}{
+            $u \leftarrow \text{Depiler}(File)$\;
+            $Enfants \leftarrow \text{Predecesseurs}(G, u)$ \tcp*{Sens inverse des arcs}
 
-      \ForEach{$v \in Enfants$}{
-        \If{$Type(v) == \text{"GOTerm"}$ \textbf{et} $v \notin Visites$}{
-          Ajouter $v$ à $TermesCibles$\;
-          Ajouter $v$ à $Visites$\;
-          Empiler $v$ dans $File$\;
+            \ForEach{$v \in Enfants$}{
+                \If{$Type(v) == \text{"GOTerm"}$ \textbf{et} $v \notin Visites$}{
+                    Ajouter $v$ à $TermesCibles$\;
+                    Ajouter $v$ à $Visites$\;
+                    Empiler $v$ dans $File$\;
+                }
+            }
         }
-      }
     }
-  }
 
-  \tcc{Étape 2 : Collecte des gènes annotés}
-  $P \leftarrow \emptyset$\;
-  \ForEach{$t \in TermesCibles$}{
-    $Sources \leftarrow \text{Predecesseurs}(G, t)$\;
-    \ForEach{$s \in Sources$}{
-      \If{$Type(s) == \text{"GeneProduct"}$}{
-        Ajouter $s$ à $P$\;
-      }
+    \tcc{Étape 2 : Collecte des gènes annotés}
+    $P \leftarrow \emptyset$\;
+    \ForEach{$t \in TermesCibles$}{
+        $Sources \leftarrow \text{Predecesseurs}(G, t)$\;
+        \ForEach{$s \in Sources$}{
+            \If{$Type(s) == \text{"GeneProduct"}$}{
+                Ajouter $s$ à $P$\;
+            }
+        }
     }
-  }
-  \Return $P$\;
+    \Return $P$\;
 \end{algorithm}
 
 \subsubsection{Algorithme : Max Depth (Optimisé)}
 Cet algorithme détaille la phase de pré-calcul (index inversé) et la récursion avec mémoïsation.
 
 \begin{algorithm}[H]
-  \caption{Calcul de la Profondeur Maximale (Optimisé)}
-  \SetKwInOut{Input}{Entrées}
-  \SetKwInOut{Output}{Sortie}
-  \SetKwFunction{FHeight}{Hauteur}
+    \caption{Calcul de la Profondeur Maximale (Optimisé)}
+    \SetKwInOut{Input}{Entrées}
+    \SetKwInOut{Output}{Sortie}
+    \SetKwFunction{FHeight}{Hauteur}
 
-  \Input{Graphe $G=(V,E)$, Liste des Racines $R = \{BP, MF, CC\}$}
-  \Output{Dictionnaire des profondeurs $D$}
+    \Input{Graphe $G=(V,E)$, Liste des Racines $R = \{BP, MF, CC\}$}
+    \Output{Dictionnaire des profondeurs $D$}
 
-  \tcc{1. Pré-calcul de l'index inversé (Optimisation complexité)}
-  $IndexEnfants \leftarrow \text{DictionnaireVide}()$\;
-  \ForEach{Arc $(u, v) \in E$}{
-    Ajouter $u$ à $IndexEnfants[v]$ \tcp*{u est enfant de v}
-  }
-
-  $Memo \leftarrow \text{DictionnaireVide}()$\;
-
-  \tcc{2. Définition de la fonction récursive interne}
-  \SetKwProg{Fn}{Fonction}{:}{}
-  \Fn{\FHeight{$u$}}{
-    \If{$u \in Memo$}{
-      \Return $Memo[u]$\;
+    \tcc{1. Pré-calcul de l'index inversé (Optimisation complexité)}
+    $IndexEnfants \leftarrow \text{DictionnaireVide}()$\;
+    \ForEach{Arc $(u, v) \in E$}{
+        Ajouter $u$ à $IndexEnfants[v]$ \tcp*{u est enfant de v}
     }
 
-    $Candidats \leftarrow IndexEnfants[u]$\;
-    $EnfantsValides \leftarrow \emptyset$\;
+    $Memo \leftarrow \text{DictionnaireVide}()$\;
 
-    \ForEach{$c \in Candidats$}{
-      \If{$Type(c) \neq \text{"GeneProduct"}$}{
-        Ajouter $c$ à $EnfantsValides$\;
-      }
+    \tcc{2. Définition de la fonction récursive interne}
+    \SetKwProg{Fn}{Fonction}{:}{}
+    \Fn{\FHeight{$u$}}{
+        \If{$u \in Memo$}{
+            \Return $Memo[u]$\;
+        }
+
+        $Candidats \leftarrow IndexEnfants[u]$\;
+        $EnfantsValides \leftarrow \emptyset$\;
+
+        \ForEach{$c \in Candidats$}{
+            \If{$Type(c) \neq \text{"GeneProduct"}$}{
+                Ajouter $c$ à $EnfantsValides$\;
+            }
+        }
+
+        \If{$EnfantsValides$ est vide}{
+            $Memo[u] \leftarrow 0$\;
+            \Return $0$\;
+        }
+
+        $MaxH \leftarrow 0$\;
+        \ForEach{$enfant \in EnfantsValides$}{
+            $h \leftarrow \FHeight{$enfant$}$\;
+            \If{$h > MaxH$}{
+                $MaxH \leftarrow h$\;
+            }
+        }
+
+        $Memo[u] \leftarrow 1 + MaxH$\;
+        \Return $1 + MaxH$\;
     }
 
-    \If{$EnfantsValides$ est vide}{
-      $Memo[u] \leftarrow 0$\;
-      \Return $0$\;
+    \tcc{3. Exécution principale}
+    $D \leftarrow \text{DictionnaireVide}()$\;
+    \ForEach{$racine \in R$}{
+        Vider $Memo$\;
+        $D[racine] \leftarrow \FHeight{$racine$}$\;
     }
-
-    $MaxH \leftarrow 0$\;
-    \ForEach{$enfant \in EnfantsValides$}{
-      $h \leftarrow \FHeight{$enfant$}$\;
-      \If{$h > MaxH$}{
-        $MaxH \leftarrow h$\;
-      }
-    }
-
-    $Memo[u] \leftarrow 1 + MaxH$\;
-    \Return $1 + MaxH$\;
-  }
-
-  \tcc{3. Exécution principale}
-  $D \leftarrow \text{DictionnaireVide}()$\;
-  \ForEach{$racine \in R$}{
-    Vider $Memo$\;
-    $D[racine] \leftarrow \FHeight{$racine$}$\;
-  }
-  \Return $D$\;
+    \Return $D$\;
 \end{algorithm}
 
 \section{Résultats}
 Les résultats obtenus avec les données de \textit{Rattus norvegicus} sont les suivants :
 
 \begin{itemize}
-  \item \textbf{43 328} termes GO chargés.
-  \item \textbf{76 581} relations (\textit{is\_a}, \textit{part\_of}).
-  \item \textbf{47 072} gènes (\textit{GeneProducts}) ajoutés au graphe.
+    \item \textbf{43 328} termes GO chargés.
+    \item \textbf{76 581} relations (\textit{is\_a}, \textit{part\_of}).
+    \item \textbf{47 072} gènes (\textit{GeneProducts}) ajoutés au graphe.
 \end{itemize}
 
 L'analyse topologique révèle les profondeurs maximales suivantes :
 \begin{itemize}
-  \item Biological Process : 18
-  \item Molecular Function : 12
-  \item Cellular Component : 14
+    \item Biological Process : 18
+    \item Molecular Function : 12
+    \item Cellular Component : 14
 \end{itemize}
 
 Ces résultats confirment la richesse de l'annotation du génome du rat brun, caractérisée par un nombre important de gènes et une grande profondeur dans l'arbre ontologique.
@@ -388,1148 +388,31 @@ En particulier, l'analyse des profondeurs montre que le domaine des \textit{Biol
 
 \section{Bilan et Perspectives}
 
-Les besoins initiaux du projet ont été satisfaits. Les modules développés permettent de charger efficacement les données de la \textit{Gene Ontology}, d'obtenir les statistiques fondamentales (nombre de termes GO, produits géniques chargés) et d'effectuer des calculs topologiques complexes comme la profondeur des sous-ontologies.
+Les besoins initiaux du projet ont été satisfaits. Les modules développés permettent de charger les données de la \textit{Gene Ontology}, d'obtenir les statistiques fondamentales (nombre de termes GO, produits géniques chargés) et d'effectuer des calculs topologiques comme la profondeur des sous-ontologies.
 
-Le choix de Python, langage de haut niveau, a facilité l'implémentation des structures de données. Si cette accessibilité a permis un développement rapide, certains algorithmes se sont révélés coûteux en temps de calcul sur des volumes de données importants, nécessitant une optimisation (indexation).
+Le choix de Python, langage de haut niveau, a facilité l'implémentation des structures de données. Si cette accessibilité a permis un développement rapide, certains algorithmes se sont révélés coûteux en temps de calcul sur des volumes de données importants, nécessitant une optimisatio.
 
-Les librairies produites restent perfectibles, notamment concernant la visualisation graphique des réseaux qui n'a pas été abordée ici. Néanmoins, ce travail constitue une base fonctionnelle solide pour mener des études d'annotation fonctionnelle, de phylogénie, d'analyse médicale ou encore de génomique comparative.
+Les librairies produites restent perfectibles, notamment concernant la visualisation graphique des réseaux qui n'a pas été abordée ici, une interface graphique client pourrait très bien etre developpé. Néanmoins, ce travail constitue une base fonctionnelle pour mener des études d'annotation fonctionnelle, de phylogénie, d'analyse médicale ou encore de génomique comparative.
 
 \section{Section spéciale : Méthodologie de travail}
 
-Dans le cadre de ce projet, j'ai travaillé en autonomie pour l'analyse, la conception et l'implémentation des modules. J'ai également consulté les supports de cours ainsi que la documentation officielle de la \textit{Gene Ontology} pour comprendre la structure des fichiers OBO.
+Dans le cadre de ce projet, j'ai travaillé en autonomie pour l'analyse, la conception et l'implémentation des modules. J'ai également consulté les supports de cours, le projet de Camille-Astrid RODRIGUES (\url{https://github.com/CamilleAstrid/Algorithmes_de_Graphes_et_Annotation_Fonctionnelle-Etude_Proteomique_Rattus_norvegicus}) ainsi que la documentation de la \textit{Gene Ontology} pour comprendre la structure des fichiers OBO.
 
 Conformément aux consignes, j'ai eu recours à l'intelligence artificielle générative (Gemini) comme assistant de développement. Ce recours a été transparent et s'est limité à trois aspects spécifiques :
 
 \begin{itemize}
-  \item \textbf{Débogage syntaxique :} Aide à la correction d'erreurs Python et à la gestion des exceptions lors du parsing des fichiers textes.
-  \item \textbf{Optimisation algorithmique :} C'est sur ce point que l'aide a été la plus cruciale. Lors du développement de la fonction \texttt{max\_depth}, la première version de l'algorithme demandait trop de ressources (temps de calcul excessif lié à une complexité quadratique). Gemini m'a aidé et a proposé une solution basée sur un pré-calcul des relations (index inversé).
-  \item \textbf{Rédaction technique et orthographique :} Assistance pour la formalisation des algorithmes en pseudo-code (utilisés dans ce rapport), la vérification de la clarté des docstrings et la correction du rapport.
+    \item \textbf{Débogage syntaxique :} Aide à la correction d'erreurs Python et à la gestion des exceptions lors du parsing des fichiers textes.
+    \item \textbf{Optimisation algorithmique :} C'est sur ce point que l'aide a été la plus cruciale. Lors du développement de la fonction \texttt{max\_depth}, la première version de l'algorithme demandait trop de ressources (temps de calcul excessif lié à une complexité quadratique). Gemini m'a aidé et a proposé une solution basée sur un pré-calcul des relations (index inversé).
+    \item \textbf{Rédaction technique et orthographique :} Assistance pour la formalisation des algorithmes en pseudo-code (utilisés dans ce rapport), la vérification de la clarté des docstrings et la correction du rapport.
 \end{itemize}
 
 J'ai configuré l'assistant avec une consigne imposant des contraintes pédagogiques strictes :
 
 \begin{itemize}
-  \item \textbf{Interdiction de fournir du code source :} L'IA avait pour consigne explicite de \textit{« ne jamais fournir de code directement »} mais exclusivement du pseudocode ou des descriptions algorithmiques, m'obligeant à traduire moi-même la logique en Python.
-  \item \textbf{Rôle d'expert-conseil :} L'assistant a été paramétré pour agir en tant qu'\textit{« expert en bioinformatique spécialisé dans la théorie des graphes »}, avec pour but de guider la conception sans donner la solution finale.
-  \item \textbf{Ancrage dans le cours :} Les explications devaient faire le lien avec les concepts théoriques du cours et les structures de données du TP (listes d'adjacence, dictionnaires), assurant une certaine cohérence avec l'enseignement.
+    \item \textbf{Interdiction de fournir du code source :} L'IA avait pour consigne explicite de \textit{« ne jamais fournir de code directement »} mais exclusivement du pseudocode ou des descriptions algorithmiques, m'obligeant à traduire moi-même la logique en Python.
+    \item \textbf{Rôle d'expert-conseil :} L'assistant a été paramétré pour agir en tant qu'\textit{« expert en bioinformatique spécialisé dans la théorie des graphes »}, avec pour but de guider la conception sans donner la solution finale.
+    \item \textbf{Ancrage dans le cours :} Les explications devaient faire le lien avec les concepts théoriques du cours et les structures de données du TP (listes d'adjacence, dictionnaires), assurant une certaine cohérence avec l'enseignement.
 \end{itemize}
-
-% ============================
-% ANNEXES (CODE SOURCE)
-% ============================
-\newpage
-\appendix
-\section{Annexes : Codes Sources}
-
-\subsection{Librairie gm.py (GraphMaster)}
-\begin{minted}{python}
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-Graph Manipulation Library (gm.py)
-==================================
-Auteurs : Florent LE QUELLEC
-
-Cette bibliothèque fournit un ensemble de fonctions pour manipuler des graphes
-représentés sous forme de dictionnaires Python. Compatible avec des graphes
-dirigés ou non dirigés, pondérés ou non, et intégrable dans des workflows
-bioinformatiques ou analytiques légers.
-
-Dépendances : polars, pandas
-"""
-
-import polars as pl
-import pandas as pd
-from pprint import pprint
-
-class graph:
-    """
-    Classe représentant un graphe (orienté ou non, pondéré ou non).
-    Structure de données : Liste d'adjacence via des dictionnaires imbriqués.
-    """
-
-    def __init__(self, directed=True, weighted=False, weight_attribute=None):
-        """
-        Initialise un graphe vide.
-
-        Parameters
-        ----------
-        directed : bool, optional
-            Indique si le graphe est dirigé (True) ou non dirigé (False). Par défaut True.
-        weighted : bool, optional
-            Indique si le graphe possède des poids d’arêtes. Par défaut False.
-        weight_attribute : str, optional
-            Nom de l’attribut de poids si applicable (ex: 'weight', 'distance').
-        """
-        self.nodes = {}  # Stocke les nœuds et leurs attributs : {id: {attr: val}}
-        self.edges = {}  # Stocke la structure : {source: {cible: {attr: val}}}
-        self.directed = directed
-        self.weighted = weighted
-        self.weight_attribute = weight_attribute
-
-    def __str__(self):
-        """Représentation textuelle du graphe."""
-        lines = [
-            f"Graphe {'dirigé' if self.directed else 'non dirigé'}",
-            f"Nombre de nœuds : {len(self.nodes)}",
-            f"Nombre d'arêtes : {self.nb_edges()}",
-            "--- Aperçu des arêtes ---"
-        ]
-        # On limite l'affichage pour éviter de saturer la console sur les gros graphes
-        count = 0
-        for u, targets in self.edges.items():
-            for v, attrs in targets.items():
-                if count < 10:
-                    lines.append(f"  {u} -> {v}  {attrs}")
-                count += 1
-        if count >= 10:
-            lines.append(f"  ... (+ {count - 10} autres arêtes)")
-        return "\n".join(lines)
-
-    def node_exists(self, n):
-        """
-        Vérifie si un nœud existe dans le graphe.
-
-        Parameters
-        ----------
-        n : str or int
-            Identifiant du nœud à tester.
-
-        Returns
-        -------
-        bool
-            True si le nœud existe, False sinon.
-        """
-        return n in self.nodes
-
-    def add_node(self, node_id, attributes=None):
-        """
-        Ajoute un nœud au graphe s’il n’existe pas déjà.
-
-        Parameters
-        ----------
-        node_id : str or int
-            Identifiant du nœud à ajouter.
-        attributes : dict, optional
-            Dictionnaire d’attributs associés au nœud.
-
-        Returns
-        -------
-        dict
-            Dictionnaire des attributs du nœud ajouté (ou existant).
-        """
-        if node_id not in self.nodes:
-            self.nodes[node_id] = attributes or {}
-            self.edges[node_id] = {}  # initialise le dictionnaire des voisins
-        return self.nodes[node_id]
-
-    def edge_exists(self, n1, n2):
-        """
-        Vérifie si une arête entre deux nœuds existe.
-
-        Parameters
-        ----------
-        n1 : str or int
-            Nœud source.
-        n2 : str or int
-            Nœud cible.
-
-        Returns
-        -------
-        bool
-            True si l’arête (n1, n2) existe, False sinon.
-        """
-        return n1 in self.edges and n2 in self.edges[n1]
-
-    def add_edge(self, node_id1, node_id2, attributes=None):
-        """
-        Ajoute une arête entre deux nœuds. Crée les nœuds automatiquement s'ils manquent.
-
-        Si le graphe est non dirigé, l'arête est ajoutée dans les deux sens
-        (node_id1 -> node_id2 et node_id2 -> node_id1) partageant les mêmes attributs.
-
-        Parameters
-        ----------
-        node_id1 : str or int
-            Identifiant du nœud source.
-        node_id2 : str or int
-            Identifiant du nœud cible.
-        attributes : dict, optional
-            Dictionnaire d’attributs de l’arête.
-
-        Returns
-        -------
-        dict
-            Dictionnaire des attributs de l’arête ajoutée.
-        """
-        self.add_node(node_id1)
-        self.add_node(node_id2)
-
-        # On évite d'écraser une arête existante sauf si nécessaire
-        if not self.edge_exists(node_id1, node_id2):
-            attr = attributes or {}
-            self.edges[node_id1][node_id2] = attr
-
-            if not self.directed:
-                # Partage de la référence du dictionnaire d'attributs
-                self.edges[node_id2][node_id1] = self.edges[node_id1][node_id2]
-
-        return self.edges[node_id1][node_id2]
-
-    def get_nodes(self):
-        """
-        Renvoie la liste triée des identifiants de nœuds du graphe.
-        (Renommé de 'nodes' pour éviter la confusion avec l'attribut self.nodes).
-
-        Returns
-        -------
-        list
-            Liste triée des clés des nœuds.
-        """
-        return sorted(self.nodes.keys())
-
-    def nb_nodes(self):
-        """
-        Renvoie le nombre de nœuds du graphe.
-
-        Returns
-        -------
-        int
-            Nombre de nœuds.
-        """
-        return len(self.nodes)
-
-    def nb_edges(self):
-        """
-        Renvoie le nombre d'arêtes du graphe.
-
-        Pour les graphes non dirigés, divise le total par 2 car chaque arête
-        est stockée deux fois (u->v et v->u).
-
-        Returns
-        -------
-        int
-            Nombre d'arêtes.
-        """
-        count = sum(len(v) for v in self.edges.values())
-        return count // 2 if not self.directed else count
-
-    def neighbors(self, node_id):
-        """
-        Renvoie la liste des voisins (successeurs) d’un nœud donné.
-
-        Parameters
-        ----------
-        node_id : str or int
-            Identifiant du nœud.
-
-        Returns
-        -------
-        list
-            Liste des identifiants de nœuds voisins.
-        """
-        if node_id in self.edges:
-            return list(self.edges[node_id].keys())
-        return []
-
-    def predecessors(self, node_id):
-        """
-        Renvoie la liste des nœuds qui pointent vers node_id.
-        (Parents dans un arbre, ou prédécesseurs dans un graphe orienté).
-
-        Parameters
-        ----------
-        node_id : str or int
-            Identifiant du nœud cible.
-
-        Returns
-        -------
-        list
-            Liste des prédécesseurs.
-        """
-        # Si le graphe n'est pas orienté, voisins = prédécesseurs
-        if not self.directed:
-            return self.neighbors(node_id)
-
-        preds = []
-        # On parcourt tous les nœuds sources possibles
-        for u in self.edges:
-            if node_id in self.edges[u]:
-                preds.append(u)
-        return preds
-
-    def edges_tuples(self):
-        """
-        Renvoie la liste de toutes les arêtes sous forme de tuples (source, cible).
-
-        Returns
-        -------
-        list of tuple
-            Liste de tuples (u, v).
-        """
-        return [(u, v) for u in self.nodes for v in self.neighbors(u)]
-
-    @classmethod
-    def read_delim(cls, filename, column_separator='\t', directed=True, weighted=False, weight_attribute=None):
-        """
-        Lit un fichier délimité (ex: TSV, CSV) et construit un objet graph.
-
-        Les deux premières colonnes représentent les nœuds connectés (Source, Target),
-        les suivantes contiennent les attributs d’arêtes.
-
-        Parameters
-        ----------
-        filename : str
-            Chemin vers le fichier à lire.
-        column_separator : str, optional
-            Caractère de séparation (par défaut : tabulation).
-        directed : bool, optional
-            Indique si le graphe doit être dirigé.
-        weighted : bool, optional
-            Indique si le graphe doit être pondéré.
-        weight_attribute : str, optional
-            Nom de l’attribut de poids.
-
-        Returns
-        -------
-        graph
-            Instance de la classe graph remplie.
-        """
-        # Lecture optimisée avec Polars
-        try:
-            df = pl.read_csv(
-                filename,
-                separator=column_separator,
-                has_header=True,
-                infer_schema_length=1000,
-                quote_char=None,
-                truncate_ragged_lines=True
-            )
-        except Exception as e:
-            print(f"Erreur lors de la lecture du fichier : {e}")
-            return cls()
-
-        cols = df.columns
-        if len(cols) < 2:
-            raise ValueError("Le fichier doit contenir au moins deux colonnes (source, target).")
-
-        src_col, tgt_col = cols[0], cols[1]
-        att_cols = cols[2:]
-
-        # Création de l'instance
-        g = cls(directed=directed, weighted=weighted, weight_attribute=weight_attribute)
-
-        # Conversion en pandas pour l'itération (souvent plus simple pour les lignes mixtes)
-        pdf = df.to_pandas()
-
-        for _, row in pdf.iterrows():
-            u = row[src_col]
-            v = row[tgt_col]
-            # Création du dictionnaire d'attributs pour l'arête
-            att = {col: row[col] for col in att_cols}
-            g.add_edge(u, v, att)
-
-        return g
-
-    def BFS(self, s, cible=None):
-        """
-        Algorithme de parcours en largeur (Breadth-First Search).
-        Calcule les plus courts chemins (en nombre d'arêtes) depuis une source.
-
-        Parameters
-        ----------
-        s : str or int
-            Sommet de départ.
-        cible : str or int, optional
-            Sommet d'arrivée. Si spécifié, l'algorithme s'arrête dès qu'il est trouvé.
-
-        Returns
-        -------
-        dict
-            Si cible est trouvée : {'Distance': int, 'chemin': list, 'source': s}
-            Sinon (parcours complet) : {'etats': dict, 'distances': dict, 'parents': dict, 'source': s}
-        """
-        if s not in self.nodes:
-            print(f"Erreur : Le nœud de départ {s} n'existe pas.")
-            return {}
-
-        # Initialisation
-        etats = {u: 'blanc' for u in self.nodes}
-        distances = {u: float('inf') for u in self.nodes}
-        parents = {u: None for u in self.nodes}
-
-        etats[s] = 'gris'  # En cours de visite
-        distances[s] = 0
-        attente = [s]      # File (FIFO)
-
-        while attente:
-            u = attente.pop(0)
-
-            if cible and u == cible:
-                break
-
-            for voisin in self.neighbors(u):
-                if etats[voisin] == 'blanc':
-                    etats[voisin] = 'gris'
-                    distances[voisin] = distances[u] + 1
-                    parents[voisin] = u
-                    attente.append(voisin)
-
-            etats[u] = 'noir'  # Visité
-
-        # Reconstruction du chemin si une cible était demandée
-        if cible:
-            if parents[cible] is not None or cible == s:
-                chemin = [cible]
-                curr = cible
-                while curr != s:
-                    curr = parents[curr]
-                    chemin.append(curr)
-                chemin.reverse()
-                return {"Distance": distances[cible], "chemin": chemin, "source": s}
-            else:
-                return {"Distance": float('inf'), "chemin": [], "source": s, "error": "Cible inatteignable"}
-
-        return {"etats": etats, "distances": distances, "parents": parents, "source": s}
-
-    def connected_components(self):
-        """
-        Identifie les composantes connexes d’un graphe NON orienté via BFS.
-
-        Returns
-        -------
-        dict
-            Dictionnaire {node_id: component_id}.
-        """
-        if self.directed:
-            print("Attention : connected_components est conçu pour les graphes non orientés.")
-            # On continue quand même, mais le résultat représente des composantes faiblement connexes
-            # si on ignore la direction, ou juste l'accessibilité si on la garde.
-
-        n_CC = 0
-        CC = {u: None for u in self.nodes}
-
-        for u in self.nodes:
-            if CC[u] is None:
-                # On lance un BFS complet depuis ce nœud non visité
-                parcours = self.BFS(u)
-
-                # Tous les nœuds atteints appartiennent à la composante n_CC
-                # Le BFS retourne 'distances' pour les nœuds visités
-                visited_nodes = [n for n, d in parcours['distances'].items() if d != float('inf')]
-
-                for v in visited_nodes:
-                    CC[v] = n_CC
-                n_CC += 1
-        return CC
-
-    def sousgraphe_induit(self, nodes_subset):
-        """
-        Crée un sous-graphe induit par une liste de nœuds donnée.
-
-        Parameters
-        ----------
-        nodes_subset : list
-            Liste des identifiants de nœuds à conserver.
-
-        Returns
-        -------
-        graph
-            Nouveau graphe contenant uniquement les nœuds spécifiés et les arêtes entre eux.
-        """
-        sg = graph(
-            directed=self.directed,
-            weighted=self.weighted,
-            weight_attribute=self.weight_attribute
-        )
-
-        # Ajout des nœuds
-        for u in nodes_subset:
-            if u in self.nodes:
-                sg.add_node(u, self.nodes[u])
-
-        # Ajout des arêtes existantes entre ces nœuds
-        for u in nodes_subset:
-            if u in self.edges:
-                for v, attrs in self.edges[u].items():
-                    if v in nodes_subset:
-                        sg.add_edge(u, v, attrs)
-
-        return sg
-
-    def edges_filter(self, attribut, seuil):
-        """
-        Filtre le graphe pour ne garder que les arêtes respectant un critère numérique.
-
-        Parameters
-        ----------
-        attribut : str
-            Nom de l'attribut de l'arête à tester (ex: 'weight').
-        seuil : float
-            Valeur minimale pour conserver l'arête.
-
-        Returns
-        -------
-        graph
-            Nouveau graphe filtré.
-        """
-        G_filtre = graph(directed=self.directed, weighted=self.weighted)
-
-        # On copie tous les nœuds
-        for node_id, attrs in self.nodes.items():
-            G_filtre.add_node(node_id, attrs)
-
-        # On ne copie que les arêtes valides
-        for u in self.edges:
-            for v, attrs in self.edges[u].items():
-                if attribut in attrs and attrs[attribut] >= seuil:
-                    G_filtre.add_edge(u, v, attrs)
-        return G_filtre
-
-    def clustering_coefficient(self):
-        """
-        Calcule le coefficient de clustering local pour chaque nœud.
-        C = (nombre de liens entre voisins) / (nombre de liens possibles entre voisins).
-
-        Returns
-        -------
-        dict
-            {node_id: coefficient (float entre 0 et 1)}
-        """
-        coeffs = {}
-        for node_id in self.nodes:
-            voisins = self.neighbors(node_id)
-            k = len(voisins)
-
-            # Si moins de 2 voisins, pas de connexions possibles entre eux -> coeff = 0
-            if k < 2:
-                coeffs[node_id] = 0.0
-                continue
-
-            liens_reels = 0
-            # On regarde toutes les paires de voisins uniques
-            for v1 in voisins:
-                for v2 in voisins:
-                    if v1 != v2:
-                        if self.edge_exists(v1, v2):
-                            liens_reels += 1
-
-            # Nombre max de liens possibles entre k voisins
-            # k * (k-1) pour dirigé, k * (k-1) / 2 pour non dirigé.
-            # Ici l'algo compte v1->v2 et v2->v1 séparément dans la boucle,
-            # donc on divise par k*(k-1) dans tous les cas pour normaliser.
-            coeffs[node_id] = liens_reels / (k * (k - 1))
-
-        return coeffs
-
-    def DFS(self):
-        """
-        Algorithme de parcours en profondeur (Depth-First Search).
-        Utilisé pour la classification des arêtes, la détection de cycles et le tri topologique.
-
-        Returns
-        -------
-        dict
-            Structure contenant l'état du parcours, les temps de découverte/fin,
-            la classification des arêtes et l'ordre de fin.
-        """
-        a = {
-            'etat': {},
-            'parents': {},
-            'decouvert': {}, # Timestamp de début
-            'fin': {},       # Timestamp de fin
-            'classification': {}, # Types d'arêtes
-            'ordre_fin': [], # Liste pour tri topologique
-            'temps': 0
-        }
-
-        # Initialisation
-        for u in self.nodes:
-            a['etat'][u] = 'inexplore'
-            a['parents'][u] = None
-
-        # Boucle principale pour traiter les composantes disjointes
-        for u in self.nodes:
-            if a['etat'][u] == 'inexplore':
-                self._DFSvisite(u, a)
-        return a
-
-    def _DFSvisite(self, u, a):
-        """Fonction interne récursive pour le DFS."""
-        a['etat'][u] = 'decouvert'
-        a['temps'] += 1
-        a['decouvert'][u] = a['temps']
-
-        for v in self.neighbors(u):
-            if a['etat'][v] == 'inexplore':
-                a['parents'][v] = u
-                a['classification'][(u, v)] = 'branche'
-                self._DFSvisite(v, a)
-            elif a['etat'][v] == 'decouvert':
-                # Arête vers un ancêtre non terminé -> Cycle détecté
-                a['classification'][(u, v)] = 'retour'
-            elif a['decouvert'][u] < a['decouvert'][v]:
-                a['classification'][(u, v)] = 'arete avant'
-            else:
-                a['classification'][(u, v)] = 'transversale' # Cross edge
-
-        a['etat'][u] = 'traite'
-        a['temps'] += 1
-        a['fin'][u] = a['temps']
-
-        # Ajout à la liste pour le tri topologique (post-ordre)
-        a['ordre_fin'].append(u)
-        return a
-
-    def is_acyclic(self):
-        """
-        Vérifie si le graphe est acyclique (DAG).
-
-        Returns
-        -------
-        bool
-            True si acyclique, False si contient un cycle.
-        """
-        # Un cycle existe ssi le DFS trouve une arête 'retour'
-        res = self.DFS()
-        for type_arete in res['classification'].values():
-            if type_arete == 'retour':
-                return False
-        return True
-
-    def topological_sort(self):
-        """
-        Effectue un tri topologique des nœuds (uniquement pour les DAG).
-
-        Returns
-        -------
-        list or None
-            Liste des nœuds ordonnée linéairement, ou None si cycle détecté.
-        """
-        if not self.is_acyclic():
-            print("Erreur : Le graphe contient un cycle, tri topologique impossible.")
-            return None
-
-        res = self.DFS()
-        # L'ordre topologique est l'inverse de l'ordre de fin de traitement
-        return res['ordre_fin'][::-1]
-
-
-##### Tests unitaires basiques #####
-if __name__ == "__main__":
-    print("# Graph lib tests")
-
-    print("\n## 1. Création et affichage")
-    g = graph(directed=True)
-    g.add_node('A')
-    g.add_node('B')
-    g.add_edge('A', 'B', {'weight': 5})
-    print(g)
-
-    print("\n## 2. Graphe non dirigé")
-    g2 = graph(directed=False)
-    g2.add_edge('A', 'B')
-    g2.add_edge('A', 'C')
-    g2.add_edge('B', 'D')
-    g2.add_edge('C', 'E')
-    # Création d'un cycle pour tester is_acyclic plus tard (A-B-D-A impossible direct mais A-B-A oui en non dirigé)
-    # Pour le test clustering
-    g2.add_edge('B', 'C')
-
-    print(g2)
-    print(f"Nombre de noeuds: {g2.nb_nodes()}")
-    print(f"Nombre d'arêtes: {g2.nb_edges()}")
-
-    print("\n## 3. BFS (Plus court chemin)")
-    # Chemin A -> E
-    res_bfs = g2.BFS('A', 'E')
-    print("Chemin A -> E :", res_bfs.get('chemin'))
-    print("Distance :", res_bfs.get('Distance'))
-
-    print("\n## 4. Clustering Coefficient")
-    cc = g2.clustering_coefficient()
-    print("Coefficients de clustering :", cc)
-
-    print("\n## 5. DFS et Tri Topologique (Sur un DAG)")
-    dag = graph(directed=True)
-    dag.add_edge('Chemise', 'Ceinture')
-    dag.add_edge('Chemise', 'Cravate')
-    dag.add_edge('Cravate', 'Veste')
-    dag.add_edge('Ceinture', 'Veste')
-    dag.add_edge('Pantalon', 'Ceinture')
-    dag.add_edge('Pantalon', 'Chaussures')
-    dag.add_edge('Chaussettes', 'Chaussures')
-
-    print("Est acyclique ?", dag.is_acyclic())
-    print("Tri topologique (Ordre d'habillage) :", dag.topological_sort())
-
-    print("\n## 6. Détection de cycle")
-    cycle_g = graph(directed=True)
-    cycle_g.add_edge('A', 'B')
-    cycle_g.add_edge('B', 'C')
-    cycle_g.add_edge('C', 'A') # Cycle
-    print("Graphe cyclique est acyclique ?", cycle_g.is_acyclic())
-\end{minted}
-
-\newpage
-\subsection{Module geneontology.py}
-\begin{minted}{python}
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-Gene Ontology Analysis Module (geneontology.py)
-===============================================
-Auteurs : Florent LE QUELLEC
-
-Ce module permet de charger et de manipuler les données de la Gene Ontology (GO).
-Il construit un graphe orienté acyclique (DAG) à partir des fichiers de définition
-(.obo) et y associe les annotations géniques (.goa/.gaf).
-
-Fonctionnalités principales :
-- Parsing robuste des fichiers OBO (gestion des forward references).
-- Parsing des fichiers d'annotations (GOA).
-- Exploration de la hiérarchie (Ancêtres / Descendants).
-- Calcul optimisé de la profondeur des ontologies.
-
-Dépendances :
-    - gm (Module de gestion de graphe local)
-    - re (Expressions régulières)
-"""
-
-import re
-import sys
-import os
-import gm
-
-# --- Visualisation conceptuelle ---
-# Le graphe GO est un DAG (Directed Acyclic Graph).
-# Les arcs 'is_a' vont de l'Enfant vers le Parent (Spécifique -> Générique).
-#
-
-def load_OBO(filename='go-basic.obo'):
-    """
-    Parse un fichier OBO et construit un graphe de termes GO.
-
-    Cette fonction gère les références anticipées ("forward references") :
-    si un terme enfant fait référence à un parent qui n'a pas encore été
-    lu dans le fichier, le parent est créé à la volée (noeud squelette)
-    pour garantir la connectivité du graphe.
-
-    Parameters
-    ----------
-    filename : str, optional
-        Chemin vers le fichier .obo. Par défaut 'go-basic.obo'.
-
-    Returns
-    -------
-    gm.graph
-        Le graphe orienté contenant les termes GO.
-        Structure des arêtes : Enfant -> Parent (relations 'is_a', 'part_of').
-    """
-    go_graph = gm.graph(directed=True, weighted=False)
-    go_graph.alt_id = {} # Stockage des IDs alternatifs pour redirection
-
-    def parseTerm(lines):
-        """Fonction interne pour parser un bloc [Term] ligne par ligne."""
-        go_id = None
-        is_obsolete = False
-
-        # 1. Extraction ID et Obsolescence
-        for line in lines:
-            if line.startswith('id:'):
-                # Exemple : "id: GO:0000001" -> on garde "GO:0000001"
-                go_id = line.split()[1]
-            elif line.startswith('is_obsolete: true'):
-                is_obsolete = True
-
-        # On ignore les termes sans ID ou obsolètes
-        if not go_id or is_obsolete:
-            return
-
-        # 2. Création ou Mise à jour du nœud
-        # Note : Le nœud peut déjà exister (créé comme parent par un enfant lu avant)
-        if go_id not in go_graph.nodes:
-            go_graph.add_node(go_id, {'type': 'GOTerm'})
-        else:
-            # Si le nœud existait déjà, on confirme son type
-            go_graph.nodes[go_id]['type'] = 'GOTerm'
-
-        go_attr = go_graph.nodes[go_id]
-
-        # 3. Parsing des attributs et relations
-        for line in lines:
-            # Nettoyage des commentaires inline (ex: " ... ! description")
-            if ' ! ' in line:
-                line = line.split(' ! ')[0].strip()
-
-            if line.startswith('name:'):
-                go_attr['name'] = line.replace('name:', '').strip()
-            elif line.startswith('namespace:'):
-                go_attr['namespace'] = line.replace('namespace:', '').strip()
-            elif line.startswith('def:'):
-                # Nettoyage des guillemets autour de la définition
-                go_attr['def'] = line.replace('def:', '').strip().strip('"')
-            elif line.startswith('alt_id:'):
-                parts = line.split()
-                if len(parts) > 1:
-                    go_graph.alt_id[parts[1]] = go_id
-
-            # --- GESTION DES RELATIONS ---
-            parent_id = None
-            relation = None
-
-            if line.startswith('is_a:'):
-                parts = line.split()
-                if len(parts) >= 2:
-                    parent_id = parts[1]
-                    relation = 'is_a'
-
-            elif line.startswith('relationship: part_of'):
-                parts = line.split()
-                # On cherche l'élément qui ressemble à un ID GO
-                for p in parts:
-                    if p.startswith('GO:'):
-                        parent_id = p
-                        relation = 'part_of'
-                        break
-
-            # Ajout de l'arête avec sécurité "Forward Reference"
-            if parent_id:
-                # Si le parent n'existe pas encore, on le crée (squelette)
-                if parent_id not in go_graph.nodes:
-                    go_graph.add_node(parent_id, {'type': 'GOTerm'})
-
-                # Ajout de l'arête : Terme Courant (Enfant) -> Parent
-                go_graph.add_edge(go_id, parent_id, {'relationship': relation})
-
-    # Lecture principale du fichier
-    try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            buff = []
-            in_term = False
-            for line in f:
-                line = line.strip()
-                if not line: continue
-
-                if line == '[Term]':
-                    # Si on a fini de lire un terme précédent, on le parse
-                    if buff: parseTerm(buff)
-                    buff = []
-                    in_term = True
-                elif line == '[Typedef]':
-                    # On arrête le parsing si on tombe sur les définitions de types
-                    if buff: parseTerm(buff)
-                    break
-                elif in_term:
-                    buff.append(line)
-            # Ne pas oublier le dernier buffer à la fin du fichier
-            if buff and in_term: parseTerm(buff)
-
-    except FileNotFoundError:
-        print(f"Erreur critique: Le fichier {filename} est introuvable.")
-        return gm.graph()
-
-    return go_graph
-
-
-def load_GOA(go, filename, warnings=True):
-    """
-    Parse un fichier GOA (Gene Ontology Annotation) et ajoute les produits géniques au graphe.
-
-    Le format attendu est le format GAF (Gene Association File).
-    Les arcs créés vont du Gène vers le Terme GO.
-
-    Parameters
-    ----------
-    go : gm.graph
-        Le graphe GO chargé précédemment (objet mutable).
-    filename : str
-        Chemin vers le fichier .gaf/.goa.
-    warnings : bool, optional
-        Afficher les avertissements si un terme annoté n'existe pas dans l'OBO.
-
-    Returns
-    -------
-    None
-        Le graphe est modifié en place.
-    """
-    # Optimisation : Cache local pour éviter les lookups répétés sur self.nodes
-    nodes = go.nodes
-    alt_ids = go.alt_id
-
-    #
-
-    try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            for line in f:
-                if line.startswith('!'): continue # Ignore les commentaires
-
-                cols = line.rstrip().split('\t')
-                # Sécurité format GAF (min 15 colonnes, ici on vérifie 11 pour le nécessaire)
-                if len(cols) < 11: continue
-
-                gp_id = cols[1]  # DB_Object_ID (Identifiant unique du gène)
-                gt_id = cols[4]  # GO ID (Terme annoté)
-
-                # 1. Résolution d'identifiant alternatif
-                # (Si le fichier d'annotation utilise un vieil ID redirigé dans l'OBO)
-                if gt_id not in nodes and gt_id in alt_ids:
-                    gt_id = alt_ids[gt_id]
-
-                # 2. Vérification existence du terme
-                if gt_id not in nodes:
-                    if warnings:
-                        # Ce cas arrive si l'OBO est plus vieux que le GOA ou incomplet
-                        # print(f"⚠️ Impossible de rattacher {gp_id} à {gt_id} (Terme inconnu)")
-                        pass
-                    continue
-
-                # 3. Création du Produit Génique (s'il n'existe pas encore)
-                if gp_id not in nodes:
-                    go.add_node(gp_id, {
-                        'id': gp_id,
-                        'type': 'GeneProduct',
-                        'name': cols[2],     # Symbol
-                        'desc': cols[9],     # Full Name
-                        'aliases': cols[10].split('|')
-                    })
-
-                # 4. Ajout de l'annotation (Arête GeneProduct -> GOTerm)
-                e_attr = go.add_edge(gp_id, gt_id, {'relationship': 'annotation'})
-
-                # Ajout du code de preuve (ex: IEA, EXP...) à la liste des preuves pour cette arête
-                e_attr.setdefault('evidence-codes', []).append(cols[6])
-
-    except FileNotFoundError:
-        print(f"Erreur: Le fichier d'annotation {filename} est introuvable.")
-
-
-def GOTerms(go, gp_id, recursive=False):
-    """
-    Retourne les termes GO associés à un produit génique.
-
-    Parameters
-    ----------
-    go : gm.graph
-        Le graphe contenant l'ontologie et les annotations.
-    gp_id : str
-        L'identifiant du gène (GeneProduct).
-    recursive : bool, optional
-        Si True, remonte l'arbre pour inclure tous les termes parents (Ancêtres).
-        Si False, retourne uniquement les annotations directes.
-
-    Returns
-    -------
-    list
-        Liste des identifiants GO trouvés.
-    """
-    if gp_id not in go.nodes:
-        return []
-
-    # Les gènes pointent vers les termes (neighbors directs)
-    termes_initiaux = go.neighbors(gp_id)
-
-    if not recursive:
-        return list(termes_initiaux)
-    else:
-        # Parcours en largeur (BFS) pour remonter vers les parents (relation is_a)
-        # Note : Dans notre graphe, Edge = Enfant -> Parent, donc neighbors = Parents.
-        res = set(termes_initiaux)
-        file_attente = list(termes_initiaux)
-
-        while len(file_attente) != 0:
-            courant = file_attente.pop(0)
-            parents = go.neighbors(courant)
-
-            for parent in parents:
-                if parent not in res:
-                    res.add(parent)
-                    file_attente.append(parent)
-        return list(res)
-
-
-def GeneProducts(go, go_id, recursive=False):
-    """
-    Retourne les produits géniques associés à un terme GO.
-
-    Parameters
-    ----------
-    go : gm.graph
-        Le graphe.
-    go_id : str
-        L'identifiant du terme GO.
-    recursive : bool, optional
-        Si True, descend dans l'arbre pour inclure les gènes annotés
-        sur des termes enfants (Descendants / Plus spécifiques).
-
-    Returns
-    -------
-    list
-        Liste des identifiants de gènes trouvés.
-    """
-    if go_id not in go.nodes:
-        return []
-
-    termes_cible = {go_id}
-
-    # 1. Si récursif : On descend dans l'arbre pour trouver tous les termes spécifiques
-    if recursive:
-        file = [go_id]
-        ensemble_visites = {go_id}
-        while len(file) != 0:
-            term = file.pop()
-            # On cherche qui pointe vers nous (Predecessors = Enfants)
-            # Rappel : Edge = Enfant -> Parent
-            entrants = go.predecessors(term)
-
-            for entrant in entrants:
-                # On ne descend que dans les termes GO (on ne saute pas directement aux gènes)
-                # Utilisation de .get() pour sécurité (au cas où un nœud n'a pas de type)
-                if go.nodes[entrant].get('type') == 'GOTerm' and entrant not in ensemble_visites:
-                    termes_cible.add(entrant)
-                    ensemble_visites.add(entrant)
-                    file.append(entrant)
-
-    # 2. Pour tous les termes identifiés (racine + descendants), on récupère les gènes
-    # Les gènes sont des prédécesseurs des termes (Gene -> Terme)
-    genes_trouves = set()
-    for term in termes_cible:
-        sources = go.predecessors(term)
-        for source in sources:
-            if go.nodes[source].get('type') == 'GeneProduct':
-                genes_trouves.add(source)
-
-    return list(genes_trouves)
-
-
-def max_depth(go):
-    """
-    Calcule la profondeur maximale des 3 sous-ontologies (BP, MF, CC).
-
-    L'algorithme calcule la "Hauteur" de la racine, définie comme la longueur
-    du chemin le plus long de la racine vers une feuille (terme le plus spécifique).
-
-    Optimisation :
-    Utilise un index inversé pré-calculé pour transformer la recherche des enfants
-    (qui nécessite un scan complet O(N) dans gm.py) en accès direct O(1).
-
-    Parameters
-    ----------
-    go : gm.graph
-        Le graphe chargé.
-
-    Returns
-    -------
-    dict
-        {'BP': int, 'MF': int, 'CC': int}
-    """
-    racines = {
-        'BP': 'GO:0008150', # Biological Process
-        'MF': 'GO:0003674', # Molecular Function
-        'CC': 'GO:0005575'  # Cellular Component
-    }
-
-    resultats = {}
-    memo = {}
-
-    # --- OPTIMISATION : Construction de l'index inversé ---
-    # Structure : { Parent : [Liste des Enfants] }
-    # Permet de descendre dans l'arbre (Parent -> Enfant) instantanément.
-    print("   [Optimisation] Construction de l'index inversé...", end='', flush=True)
-
-    reverse_graph = {}
-    # On parcourt toutes les arêtes. Dans OBO : Source=Enfant, Cible=Parent.
-    for source_node in go.edges:
-        targets = go.edges[source_node] # targets = parents
-
-        for target_node in targets:
-            if target_node not in reverse_graph:
-                reverse_graph[target_node] = []
-            reverse_graph[target_node].append(source_node) # target a pour enfant source
-
-    print(" Fait.")
-    # ------------------------------------------------------
-
-    def get_height(u):
-        """Fonction récursive avec mémoïsation (Programmation dynamique)"""
-        if u in memo: return memo[u]
-
-        # Récupération optimisée des enfants
-        enfants = reverse_graph.get(u, [])
-
-        # FILTRAGE : On ne descend que vers d'autres termes GO
-        go_enfants = []
-        for c in enfants:
-            if c in go.nodes:
-                # On exclut les gènes (qui sont aussi des "enfants" dans le sens où ils pointent vers le terme)
-                # On accepte 'GOTerm' ou None (tolérance) mais pas 'GeneProduct'
-                if go.nodes[c].get('type') != 'GeneProduct':
-                    go_enfants.append(c)
-
-        # Cas de base : Feuille (pas d'enfants termes GO)
-        if not go_enfants:
-            memo[u] = 0
-            return 0
-
-        # Récursion : Hauteur = 1 + max(Hauteur des enfants)
-        try:
-            h = 1 + max(get_height(child) for child in go_enfants)
-        except ValueError:
-            h = 0
-
-        memo[u] = h
-        return h
-
-    # Lancement du calcul pour les 3 racines
-    for nom, root_id in racines.items():
-        if root_id in go.nodes:
-            try:
-                memo = {} # Reset du cache par sécurité entre les ontologies
-                resultats[nom] = get_height(root_id)
-            except RecursionError:
-                print(f"Erreur: Profondeur excessive pour {nom} (Cycle possible ?)")
-                resultats[nom] = 0
-        else:
-            resultats[nom] = 0
-
-    return resultats
-
-
-##### Tests unitaires basiques #####
-if __name__ == "__main__":
-    print("# Gene Ontology module tests")
-
-    # Définition du chemin de test (à adapter selon votre arborescence)
-    # Recherche locale ou dans un sous-dossier 'data'
-    test_paths = [
-        "go-basic.obo",
-        "Python/data/projet/go-basic.obo",
-        "data/go-basic.obo"
-    ]
-
-    filename = None
-    for p in test_paths:
-        if os.path.exists(p):
-            filename = p
-            break
-
-    if filename:
-        print(f"Chargement de {filename}...")
-        go = load_OBO(filename)
-        print(f"Graph chargé : {len(go.nodes)} noeuds")
-
-        if len(go.nodes) > 0:
-            print("\nCalcul des profondeurs (max_depth)...")
-            depths = max_depth(go)
-            print("Profondeurs :", depths)
-
-            # Vérification de cohérence (CC ne doit pas être 0)
-            if depths.get('CC', 0) == 0:
-                print("⚠️  Avertissement : Profondeur CC nulle. Vérifiez les relations part_of.")
-    else:
-        print("⚠️  Fichier 'go-basic.obo' introuvable pour le test.")
-        print("   Veuillez placer le fichier dans le dossier courant ou modifier le chemin.")
-\end{minted}
 
 \nolinenumbers
 \printbibliography
