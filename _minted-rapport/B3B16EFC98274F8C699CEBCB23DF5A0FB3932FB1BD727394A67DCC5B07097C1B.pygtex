@@ -1,0 +1,457 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/env python}
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}*\PYGZhy{} coding: utf\PYGZhy{}8 \PYGZhy{}*\PYGZhy{}}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{Gene Ontology Analysis Module (geneontology.py)}
+\PYG{l+s+sd}{===============================================}
+\PYG{l+s+sd}{Auteurs : Florent LE QUELLEC}
+
+\PYG{l+s+sd}{Ce module permet de charger et de manipuler les données de la Gene Ontology (GO).}
+\PYG{l+s+sd}{Il construit un graphe orienté acyclique (DAG) à partir des fichiers de définition}
+\PYG{l+s+sd}{(.obo) et y associe les annotations géniques (.goa/.gaf).}
+
+\PYG{l+s+sd}{Fonctionnalités principales :}
+\PYG{l+s+sd}{\PYGZhy{} Parsing robuste des fichiers OBO (gestion des forward references).}
+\PYG{l+s+sd}{\PYGZhy{} Parsing des fichiers d\PYGZsq{}annotations (GOA).}
+\PYG{l+s+sd}{\PYGZhy{} Exploration de la hiérarchie (Ancêtres / Descendants).}
+\PYG{l+s+sd}{\PYGZhy{} Calcul optimisé de la profondeur des ontologies.}
+
+\PYG{l+s+sd}{Dépendances :}
+\PYG{l+s+sd}{    \PYGZhy{} gm (Module de gestion de graphe local)}
+\PYG{l+s+sd}{    \PYGZhy{} re (Expressions régulières)}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{re}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{sys}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{os}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{gm}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} Visualisation conceptuelle \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+c1}{\PYGZsh{} Le graphe GO est un DAG (Directed Acyclic Graph).}
+\PYG{c+c1}{\PYGZsh{} Les arcs \PYGZsq{}is\PYGZus{}a\PYGZsq{} vont de l\PYGZsq{}Enfant vers le Parent (Spécifique \PYGZhy{}\PYGZgt{} Générique).}
+\PYG{c+c1}{\PYGZsh{}}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{load\PYGZus{}OBO}\PYG{p}{(}\PYG{n}{filename}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}go\PYGZhy{}basic.obo\PYGZsq{}}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Parse un fichier OBO et construit un graphe de termes GO.}
+
+\PYG{l+s+sd}{    Cette fonction gère les références anticipées (\PYGZdq{}forward references\PYGZdq{}) :}
+\PYG{l+s+sd}{    si un terme enfant fait référence à un parent qui n\PYGZsq{}a pas encore été}
+\PYG{l+s+sd}{    lu dans le fichier, le parent est créé à la volée (noeud squelette)}
+\PYG{l+s+sd}{    pour garantir la connectivité du graphe.}
+
+\PYG{l+s+sd}{    Parameters}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    filename : str, optional}
+\PYG{l+s+sd}{        Chemin vers le fichier .obo. Par défaut \PYGZsq{}go\PYGZhy{}basic.obo\PYGZsq{}.}
+
+\PYG{l+s+sd}{    Returns}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    gm.graph}
+\PYG{l+s+sd}{        Le graphe orienté contenant les termes GO.}
+\PYG{l+s+sd}{        Structure des arêtes : Enfant \PYGZhy{}\PYGZgt{} Parent (relations \PYGZsq{}is\PYGZus{}a\PYGZsq{}, \PYGZsq{}part\PYGZus{}of\PYGZsq{}).}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{go\PYGZus{}graph} \PYG{o}{=} \PYG{n}{gm}\PYG{o}{.}\PYG{n}{graph}\PYG{p}{(}\PYG{n}{directed}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{weighted}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+    \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{alt\PYGZus{}id} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}} \PYG{c+c1}{\PYGZsh{} Stockage des IDs alternatifs pour redirection}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{parseTerm}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Fonction interne pour parser un bloc [Term] ligne par ligne.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{go\PYGZus{}id} \PYG{o}{=} \PYG{k+kc}{None}
+        \PYG{n}{is\PYGZus{}obsolete} \PYG{o}{=} \PYG{k+kc}{False}
+
+        \PYG{c+c1}{\PYGZsh{} 1. Extraction ID et Obsolescence}
+        \PYG{k}{for} \PYG{n}{line} \PYG{o+ow}{in} \PYG{n}{lines}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}id:\PYGZsq{}}\PYG{p}{):}
+                \PYG{c+c1}{\PYGZsh{} Exemple : \PYGZdq{}id: GO:0000001\PYGZdq{} \PYGZhy{}\PYGZgt{} on garde \PYGZdq{}GO:0000001\PYGZdq{}}
+                \PYG{n}{go\PYGZus{}id} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()[}\PYG{l+m+mi}{1}\PYG{p}{]}
+            \PYG{k}{elif} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}is\PYGZus{}obsolete: true\PYGZsq{}}\PYG{p}{):}
+                \PYG{n}{is\PYGZus{}obsolete} \PYG{o}{=} \PYG{k+kc}{True}
+
+        \PYG{c+c1}{\PYGZsh{} On ignore les termes sans ID ou obsolètes}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{go\PYGZus{}id} \PYG{o+ow}{or} \PYG{n}{is\PYGZus{}obsolete}\PYG{p}{:}
+            \PYG{k}{return}
+
+        \PYG{c+c1}{\PYGZsh{} 2. Création ou Mise à jour du nœud}
+        \PYG{c+c1}{\PYGZsh{} Note : Le nœud peut déjà exister (créé comme parent par un enfant lu avant)}
+        \PYG{k}{if} \PYG{n}{go\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{go\PYGZus{}id}\PYG{p}{,} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}GOTerm\PYGZsq{}}\PYG{p}{\PYGZcb{})}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Si le nœud existait déjà, on confirme son type}
+            \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{go\PYGZus{}id}\PYG{p}{][}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}GOTerm\PYGZsq{}}
+
+        \PYG{n}{go\PYGZus{}attr} \PYG{o}{=} \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{go\PYGZus{}id}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} 3. Parsing des attributs et relations}
+        \PYG{k}{for} \PYG{n}{line} \PYG{o+ow}{in} \PYG{n}{lines}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} Nettoyage des commentaires inline (ex: \PYGZdq{} ... ! description\PYGZdq{})}
+            \PYG{k}{if} \PYG{l+s+s1}{\PYGZsq{} ! \PYGZsq{}} \PYG{o+ow}{in} \PYG{n}{line}\PYG{p}{:}
+                \PYG{n}{line} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{} ! \PYGZsq{}}\PYG{p}{)[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+
+            \PYG{k}{if} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}name:\PYGZsq{}}\PYG{p}{):}
+                \PYG{n}{go\PYGZus{}attr}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}name:\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}namespace:\PYGZsq{}}\PYG{p}{):}
+                \PYG{n}{go\PYGZus{}attr}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}namespace\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}namespace:\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+            \PYG{k}{elif} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}def:\PYGZsq{}}\PYG{p}{):}
+                \PYG{c+c1}{\PYGZsh{} Nettoyage des guillemets autour de la définition}
+                \PYG{n}{go\PYGZus{}attr}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}def\PYGZsq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}def:\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZdq{}\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}alt\PYGZus{}id:\PYGZsq{}}\PYG{p}{):}
+                \PYG{n}{parts} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+                \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{parts}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                    \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{alt\PYGZus{}id}\PYG{p}{[}\PYG{n}{parts}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{go\PYGZus{}id}
+
+            \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} GESTION DES RELATIONS \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+            \PYG{n}{parent\PYGZus{}id} \PYG{o}{=} \PYG{k+kc}{None}
+            \PYG{n}{relation} \PYG{o}{=} \PYG{k+kc}{None}
+
+            \PYG{k}{if} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}is\PYGZus{}a:\PYGZsq{}}\PYG{p}{):}
+                \PYG{n}{parts} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+                \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{parts}\PYG{p}{)} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{2}\PYG{p}{:}
+                    \PYG{n}{parent\PYGZus{}id} \PYG{o}{=} \PYG{n}{parts}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+                    \PYG{n}{relation} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}is\PYGZus{}a\PYGZsq{}}
+
+            \PYG{k}{elif} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}relationship: part\PYGZus{}of\PYGZsq{}}\PYG{p}{):}
+                \PYG{n}{parts} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+                \PYG{c+c1}{\PYGZsh{} On cherche l\PYGZsq{}élément qui ressemble à un ID GO}
+                \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{parts}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{p}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}GO:\PYGZsq{}}\PYG{p}{):}
+                        \PYG{n}{parent\PYGZus{}id} \PYG{o}{=} \PYG{n}{p}
+                        \PYG{n}{relation} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}part\PYGZus{}of\PYGZsq{}}
+                        \PYG{k}{break}
+
+            \PYG{c+c1}{\PYGZsh{} Ajout de l\PYGZsq{}arête avec sécurité \PYGZdq{}Forward Reference\PYGZdq{}}
+            \PYG{k}{if} \PYG{n}{parent\PYGZus{}id}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Si le parent n\PYGZsq{}existe pas encore, on le crée (squelette)}
+                \PYG{k}{if} \PYG{n}{parent\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+                    \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{parent\PYGZus{}id}\PYG{p}{,} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}GOTerm\PYGZsq{}}\PYG{p}{\PYGZcb{})}
+
+                \PYG{c+c1}{\PYGZsh{} Ajout de l\PYGZsq{}arête : Terme Courant (Enfant) \PYGZhy{}\PYGZgt{} Parent}
+                \PYG{n}{go\PYGZus{}graph}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{go\PYGZus{}id}\PYG{p}{,} \PYG{n}{parent\PYGZus{}id}\PYG{p}{,} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}relationship\PYGZsq{}}\PYG{p}{:} \PYG{n}{relation}\PYG{p}{\PYGZcb{})}
+
+    \PYG{c+c1}{\PYGZsh{} Lecture principale du fichier}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{filename}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}utf\PYGZhy{}8\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+            \PYG{n}{buff} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n}{in\PYGZus{}term} \PYG{o}{=} \PYG{k+kc}{False}
+            \PYG{k}{for} \PYG{n}{line} \PYG{o+ow}{in} \PYG{n}{f}\PYG{p}{:}
+                \PYG{n}{line} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{strip}\PYG{p}{()}
+                \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{line}\PYG{p}{:} \PYG{k}{continue}
+
+                \PYG{k}{if} \PYG{n}{line} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}[Term]\PYGZsq{}}\PYG{p}{:}
+                    \PYG{c+c1}{\PYGZsh{} Si on a fini de lire un terme précédent, on le parse}
+                    \PYG{k}{if} \PYG{n}{buff}\PYG{p}{:} \PYG{n}{parseTerm}\PYG{p}{(}\PYG{n}{buff}\PYG{p}{)}
+                    \PYG{n}{buff} \PYG{o}{=} \PYG{p}{[]}
+                    \PYG{n}{in\PYGZus{}term} \PYG{o}{=} \PYG{k+kc}{True}
+                \PYG{k}{elif} \PYG{n}{line} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}[Typedef]\PYGZsq{}}\PYG{p}{:}
+                    \PYG{c+c1}{\PYGZsh{} On arrête le parsing si on tombe sur les définitions de types}
+                    \PYG{k}{if} \PYG{n}{buff}\PYG{p}{:} \PYG{n}{parseTerm}\PYG{p}{(}\PYG{n}{buff}\PYG{p}{)}
+                    \PYG{k}{break}
+                \PYG{k}{elif} \PYG{n}{in\PYGZus{}term}\PYG{p}{:}
+                    \PYG{n}{buff}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{line}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} Ne pas oublier le dernier buffer à la fin du fichier}
+            \PYG{k}{if} \PYG{n}{buff} \PYG{o+ow}{and} \PYG{n}{in\PYGZus{}term}\PYG{p}{:} \PYG{n}{parseTerm}\PYG{p}{(}\PYG{n}{buff}\PYG{p}{)}
+
+    \PYG{k}{except} \PYG{n+ne}{FileNotFoundError}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Erreur critique: Le fichier }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{filename}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ est introuvable.\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{gm}\PYG{o}{.}\PYG{n}{graph}\PYG{p}{()}
+
+    \PYG{k}{return} \PYG{n}{go\PYGZus{}graph}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{load\PYGZus{}GOA}\PYG{p}{(}\PYG{n}{go}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{,} \PYG{n}{warnings}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Parse un fichier GOA (Gene Ontology Annotation) et ajoute les produits géniques au graphe.}
+
+\PYG{l+s+sd}{    Le format attendu est le format GAF (Gene Association File).}
+\PYG{l+s+sd}{    Les arcs créés vont du Gène vers le Terme GO.}
+
+\PYG{l+s+sd}{    Parameters}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    go : gm.graph}
+\PYG{l+s+sd}{        Le graphe GO chargé précédemment (objet mutable).}
+\PYG{l+s+sd}{    filename : str}
+\PYG{l+s+sd}{        Chemin vers le fichier .gaf/.goa.}
+\PYG{l+s+sd}{    warnings : bool, optional}
+\PYG{l+s+sd}{        Afficher les avertissements si un terme annoté n\PYGZsq{}existe pas dans l\PYGZsq{}OBO.}
+
+\PYG{l+s+sd}{    Returns}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    None}
+\PYG{l+s+sd}{        Le graphe est modifié en place.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{c+c1}{\PYGZsh{} Optimisation : Cache local pour éviter les lookups répétés sur self.nodes}
+    \PYG{n}{nodes} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}
+    \PYG{n}{alt\PYGZus{}ids} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{alt\PYGZus{}id}
+
+    \PYG{c+c1}{\PYGZsh{}}
+
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{filename}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{,} \PYG{n}{encoding}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}utf\PYGZhy{}8\PYGZsq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{line} \PYG{o+ow}{in} \PYG{n}{f}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{line}\PYG{o}{.}\PYG{n}{startswith}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}!\PYGZsq{}}\PYG{p}{):} \PYG{k}{continue} \PYG{c+c1}{\PYGZsh{} Ignore les commentaires}
+
+                \PYG{n}{cols} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{rstrip}\PYG{p}{()}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+                \PYG{c+c1}{\PYGZsh{} Sécurité format GAF (min 15 colonnes, ici on vérifie 11 pour le nécessaire)}
+                \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{cols}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{11}\PYG{p}{:} \PYG{k}{continue}
+
+                \PYG{n}{gp\PYGZus{}id} \PYG{o}{=} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{} DB\PYGZus{}Object\PYGZus{}ID (Identifiant unique du gène)}
+                \PYG{n}{gt\PYGZus{}id} \PYG{o}{=} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]}  \PYG{c+c1}{\PYGZsh{} GO ID (Terme annoté)}
+
+                \PYG{c+c1}{\PYGZsh{} 1. Résolution d\PYGZsq{}identifiant alternatif}
+                \PYG{c+c1}{\PYGZsh{} (Si le fichier d\PYGZsq{}annotation utilise un vieil ID redirigé dans l\PYGZsq{}OBO)}
+                \PYG{k}{if} \PYG{n}{gt\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{nodes} \PYG{o+ow}{and} \PYG{n}{gt\PYGZus{}id} \PYG{o+ow}{in} \PYG{n}{alt\PYGZus{}ids}\PYG{p}{:}
+                    \PYG{n}{gt\PYGZus{}id} \PYG{o}{=} \PYG{n}{alt\PYGZus{}ids}\PYG{p}{[}\PYG{n}{gt\PYGZus{}id}\PYG{p}{]}
+
+                \PYG{c+c1}{\PYGZsh{} 2. Vérification existence du terme}
+                \PYG{k}{if} \PYG{n}{gt\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{nodes}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{warnings}\PYG{p}{:}
+                        \PYG{c+c1}{\PYGZsh{} Ce cas arrive si l\PYGZsq{}OBO est plus vieux que le GOA ou incomplet}
+                        \PYG{c+c1}{\PYGZsh{} print(f\PYGZdq{}⚠️ Impossible de rattacher \PYGZob{}gp\PYGZus{}id\PYGZcb{} à \PYGZob{}gt\PYGZus{}id\PYGZcb{} (Terme inconnu)\PYGZdq{})}
+                        \PYG{k}{pass}
+                    \PYG{k}{continue}
+
+                \PYG{c+c1}{\PYGZsh{} 3. Création du Produit Génique (s\PYGZsq{}il n\PYGZsq{}existe pas encore)}
+                \PYG{k}{if} \PYG{n}{gp\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{nodes}\PYG{p}{:}
+                    \PYG{n}{go}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{gp\PYGZus{}id}\PYG{p}{,} \PYG{p}{\PYGZob{}}
+                        \PYG{l+s+s1}{\PYGZsq{}id\PYGZsq{}}\PYG{p}{:} \PYG{n}{gp\PYGZus{}id}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}GeneProduct\PYGZsq{}}\PYG{p}{,}
+                        \PYG{l+s+s1}{\PYGZsq{}name\PYGZsq{}}\PYG{p}{:} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{],}     \PYG{c+c1}{\PYGZsh{} Symbol}
+                        \PYG{l+s+s1}{\PYGZsq{}desc\PYGZsq{}}\PYG{p}{:} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{],}     \PYG{c+c1}{\PYGZsh{} Full Name}
+                        \PYG{l+s+s1}{\PYGZsq{}aliases\PYGZsq{}}\PYG{p}{:} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{]}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}|\PYGZsq{}}\PYG{p}{)}
+                    \PYG{p}{\PYGZcb{})}
+
+                \PYG{c+c1}{\PYGZsh{} 4. Ajout de l\PYGZsq{}annotation (Arête GeneProduct \PYGZhy{}\PYGZgt{} GOTerm)}
+                \PYG{n}{e\PYGZus{}attr} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{gp\PYGZus{}id}\PYG{p}{,} \PYG{n}{gt\PYGZus{}id}\PYG{p}{,} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}relationship\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}annotation\PYGZsq{}}\PYG{p}{\PYGZcb{})}
+
+                \PYG{c+c1}{\PYGZsh{} Ajout du code de preuve (ex: IEA, EXP...) à la liste des preuves pour cette arête}
+                \PYG{n}{e\PYGZus{}attr}\PYG{o}{.}\PYG{n}{setdefault}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}evidence\PYGZhy{}codes\PYGZsq{}}\PYG{p}{,} \PYG{p}{[])}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{])}
+
+    \PYG{k}{except} \PYG{n+ne}{FileNotFoundError}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Erreur: Le fichier d\PYGZsq{}annotation }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{filename}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ est introuvable.\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{GOTerms}\PYG{p}{(}\PYG{n}{go}\PYG{p}{,} \PYG{n}{gp\PYGZus{}id}\PYG{p}{,} \PYG{n}{recursive}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Retourne les termes GO associés à un produit génique.}
+
+\PYG{l+s+sd}{    Parameters}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    go : gm.graph}
+\PYG{l+s+sd}{        Le graphe contenant l\PYGZsq{}ontologie et les annotations.}
+\PYG{l+s+sd}{    gp\PYGZus{}id : str}
+\PYG{l+s+sd}{        L\PYGZsq{}identifiant du gène (GeneProduct).}
+\PYG{l+s+sd}{    recursive : bool, optional}
+\PYG{l+s+sd}{        Si True, remonte l\PYGZsq{}arbre pour inclure tous les termes parents (Ancêtres).}
+\PYG{l+s+sd}{        Si False, retourne uniquement les annotations directes.}
+
+\PYG{l+s+sd}{    Returns}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    list}
+\PYG{l+s+sd}{        Liste des identifiants GO trouvés.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{if} \PYG{n}{gp\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+        \PYG{k}{return} \PYG{p}{[]}
+
+    \PYG{c+c1}{\PYGZsh{} Les gènes pointent vers les termes (neighbors directs)}
+    \PYG{n}{termes\PYGZus{}initiaux} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{gp\PYGZus{}id}\PYG{p}{)}
+
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{recursive}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{termes\PYGZus{}initiaux}\PYG{p}{)}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{} Parcours en largeur (BFS) pour remonter vers les parents (relation is\PYGZus{}a)}
+        \PYG{c+c1}{\PYGZsh{} Note : Dans notre graphe, Edge = Enfant \PYGZhy{}\PYGZgt{} Parent, donc neighbors = Parents.}
+        \PYG{n}{res} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{termes\PYGZus{}initiaux}\PYG{p}{)}
+        \PYG{n}{file\PYGZus{}attente} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{termes\PYGZus{}initiaux}\PYG{p}{)}
+
+        \PYG{k}{while} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{file\PYGZus{}attente}\PYG{p}{)} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{courant} \PYG{o}{=} \PYG{n}{file\PYGZus{}attente}\PYG{o}{.}\PYG{n}{pop}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+            \PYG{n}{parents} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{courant}\PYG{p}{)}
+
+            \PYG{k}{for} \PYG{n}{parent} \PYG{o+ow}{in} \PYG{n}{parents}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{parent} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{res}\PYG{p}{:}
+                    \PYG{n}{res}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{parent}\PYG{p}{)}
+                    \PYG{n}{file\PYGZus{}attente}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{parent}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{res}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{GeneProducts}\PYG{p}{(}\PYG{n}{go}\PYG{p}{,} \PYG{n}{go\PYGZus{}id}\PYG{p}{,} \PYG{n}{recursive}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Retourne les produits géniques associés à un terme GO.}
+
+\PYG{l+s+sd}{    Parameters}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    go : gm.graph}
+\PYG{l+s+sd}{        Le graphe.}
+\PYG{l+s+sd}{    go\PYGZus{}id : str}
+\PYG{l+s+sd}{        L\PYGZsq{}identifiant du terme GO.}
+\PYG{l+s+sd}{    recursive : bool, optional}
+\PYG{l+s+sd}{        Si True, descend dans l\PYGZsq{}arbre pour inclure les gènes annotés}
+\PYG{l+s+sd}{        sur des termes enfants (Descendants / Plus spécifiques).}
+
+\PYG{l+s+sd}{    Returns}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    list}
+\PYG{l+s+sd}{        Liste des identifiants de gènes trouvés.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{k}{if} \PYG{n}{go\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+        \PYG{k}{return} \PYG{p}{[]}
+
+    \PYG{n}{termes\PYGZus{}cible} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{go\PYGZus{}id}\PYG{p}{\PYGZcb{}}
+
+    \PYG{c+c1}{\PYGZsh{} 1. Si récursif : On descend dans l\PYGZsq{}arbre pour trouver tous les termes spécifiques}
+    \PYG{k}{if} \PYG{n}{recursive}\PYG{p}{:}
+        \PYG{n}{file} \PYG{o}{=} \PYG{p}{[}\PYG{n}{go\PYGZus{}id}\PYG{p}{]}
+        \PYG{n}{ensemble\PYGZus{}visites} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{go\PYGZus{}id}\PYG{p}{\PYGZcb{}}
+        \PYG{k}{while} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{file}\PYG{p}{)} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{term} \PYG{o}{=} \PYG{n}{file}\PYG{o}{.}\PYG{n}{pop}\PYG{p}{()}
+            \PYG{c+c1}{\PYGZsh{} On cherche qui pointe vers nous (Predecessors = Enfants)}
+            \PYG{c+c1}{\PYGZsh{} Rappel : Edge = Enfant \PYGZhy{}\PYGZgt{} Parent}
+            \PYG{n}{entrants} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{predecessors}\PYG{p}{(}\PYG{n}{term}\PYG{p}{)}
+
+            \PYG{k}{for} \PYG{n}{entrant} \PYG{o+ow}{in} \PYG{n}{entrants}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} On ne descend que dans les termes GO (on ne saute pas directement aux gènes)}
+                \PYG{c+c1}{\PYGZsh{} Utilisation de .get() pour sécurité (au cas où un nœud n\PYGZsq{}a pas de type)}
+                \PYG{k}{if} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{entrant}\PYG{p}{]}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{)} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}GOTerm\PYGZsq{}} \PYG{o+ow}{and} \PYG{n}{entrant} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{ensemble\PYGZus{}visites}\PYG{p}{:}
+                    \PYG{n}{termes\PYGZus{}cible}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{entrant}\PYG{p}{)}
+                    \PYG{n}{ensemble\PYGZus{}visites}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{entrant}\PYG{p}{)}
+                    \PYG{n}{file}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{entrant}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} 2. Pour tous les termes identifiés (racine + descendants), on récupère les gènes}
+    \PYG{c+c1}{\PYGZsh{} Les gènes sont des prédécesseurs des termes (Gene \PYGZhy{}\PYGZgt{} Terme)}
+    \PYG{n}{genes\PYGZus{}trouves} \PYG{o}{=} \PYG{n+nb}{set}\PYG{p}{()}
+    \PYG{k}{for} \PYG{n}{term} \PYG{o+ow}{in} \PYG{n}{termes\PYGZus{}cible}\PYG{p}{:}
+        \PYG{n}{sources} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{predecessors}\PYG{p}{(}\PYG{n}{term}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{source} \PYG{o+ow}{in} \PYG{n}{sources}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{source}\PYG{p}{]}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{)} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}GeneProduct\PYGZsq{}}\PYG{p}{:}
+                \PYG{n}{genes\PYGZus{}trouves}\PYG{o}{.}\PYG{n}{add}\PYG{p}{(}\PYG{n}{source}\PYG{p}{)}
+
+    \PYG{k}{return} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{genes\PYGZus{}trouves}\PYG{p}{)}
+
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{max\PYGZus{}depth}\PYG{p}{(}\PYG{n}{go}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Calcule la profondeur maximale des 3 sous\PYGZhy{}ontologies (BP, MF, CC).}
+
+\PYG{l+s+sd}{    L\PYGZsq{}algorithme calcule la \PYGZdq{}Hauteur\PYGZdq{} de la racine, définie comme la longueur}
+\PYG{l+s+sd}{    du chemin le plus long de la racine vers une feuille (terme le plus spécifique).}
+
+\PYG{l+s+sd}{    Optimisation :}
+\PYG{l+s+sd}{    Utilise un index inversé pré\PYGZhy{}calculé pour transformer la recherche des enfants}
+\PYG{l+s+sd}{    (qui nécessite un scan complet O(N) dans gm.py) en accès direct O(1).}
+
+\PYG{l+s+sd}{    Parameters}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    go : gm.graph}
+\PYG{l+s+sd}{        Le graphe chargé.}
+
+\PYG{l+s+sd}{    Returns}
+\PYG{l+s+sd}{    \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{    dict}
+\PYG{l+s+sd}{        \PYGZob{}\PYGZsq{}BP\PYGZsq{}: int, \PYGZsq{}MF\PYGZsq{}: int, \PYGZsq{}CC\PYGZsq{}: int\PYGZcb{}}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{racines} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+        \PYG{l+s+s1}{\PYGZsq{}BP\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}GO:0008150\PYGZsq{}}\PYG{p}{,} \PYG{c+c1}{\PYGZsh{} Biological Process}
+        \PYG{l+s+s1}{\PYGZsq{}MF\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}GO:0003674\PYGZsq{}}\PYG{p}{,} \PYG{c+c1}{\PYGZsh{} Molecular Function}
+        \PYG{l+s+s1}{\PYGZsq{}CC\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}GO:0005575\PYGZsq{}}  \PYG{c+c1}{\PYGZsh{} Cellular Component}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{n}{resultats} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+    \PYG{n}{memo} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} OPTIMISATION : Construction de l\PYGZsq{}index inversé \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+    \PYG{c+c1}{\PYGZsh{} Structure : \PYGZob{} Parent : [Liste des Enfants] \PYGZcb{}}
+    \PYG{c+c1}{\PYGZsh{} Permet de descendre dans l\PYGZsq{}arbre (Parent \PYGZhy{}\PYGZgt{} Enfant) instantanément.}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}   [Optimisation] Construction de l\PYGZsq{}index inversé...\PYGZdq{}}\PYG{p}{,} \PYG{n}{end}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{,} \PYG{n}{flush}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+
+    \PYG{n}{reverse\PYGZus{}graph} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+    \PYG{c+c1}{\PYGZsh{} On parcourt toutes les arêtes. Dans OBO : Source=Enfant, Cible=Parent.}
+    \PYG{k}{for} \PYG{n}{source\PYGZus{}node} \PYG{o+ow}{in} \PYG{n}{go}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{:}
+        \PYG{n}{targets} \PYG{o}{=} \PYG{n}{go}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{source\PYGZus{}node}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} targets = parents}
+
+        \PYG{k}{for} \PYG{n}{target\PYGZus{}node} \PYG{o+ow}{in} \PYG{n}{targets}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{target\PYGZus{}node} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n}{reverse\PYGZus{}graph}\PYG{p}{:}
+                \PYG{n}{reverse\PYGZus{}graph}\PYG{p}{[}\PYG{n}{target\PYGZus{}node}\PYG{p}{]} \PYG{o}{=} \PYG{p}{[]}
+            \PYG{n}{reverse\PYGZus{}graph}\PYG{p}{[}\PYG{n}{target\PYGZus{}node}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{source\PYGZus{}node}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} target a pour enfant source}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} Fait.\PYGZdq{}}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}height}\PYG{p}{(}\PYG{n}{u}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Fonction récursive avec mémoïsation (Programmation dynamique)\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n}{memo}\PYG{p}{:} \PYG{k}{return} \PYG{n}{memo}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} Récupération optimisée des enfants}
+        \PYG{n}{enfants} \PYG{o}{=} \PYG{n}{reverse\PYGZus{}graph}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{p}{[])}
+
+        \PYG{c+c1}{\PYGZsh{} FILTRAGE : On ne descend que vers d\PYGZsq{}autres termes GO}
+        \PYG{n}{go\PYGZus{}enfants} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{enfants}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{c} \PYG{o+ow}{in} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} On exclut les gènes (qui sont aussi des \PYGZdq{}enfants\PYGZdq{} dans le sens où ils pointent vers le terme)}
+                \PYG{c+c1}{\PYGZsh{} On accepte \PYGZsq{}GOTerm\PYGZsq{} ou None (tolérance) mais pas \PYGZsq{}GeneProduct\PYGZsq{}}
+                \PYG{k}{if} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{c}\PYG{p}{]}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}type\PYGZsq{}}\PYG{p}{)} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}GeneProduct\PYGZsq{}}\PYG{p}{:}
+                    \PYG{n}{go\PYGZus{}enfants}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Cas de base : Feuille (pas d\PYGZsq{}enfants termes GO)}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{go\PYGZus{}enfants}\PYG{p}{:}
+            \PYG{n}{memo}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{k}{return} \PYG{l+m+mi}{0}
+
+        \PYG{c+c1}{\PYGZsh{} Récursion : Hauteur = 1 + max(Hauteur des enfants)}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{n}{h} \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{+} \PYG{n+nb}{max}\PYG{p}{(}\PYG{n}{get\PYGZus{}height}\PYG{p}{(}\PYG{n}{child}\PYG{p}{)} \PYG{k}{for} \PYG{n}{child} \PYG{o+ow}{in} \PYG{n}{go\PYGZus{}enfants}\PYG{p}{)}
+        \PYG{k}{except} \PYG{n+ne}{ValueError}\PYG{p}{:}
+            \PYG{n}{h} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{n}{memo}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{n}{h}
+        \PYG{k}{return} \PYG{n}{h}
+
+    \PYG{c+c1}{\PYGZsh{} Lancement du calcul pour les 3 racines}
+    \PYG{k}{for} \PYG{n}{nom}\PYG{p}{,} \PYG{n}{root\PYGZus{}id} \PYG{o+ow}{in} \PYG{n}{racines}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{k}{if} \PYG{n}{root\PYGZus{}id} \PYG{o+ow}{in} \PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{k}{try}\PYG{p}{:}
+                \PYG{n}{memo} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}} \PYG{c+c1}{\PYGZsh{} Reset du cache par sécurité entre les ontologies}
+                \PYG{n}{resultats}\PYG{p}{[}\PYG{n}{nom}\PYG{p}{]} \PYG{o}{=} \PYG{n}{get\PYGZus{}height}\PYG{p}{(}\PYG{n}{root\PYGZus{}id}\PYG{p}{)}
+            \PYG{k}{except} \PYG{n+ne}{RecursionError}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Erreur: Profondeur excessive pour }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{nom}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ (Cycle possible ?)\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{resultats}\PYG{p}{[}\PYG{n}{nom}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{resultats}\PYG{p}{[}\PYG{n}{nom}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+    \PYG{k}{return} \PYG{n}{resultats}
+
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Tests unitaires basiques \PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}}
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{} Gene Ontology module tests\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Définition du chemin de test (à adapter selon votre arborescence)}
+    \PYG{c+c1}{\PYGZsh{} Recherche locale ou dans un sous\PYGZhy{}dossier \PYGZsq{}data\PYGZsq{}}
+    \PYG{n}{test\PYGZus{}paths} \PYG{o}{=} \PYG{p}{[}
+        \PYG{l+s+s2}{\PYGZdq{}go\PYGZhy{}basic.obo\PYGZdq{}}\PYG{p}{,}
+        \PYG{l+s+s2}{\PYGZdq{}Python/data/projet/go\PYGZhy{}basic.obo\PYGZdq{}}\PYG{p}{,}
+        \PYG{l+s+s2}{\PYGZdq{}data/go\PYGZhy{}basic.obo\PYGZdq{}}
+    \PYG{p}{]}
+
+    \PYG{n}{filename} \PYG{o}{=} \PYG{k+kc}{None}
+    \PYG{k}{for} \PYG{n}{p} \PYG{o+ow}{in} \PYG{n}{test\PYGZus{}paths}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{p}\PYG{p}{):}
+            \PYG{n}{filename} \PYG{o}{=} \PYG{n}{p}
+            \PYG{k}{break}
+
+    \PYG{k}{if} \PYG{n}{filename}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Chargement de }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{filename}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{...\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{go} \PYG{o}{=} \PYG{n}{load\PYGZus{}OBO}\PYG{p}{(}\PYG{n}{filename}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Graph chargé : }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ noeuds\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{go}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{Calcul des profondeurs (max\PYGZus{}depth)...\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{depths} \PYG{o}{=} \PYG{n}{max\PYGZus{}depth}\PYG{p}{(}\PYG{n}{go}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Profondeurs :\PYGZdq{}}\PYG{p}{,} \PYG{n}{depths}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Vérification de cohérence (CC ne doit pas être 0)}
+            \PYG{k}{if} \PYG{n}{depths}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}CC\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}⚠️  Avertissement : Profondeur CC nulle. Vérifiez les relations part\PYGZus{}of.\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}⚠️  Fichier \PYGZsq{}go\PYGZhy{}basic.obo\PYGZsq{} introuvable pour le test.\PYGZdq{}}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}   Veuillez placer le fichier dans le dossier courant ou modifier le chemin.\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

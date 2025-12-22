@@ -15,7 +15,6 @@ Dépendances : polars, pandas
 
 import polars as pl
 import pandas as pd
-# pprint est utile pour le debug, on le garde
 from pprint import pprint
 
 class graph:

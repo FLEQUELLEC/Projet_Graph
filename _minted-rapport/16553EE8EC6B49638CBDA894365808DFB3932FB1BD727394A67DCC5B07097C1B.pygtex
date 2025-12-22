@@ -1,0 +1,648 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/env python}
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}*\PYGZhy{} coding: utf\PYGZhy{}8 \PYGZhy{}*\PYGZhy{}}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{Graph Manipulation Library (gm.py)}
+\PYG{l+s+sd}{==================================}
+\PYG{l+s+sd}{Auteurs : Florent LE QUELLEC}
+
+\PYG{l+s+sd}{Cette bibliothèque fournit un ensemble de fonctions pour manipuler des graphes}
+\PYG{l+s+sd}{représentés sous forme de dictionnaires Python. Compatible avec des graphes}
+\PYG{l+s+sd}{dirigés ou non dirigés, pondérés ou non, et intégrable dans des workflows}
+\PYG{l+s+sd}{bioinformatiques ou analytiques légers.}
+
+\PYG{l+s+sd}{Dépendances : polars, pandas}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{polars}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pl}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{pandas}\PYG{+w}{ }\PYG{k}{as}\PYG{+w}{ }\PYG{n+nn}{pd}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{pprint}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{pprint}
+
+\PYG{k}{class}\PYG{+w}{ }\PYG{n+nc}{graph}\PYG{p}{:}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    Classe représentant un graphe (orienté ou non, pondéré ou non).}
+\PYG{l+s+sd}{    Structure de données : Liste d\PYGZsq{}adjacence via des dictionnaires imbriqués.}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{directed}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{weighted}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{weight\PYGZus{}attribute}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Initialise un graphe vide.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        directed : bool, optional}
+\PYG{l+s+sd}{            Indique si le graphe est dirigé (True) ou non dirigé (False). Par défaut True.}
+\PYG{l+s+sd}{        weighted : bool, optional}
+\PYG{l+s+sd}{            Indique si le graphe possède des poids d’arêtes. Par défaut False.}
+\PYG{l+s+sd}{        weight\PYGZus{}attribute : str, optional}
+\PYG{l+s+sd}{            Nom de l’attribut de poids si applicable (ex: \PYGZsq{}weight\PYGZsq{}, \PYGZsq{}distance\PYGZsq{}).}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}  \PYG{c+c1}{\PYGZsh{} Stocke les nœuds et leurs attributs : \PYGZob{}id: \PYGZob{}attr: val\PYGZcb{}\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}  \PYG{c+c1}{\PYGZsh{} Stocke la structure : \PYGZob{}source: \PYGZob{}cible: \PYGZob{}attr: val\PYGZcb{}\PYGZcb{}\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed} \PYG{o}{=} \PYG{n}{directed}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weighted} \PYG{o}{=} \PYG{n}{weighted}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight\PYGZus{}attribute} \PYG{o}{=} \PYG{n}{weight\PYGZus{}attribute}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Représentation textuelle du graphe.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{p}{[}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Graphe }\PYG{l+s+si}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}dirigé\PYGZsq{}}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}non dirigé\PYGZsq{}}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Nombre de nœuds : }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Nombre d\PYGZsq{}arêtes : }\PYG{l+s+si}{\PYGZob{}}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nb\PYGZus{}edges}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}\PYGZhy{} Aperçu des arêtes \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZdq{}}
+        \PYG{p}{]}
+        \PYG{c+c1}{\PYGZsh{} On limite l\PYGZsq{}affichage pour éviter de saturer la console sur les gros graphes}
+        \PYG{n}{count} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{k}{for} \PYG{n}{u}\PYG{p}{,} \PYG{n}{targets} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{k}{for} \PYG{n}{v}\PYG{p}{,} \PYG{n}{attrs} \PYG{o+ow}{in} \PYG{n}{targets}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+                \PYG{k}{if} \PYG{n}{count} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{10}\PYG{p}{:}
+                    \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{u}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZgt{} }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{v}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{  }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{attrs}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+                \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{k}{if} \PYG{n}{count} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{10}\PYG{p}{:}
+            \PYG{n}{lines}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}  ... (+ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{count}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{10}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ autres arêtes)\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{node\PYGZus{}exists}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{n}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Vérifie si un nœud existe dans le graphe.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        n : str or int}
+\PYG{l+s+sd}{            Identifiant du nœud à tester.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        bool}
+\PYG{l+s+sd}{            True si le nœud existe, False sinon.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n}{n} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{add\PYGZus{}node}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{node\PYGZus{}id}\PYG{p}{,} \PYG{n}{attributes}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Ajoute un nœud au graphe s’il n’existe pas déjà.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        node\PYGZus{}id : str or int}
+\PYG{l+s+sd}{            Identifiant du nœud à ajouter.}
+\PYG{l+s+sd}{        attributes : dict, optional}
+\PYG{l+s+sd}{            Dictionnaire d’attributs associés au nœud.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        dict}
+\PYG{l+s+sd}{            Dictionnaire des attributs du nœud ajouté (ou existant).}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{node\PYGZus{}id} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{node\PYGZus{}id}\PYG{p}{]} \PYG{o}{=} \PYG{n}{attributes} \PYG{o+ow}{or} \PYG{p}{\PYGZob{}\PYGZcb{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{node\PYGZus{}id}\PYG{p}{]} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}  \PYG{c+c1}{\PYGZsh{} initialise le dictionnaire des voisins}
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{node\PYGZus{}id}\PYG{p}{]}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{edge\PYGZus{}exists}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{n1}\PYG{p}{,} \PYG{n}{n2}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Vérifie si une arête entre deux nœuds existe.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        n1 : str or int}
+\PYG{l+s+sd}{            Nœud source.}
+\PYG{l+s+sd}{        n2 : str or int}
+\PYG{l+s+sd}{            Nœud cible.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        bool}
+\PYG{l+s+sd}{            True si l’arête (n1, n2) existe, False sinon.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n}{n1} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges} \PYG{o+ow}{and} \PYG{n}{n2} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{n1}\PYG{p}{]}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{node\PYGZus{}id1}\PYG{p}{,} \PYG{n}{node\PYGZus{}id2}\PYG{p}{,} \PYG{n}{attributes}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Ajoute une arête entre deux nœuds. Crée les nœuds automatiquement s\PYGZsq{}ils manquent.}
+
+\PYG{l+s+sd}{        Si le graphe est non dirigé, l\PYGZsq{}arête est ajoutée dans les deux sens}
+\PYG{l+s+sd}{        (node\PYGZus{}id1 \PYGZhy{}\PYGZgt{} node\PYGZus{}id2 et node\PYGZus{}id2 \PYGZhy{}\PYGZgt{} node\PYGZus{}id1) partageant les mêmes attributs.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        node\PYGZus{}id1 : str or int}
+\PYG{l+s+sd}{            Identifiant du nœud source.}
+\PYG{l+s+sd}{        node\PYGZus{}id2 : str or int}
+\PYG{l+s+sd}{            Identifiant du nœud cible.}
+\PYG{l+s+sd}{        attributes : dict, optional}
+\PYG{l+s+sd}{            Dictionnaire d’attributs de l’arête.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        dict}
+\PYG{l+s+sd}{            Dictionnaire des attributs de l’arête ajoutée.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{node\PYGZus{}id1}\PYG{p}{)}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{node\PYGZus{}id2}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} On évite d\PYGZsq{}écraser une arête existante sauf si nécessaire}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edge\PYGZus{}exists}\PYG{p}{(}\PYG{n}{node\PYGZus{}id1}\PYG{p}{,} \PYG{n}{node\PYGZus{}id2}\PYG{p}{):}
+            \PYG{n}{attr} \PYG{o}{=} \PYG{n}{attributes} \PYG{o+ow}{or} \PYG{p}{\PYGZob{}\PYGZcb{}}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{node\PYGZus{}id1}\PYG{p}{][}\PYG{n}{node\PYGZus{}id2}\PYG{p}{]} \PYG{o}{=} \PYG{n}{attr}
+
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Partage de la référence du dictionnaire d\PYGZsq{}attributs}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{node\PYGZus{}id2}\PYG{p}{][}\PYG{n}{node\PYGZus{}id1}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{node\PYGZus{}id1}\PYG{p}{][}\PYG{n}{node\PYGZus{}id2}\PYG{p}{]}
+
+        \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{node\PYGZus{}id1}\PYG{p}{][}\PYG{n}{node\PYGZus{}id2}\PYG{p}{]}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}nodes}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Renvoie la liste triée des identifiants de nœuds du graphe.}
+\PYG{l+s+sd}{        (Renommé de \PYGZsq{}nodes\PYGZsq{} pour éviter la confusion avec l\PYGZsq{}attribut self.nodes).}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        list}
+\PYG{l+s+sd}{            Liste triée des clés des nœuds.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{o}{.}\PYG{n}{keys}\PYG{p}{())}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{nb\PYGZus{}nodes}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Renvoie le nombre de nœuds du graphe.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        int}
+\PYG{l+s+sd}{            Nombre de nœuds.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{)}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{nb\PYGZus{}edges}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Renvoie le nombre d\PYGZsq{}arêtes du graphe.}
+
+\PYG{l+s+sd}{        Pour les graphes non dirigés, divise le total par 2 car chaque arête}
+\PYG{l+s+sd}{        est stockée deux fois (u\PYGZhy{}\PYGZgt{}v et v\PYGZhy{}\PYGZgt{}u).}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        int}
+\PYG{l+s+sd}{            Nombre d\PYGZsq{}arêtes.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{count} \PYG{o}{=} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{v}\PYG{p}{)} \PYG{k}{for} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{o}{.}\PYG{n}{values}\PYG{p}{())}
+        \PYG{k}{return} \PYG{n}{count} \PYG{o}{//} \PYG{l+m+mi}{2} \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed} \PYG{k}{else} \PYG{n}{count}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{neighbors}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{node\PYGZus{}id}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Renvoie la liste des voisins (successeurs) d’un nœud donné.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        node\PYGZus{}id : str or int}
+\PYG{l+s+sd}{            Identifiant du nœud.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        list}
+\PYG{l+s+sd}{            Liste des identifiants de nœuds voisins.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{node\PYGZus{}id} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{node\PYGZus{}id}\PYG{p}{]}\PYG{o}{.}\PYG{n}{keys}\PYG{p}{())}
+        \PYG{k}{return} \PYG{p}{[]}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{predecessors}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{node\PYGZus{}id}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Renvoie la liste des nœuds qui pointent vers node\PYGZus{}id.}
+\PYG{l+s+sd}{        (Parents dans un arbre, ou prédécesseurs dans un graphe orienté).}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        node\PYGZus{}id : str or int}
+\PYG{l+s+sd}{            Identifiant du nœud cible.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        list}
+\PYG{l+s+sd}{            Liste des prédécesseurs.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Si le graphe n\PYGZsq{}est pas orienté, voisins = prédécesseurs}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{node\PYGZus{}id}\PYG{p}{)}
+
+        \PYG{n}{preds} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{c+c1}{\PYGZsh{} On parcourt tous les nœuds sources possibles}
+        \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{node\PYGZus{}id} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]:}
+                \PYG{n}{preds}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{u}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{preds}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{edges\PYGZus{}tuples}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Renvoie la liste de toutes les arêtes sous forme de tuples (source, cible).}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        list of tuple}
+\PYG{l+s+sd}{            Liste de tuples (u, v).}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{return} \PYG{p}{[(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)} \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes} \PYG{k}{for} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{u}\PYG{p}{)]}
+
+    \PYG{n+nd}{@classmethod}
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{read\PYGZus{}delim}\PYG{p}{(}\PYG{n+nb+bp}{cls}\PYG{p}{,} \PYG{n}{filename}\PYG{p}{,} \PYG{n}{column\PYGZus{}separator}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{directed}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,} \PYG{n}{weighted}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{,} \PYG{n}{weight\PYGZus{}attribute}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Lit un fichier délimité (ex: TSV, CSV) et construit un objet graph.}
+
+\PYG{l+s+sd}{        Les deux premières colonnes représentent les nœuds connectés (Source, Target),}
+\PYG{l+s+sd}{        les suivantes contiennent les attributs d’arêtes.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        filename : str}
+\PYG{l+s+sd}{            Chemin vers le fichier à lire.}
+\PYG{l+s+sd}{        column\PYGZus{}separator : str, optional}
+\PYG{l+s+sd}{            Caractère de séparation (par défaut : tabulation).}
+\PYG{l+s+sd}{        directed : bool, optional}
+\PYG{l+s+sd}{            Indique si le graphe doit être dirigé.}
+\PYG{l+s+sd}{        weighted : bool, optional}
+\PYG{l+s+sd}{            Indique si le graphe doit être pondéré.}
+\PYG{l+s+sd}{        weight\PYGZus{}attribute : str, optional}
+\PYG{l+s+sd}{            Nom de l’attribut de poids.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        graph}
+\PYG{l+s+sd}{            Instance de la classe graph remplie.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Lecture optimisée avec Polars}
+        \PYG{k}{try}\PYG{p}{:}
+            \PYG{n}{df} \PYG{o}{=} \PYG{n}{pl}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}
+                \PYG{n}{filename}\PYG{p}{,}
+                \PYG{n}{separator}\PYG{o}{=}\PYG{n}{column\PYGZus{}separator}\PYG{p}{,}
+                \PYG{n}{has\PYGZus{}header}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{,}
+                \PYG{n}{infer\PYGZus{}schema\PYGZus{}length}\PYG{o}{=}\PYG{l+m+mi}{1000}\PYG{p}{,}
+                \PYG{n}{quote\PYGZus{}char}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{,}
+                \PYG{n}{truncate\PYGZus{}ragged\PYGZus{}lines}\PYG{o}{=}\PYG{k+kc}{True}
+            \PYG{p}{)}
+        \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Erreur lors de la lecture du fichier : }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return} \PYG{n+nb+bp}{cls}\PYG{p}{()}
+
+        \PYG{n}{cols} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{columns}
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{cols}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{2}\PYG{p}{:}
+            \PYG{k}{raise} \PYG{n+ne}{ValueError}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Le fichier doit contenir au moins deux colonnes (source, target).\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{src\PYGZus{}col}\PYG{p}{,} \PYG{n}{tgt\PYGZus{}col} \PYG{o}{=} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{att\PYGZus{}cols} \PYG{o}{=} \PYG{n}{cols}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{:]}
+
+        \PYG{c+c1}{\PYGZsh{} Création de l\PYGZsq{}instance}
+        \PYG{n}{g} \PYG{o}{=} \PYG{n+nb+bp}{cls}\PYG{p}{(}\PYG{n}{directed}\PYG{o}{=}\PYG{n}{directed}\PYG{p}{,} \PYG{n}{weighted}\PYG{o}{=}\PYG{n}{weighted}\PYG{p}{,} \PYG{n}{weight\PYGZus{}attribute}\PYG{o}{=}\PYG{n}{weight\PYGZus{}attribute}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Conversion en pandas pour l\PYGZsq{}itération (souvent plus simple pour les lignes mixtes)}
+        \PYG{n}{pdf} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{to\PYGZus{}pandas}\PYG{p}{()}
+
+        \PYG{k}{for} \PYG{n}{\PYGZus{}}\PYG{p}{,} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{pdf}\PYG{o}{.}\PYG{n}{iterrows}\PYG{p}{():}
+            \PYG{n}{u} \PYG{o}{=} \PYG{n}{row}\PYG{p}{[}\PYG{n}{src\PYGZus{}col}\PYG{p}{]}
+            \PYG{n}{v} \PYG{o}{=} \PYG{n}{row}\PYG{p}{[}\PYG{n}{tgt\PYGZus{}col}\PYG{p}{]}
+            \PYG{c+c1}{\PYGZsh{} Création du dictionnaire d\PYGZsq{}attributs pour l\PYGZsq{}arête}
+            \PYG{n}{att} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{col}\PYG{p}{:} \PYG{n}{row}\PYG{p}{[}\PYG{n}{col}\PYG{p}{]} \PYG{k}{for} \PYG{n}{col} \PYG{o+ow}{in} \PYG{n}{att\PYGZus{}cols}\PYG{p}{\PYGZcb{}}
+            \PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{,} \PYG{n}{att}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{g}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{BFS}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{s}\PYG{p}{,} \PYG{n}{cible}\PYG{o}{=}\PYG{k+kc}{None}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Algorithme de parcours en largeur (Breadth\PYGZhy{}First Search).}
+\PYG{l+s+sd}{        Calcule les plus courts chemins (en nombre d\PYGZsq{}arêtes) depuis une source.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        s : str or int}
+\PYG{l+s+sd}{            Sommet de départ.}
+\PYG{l+s+sd}{        cible : str or int, optional}
+\PYG{l+s+sd}{            Sommet d\PYGZsq{}arrivée. Si spécifié, l\PYGZsq{}algorithme s\PYGZsq{}arrête dès qu\PYGZsq{}il est trouvé.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        dict}
+\PYG{l+s+sd}{            Si cible est trouvée : \PYGZob{}\PYGZsq{}Distance\PYGZsq{}: int, \PYGZsq{}chemin\PYGZsq{}: list, \PYGZsq{}source\PYGZsq{}: s\PYGZcb{}}
+\PYG{l+s+sd}{            Sinon (parcours complet) : \PYGZob{}\PYGZsq{}etats\PYGZsq{}: dict, \PYGZsq{}distances\PYGZsq{}: dict, \PYGZsq{}parents\PYGZsq{}: dict, \PYGZsq{}source\PYGZsq{}: s\PYGZcb{}}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n}{s} \PYG{o+ow}{not} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Erreur : Le nœud de départ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{s}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ n\PYGZsq{}existe pas.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return} \PYG{p}{\PYGZob{}\PYGZcb{}}
+
+        \PYG{c+c1}{\PYGZsh{} Initialisation}
+        \PYG{n}{etats} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{u}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}blanc\PYGZsq{}} \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{\PYGZcb{}}
+        \PYG{n}{distances} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{u}\PYG{p}{:} \PYG{n+nb}{float}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}inf\PYGZsq{}}\PYG{p}{)} \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{\PYGZcb{}}
+        \PYG{n}{parents} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{u}\PYG{p}{:} \PYG{k+kc}{None} \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{\PYGZcb{}}
+
+        \PYG{n}{etats}\PYG{p}{[}\PYG{n}{s}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}gris\PYGZsq{}}  \PYG{c+c1}{\PYGZsh{} En cours de visite}
+        \PYG{n}{distances}\PYG{p}{[}\PYG{n}{s}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n}{attente} \PYG{o}{=} \PYG{p}{[}\PYG{n}{s}\PYG{p}{]}      \PYG{c+c1}{\PYGZsh{} File (FIFO)}
+
+        \PYG{k}{while} \PYG{n}{attente}\PYG{p}{:}
+            \PYG{n}{u} \PYG{o}{=} \PYG{n}{attente}\PYG{o}{.}\PYG{n}{pop}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+
+            \PYG{k}{if} \PYG{n}{cible} \PYG{o+ow}{and} \PYG{n}{u} \PYG{o}{==} \PYG{n}{cible}\PYG{p}{:}
+                \PYG{k}{break}
+
+            \PYG{k}{for} \PYG{n}{voisin} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{u}\PYG{p}{):}
+                \PYG{k}{if} \PYG{n}{etats}\PYG{p}{[}\PYG{n}{voisin}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}blanc\PYGZsq{}}\PYG{p}{:}
+                    \PYG{n}{etats}\PYG{p}{[}\PYG{n}{voisin}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}gris\PYGZsq{}}
+                    \PYG{n}{distances}\PYG{p}{[}\PYG{n}{voisin}\PYG{p}{]} \PYG{o}{=} \PYG{n}{distances}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}
+                    \PYG{n}{parents}\PYG{p}{[}\PYG{n}{voisin}\PYG{p}{]} \PYG{o}{=} \PYG{n}{u}
+                    \PYG{n}{attente}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{voisin}\PYG{p}{)}
+
+            \PYG{n}{etats}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}noir\PYGZsq{}}  \PYG{c+c1}{\PYGZsh{} Visité}
+
+        \PYG{c+c1}{\PYGZsh{} Reconstruction du chemin si une cible était demandée}
+        \PYG{k}{if} \PYG{n}{cible}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{parents}\PYG{p}{[}\PYG{n}{cible}\PYG{p}{]} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None} \PYG{o+ow}{or} \PYG{n}{cible} \PYG{o}{==} \PYG{n}{s}\PYG{p}{:}
+                \PYG{n}{chemin} \PYG{o}{=} \PYG{p}{[}\PYG{n}{cible}\PYG{p}{]}
+                \PYG{n}{curr} \PYG{o}{=} \PYG{n}{cible}
+                \PYG{k}{while} \PYG{n}{curr} \PYG{o}{!=} \PYG{n}{s}\PYG{p}{:}
+                    \PYG{n}{curr} \PYG{o}{=} \PYG{n}{parents}\PYG{p}{[}\PYG{n}{curr}\PYG{p}{]}
+                    \PYG{n}{chemin}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{curr}\PYG{p}{)}
+                \PYG{n}{chemin}\PYG{o}{.}\PYG{n}{reverse}\PYG{p}{()}
+                \PYG{k}{return} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}Distance\PYGZdq{}}\PYG{p}{:} \PYG{n}{distances}\PYG{p}{[}\PYG{n}{cible}\PYG{p}{],} \PYG{l+s+s2}{\PYGZdq{}chemin\PYGZdq{}}\PYG{p}{:} \PYG{n}{chemin}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}source\PYGZdq{}}\PYG{p}{:} \PYG{n}{s}\PYG{p}{\PYGZcb{}}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{k}{return} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}Distance\PYGZdq{}}\PYG{p}{:} \PYG{n+nb}{float}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}inf\PYGZsq{}}\PYG{p}{),} \PYG{l+s+s2}{\PYGZdq{}chemin\PYGZdq{}}\PYG{p}{:} \PYG{p}{[],} \PYG{l+s+s2}{\PYGZdq{}source\PYGZdq{}}\PYG{p}{:} \PYG{n}{s}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}error\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Cible inatteignable\PYGZdq{}}\PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{return} \PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}etats\PYGZdq{}}\PYG{p}{:} \PYG{n}{etats}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}distances\PYGZdq{}}\PYG{p}{:} \PYG{n}{distances}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}parents\PYGZdq{}}\PYG{p}{:} \PYG{n}{parents}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}source\PYGZdq{}}\PYG{p}{:} \PYG{n}{s}\PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{connected\PYGZus{}components}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Identifie les composantes connexes d’un graphe NON orienté via BFS.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        dict}
+\PYG{l+s+sd}{            Dictionnaire \PYGZob{}node\PYGZus{}id: component\PYGZus{}id\PYGZcb{}.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Attention : connected\PYGZus{}components est conçu pour les graphes non orientés.\PYGZdq{}}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} On continue quand même, mais le résultat représente des composantes faiblement connexes}
+            \PYG{c+c1}{\PYGZsh{} si on ignore la direction, ou juste l\PYGZsq{}accessibilité si on la garde.}
+
+        \PYG{n}{n\PYGZus{}CC} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n}{CC} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{n}{u}\PYG{p}{:} \PYG{k+kc}{None} \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{CC}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o+ow}{is} \PYG{k+kc}{None}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} On lance un BFS complet depuis ce nœud non visité}
+                \PYG{n}{parcours} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{BFS}\PYG{p}{(}\PYG{n}{u}\PYG{p}{)}
+
+                \PYG{c+c1}{\PYGZsh{} Tous les nœuds atteints appartiennent à la composante n\PYGZus{}CC}
+                \PYG{c+c1}{\PYGZsh{} Le BFS retourne \PYGZsq{}distances\PYGZsq{} pour les nœuds visités}
+                \PYG{n}{visited\PYGZus{}nodes} \PYG{o}{=} \PYG{p}{[}\PYG{n}{n} \PYG{k}{for} \PYG{n}{n}\PYG{p}{,} \PYG{n}{d} \PYG{o+ow}{in} \PYG{n}{parcours}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}distances\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{items}\PYG{p}{()} \PYG{k}{if} \PYG{n}{d} \PYG{o}{!=} \PYG{n+nb}{float}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}inf\PYGZsq{}}\PYG{p}{)]}
+
+                \PYG{k}{for} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n}{visited\PYGZus{}nodes}\PYG{p}{:}
+                    \PYG{n}{CC}\PYG{p}{[}\PYG{n}{v}\PYG{p}{]} \PYG{o}{=} \PYG{n}{n\PYGZus{}CC}
+                \PYG{n}{n\PYGZus{}CC} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{k}{return} \PYG{n}{CC}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{sousgraphe\PYGZus{}induit}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{nodes\PYGZus{}subset}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Crée un sous\PYGZhy{}graphe induit par une liste de nœuds donnée.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        nodes\PYGZus{}subset : list}
+\PYG{l+s+sd}{            Liste des identifiants de nœuds à conserver.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        graph}
+\PYG{l+s+sd}{            Nouveau graphe contenant uniquement les nœuds spécifiés et les arêtes entre eux.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{sg} \PYG{o}{=} \PYG{n}{graph}\PYG{p}{(}
+            \PYG{n}{directed}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed}\PYG{p}{,}
+            \PYG{n}{weighted}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weighted}\PYG{p}{,}
+            \PYG{n}{weight\PYGZus{}attribute}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weight\PYGZus{}attribute}
+        \PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Ajout des nœuds}
+        \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n}{nodes\PYGZus{}subset}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+                \PYG{n}{sg}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{[}\PYG{n}{u}\PYG{p}{])}
+
+        \PYG{c+c1}{\PYGZsh{} Ajout des arêtes existantes entre ces nœuds}
+        \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n}{nodes\PYGZus{}subset}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{:}
+                \PYG{k}{for} \PYG{n}{v}\PYG{p}{,} \PYG{n}{attrs} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+                    \PYG{k}{if} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n}{nodes\PYGZus{}subset}\PYG{p}{:}
+                        \PYG{n}{sg}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{,} \PYG{n}{attrs}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{sg}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{edges\PYGZus{}filter}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{attribut}\PYG{p}{,} \PYG{n}{seuil}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Filtre le graphe pour ne garder que les arêtes respectant un critère numérique.}
+
+\PYG{l+s+sd}{        Parameters}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        attribut : str}
+\PYG{l+s+sd}{            Nom de l\PYGZsq{}attribut de l\PYGZsq{}arête à tester (ex: \PYGZsq{}weight\PYGZsq{}).}
+\PYG{l+s+sd}{        seuil : float}
+\PYG{l+s+sd}{            Valeur minimale pour conserver l\PYGZsq{}arête.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        graph}
+\PYG{l+s+sd}{            Nouveau graphe filtré.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{G\PYGZus{}filtre} \PYG{o}{=} \PYG{n}{graph}\PYG{p}{(}\PYG{n}{directed}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{directed}\PYG{p}{,} \PYG{n}{weighted}\PYG{o}{=}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{weighted}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} On copie tous les nœuds}
+        \PYG{k}{for} \PYG{n}{node\PYGZus{}id}\PYG{p}{,} \PYG{n}{attrs} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{n}{G\PYGZus{}filtre}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{n}{node\PYGZus{}id}\PYG{p}{,} \PYG{n}{attrs}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} On ne copie que les arêtes valides}
+        \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{v}\PYG{p}{,} \PYG{n}{attrs} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+                \PYG{k}{if} \PYG{n}{attribut} \PYG{o+ow}{in} \PYG{n}{attrs} \PYG{o+ow}{and} \PYG{n}{attrs}\PYG{p}{[}\PYG{n}{attribut}\PYG{p}{]} \PYG{o}{\PYGZgt{}=} \PYG{n}{seuil}\PYG{p}{:}
+                    \PYG{n}{G\PYGZus{}filtre}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{,} \PYG{n}{attrs}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{G\PYGZus{}filtre}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{clustering\PYGZus{}coefficient}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Calcule le coefficient de clustering local pour chaque nœud.}
+\PYG{l+s+sd}{        C = (nombre de liens entre voisins) / (nombre de liens possibles entre voisins).}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        dict}
+\PYG{l+s+sd}{            \PYGZob{}node\PYGZus{}id: coefficient (float entre 0 et 1)\PYGZcb{}}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{coeffs} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{k}{for} \PYG{n}{node\PYGZus{}id} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{n}{voisins} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{node\PYGZus{}id}\PYG{p}{)}
+            \PYG{n}{k} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{voisins}\PYG{p}{)}
+
+            \PYG{c+c1}{\PYGZsh{} Si moins de 2 voisins, pas de connexions possibles entre eux \PYGZhy{}\PYGZgt{} coeff = 0}
+            \PYG{k}{if} \PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{2}\PYG{p}{:}
+                \PYG{n}{coeffs}\PYG{p}{[}\PYG{n}{node\PYGZus{}id}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mf}{0.0}
+                \PYG{k}{continue}
+
+            \PYG{n}{liens\PYGZus{}reels} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{c+c1}{\PYGZsh{} On regarde toutes les paires de voisins uniques}
+            \PYG{k}{for} \PYG{n}{v1} \PYG{o+ow}{in} \PYG{n}{voisins}\PYG{p}{:}
+                \PYG{k}{for} \PYG{n}{v2} \PYG{o+ow}{in} \PYG{n}{voisins}\PYG{p}{:}
+                    \PYG{k}{if} \PYG{n}{v1} \PYG{o}{!=} \PYG{n}{v2}\PYG{p}{:}
+                        \PYG{k}{if} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{edge\PYGZus{}exists}\PYG{p}{(}\PYG{n}{v1}\PYG{p}{,} \PYG{n}{v2}\PYG{p}{):}
+                            \PYG{n}{liens\PYGZus{}reels} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+            \PYG{c+c1}{\PYGZsh{} Nombre max de liens possibles entre k voisins}
+            \PYG{c+c1}{\PYGZsh{} k * (k\PYGZhy{}1) pour dirigé, k * (k\PYGZhy{}1) / 2 pour non dirigé.}
+            \PYG{c+c1}{\PYGZsh{} Ici l\PYGZsq{}algo compte v1\PYGZhy{}\PYGZgt{}v2 et v2\PYGZhy{}\PYGZgt{}v1 séparément dans la boucle,}
+            \PYG{c+c1}{\PYGZsh{} donc on divise par k*(k\PYGZhy{}1) dans tous les cas pour normaliser.}
+            \PYG{n}{coeffs}\PYG{p}{[}\PYG{n}{node\PYGZus{}id}\PYG{p}{]} \PYG{o}{=} \PYG{n}{liens\PYGZus{}reels} \PYG{o}{/} \PYG{p}{(}\PYG{n}{k} \PYG{o}{*} \PYG{p}{(}\PYG{n}{k} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{))}
+
+        \PYG{k}{return} \PYG{n}{coeffs}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{DFS}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Algorithme de parcours en profondeur (Depth\PYGZhy{}First Search).}
+\PYG{l+s+sd}{        Utilisé pour la classification des arêtes, la détection de cycles et le tri topologique.}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        dict}
+\PYG{l+s+sd}{            Structure contenant l\PYGZsq{}état du parcours, les temps de découverte/fin,}
+\PYG{l+s+sd}{            la classification des arêtes et l\PYGZsq{}ordre de fin.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{a} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+            \PYG{l+s+s1}{\PYGZsq{}etat\PYGZsq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}\PYGZcb{},}
+            \PYG{l+s+s1}{\PYGZsq{}parents\PYGZsq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}\PYGZcb{},}
+            \PYG{l+s+s1}{\PYGZsq{}decouvert\PYGZsq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}\PYGZcb{},} \PYG{c+c1}{\PYGZsh{} Timestamp de début}
+            \PYG{l+s+s1}{\PYGZsq{}fin\PYGZsq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}\PYGZcb{},}       \PYG{c+c1}{\PYGZsh{} Timestamp de fin}
+            \PYG{l+s+s1}{\PYGZsq{}classification\PYGZsq{}}\PYG{p}{:} \PYG{p}{\PYGZob{}\PYGZcb{},} \PYG{c+c1}{\PYGZsh{} Types d\PYGZsq{}arêtes}
+            \PYG{l+s+s1}{\PYGZsq{}ordre\PYGZus{}fin\PYGZsq{}}\PYG{p}{:} \PYG{p}{[],} \PYG{c+c1}{\PYGZsh{} Liste pour tri topologique}
+            \PYG{l+s+s1}{\PYGZsq{}temps\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{0}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{c+c1}{\PYGZsh{} Initialisation}
+        \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}etat\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}inexplore\PYGZsq{}}
+            \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}parents\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{k+kc}{None}
+
+        \PYG{c+c1}{\PYGZsh{} Boucle principale pour traiter les composantes disjointes}
+        \PYG{k}{for} \PYG{n}{u} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{nodes}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}etat\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}inexplore\PYGZsq{}}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}DFSvisite}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{a}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{a}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{\PYGZus{}DFSvisite}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{u}\PYG{p}{,} \PYG{n}{a}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Fonction interne récursive pour le DFS.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}etat\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}decouvert\PYGZsq{}}
+        \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}temps\PYGZsq{}}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}decouvert\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}temps\PYGZsq{}}\PYG{p}{]}
+
+        \PYG{k}{for} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{neighbors}\PYG{p}{(}\PYG{n}{u}\PYG{p}{):}
+            \PYG{k}{if} \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}etat\PYGZsq{}}\PYG{p}{][}\PYG{n}{v}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}inexplore\PYGZsq{}}\PYG{p}{:}
+                \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}parents\PYGZsq{}}\PYG{p}{][}\PYG{n}{v}\PYG{p}{]} \PYG{o}{=} \PYG{n}{u}
+                \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}classification\PYGZsq{}}\PYG{p}{][(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}branche\PYGZsq{}}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{\PYGZus{}DFSvisite}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,} \PYG{n}{a}\PYG{p}{)}
+            \PYG{k}{elif} \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}etat\PYGZsq{}}\PYG{p}{][}\PYG{n}{v}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}decouvert\PYGZsq{}}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{} Arête vers un ancêtre non terminé \PYGZhy{}\PYGZgt{} Cycle détecté}
+                \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}classification\PYGZsq{}}\PYG{p}{][(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}retour\PYGZsq{}}
+            \PYG{k}{elif} \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}decouvert\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}decouvert\PYGZsq{}}\PYG{p}{][}\PYG{n}{v}\PYG{p}{]:}
+                \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}classification\PYGZsq{}}\PYG{p}{][(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}arete avant\PYGZsq{}}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}classification\PYGZsq{}}\PYG{p}{][(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}transversale\PYGZsq{}} \PYG{c+c1}{\PYGZsh{} Cross edge}
+
+        \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}etat\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}traite\PYGZsq{}}
+        \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}temps\PYGZsq{}}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}fin\PYGZsq{}}\PYG{p}{][}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}temps\PYGZsq{}}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{} Ajout à la liste pour le tri topologique (post\PYGZhy{}ordre)}
+        \PYG{n}{a}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ordre\PYGZus{}fin\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{u}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{a}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{is\PYGZus{}acyclic}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Vérifie si le graphe est acyclique (DAG).}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        bool}
+\PYG{l+s+sd}{            True si acyclique, False si contient un cycle.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{c+c1}{\PYGZsh{} Un cycle existe ssi le DFS trouve une arête \PYGZsq{}retour\PYGZsq{}}
+        \PYG{n}{res} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{DFS}\PYG{p}{()}
+        \PYG{k}{for} \PYG{n}{type\PYGZus{}arete} \PYG{o+ow}{in} \PYG{n}{res}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}classification\PYGZsq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{values}\PYG{p}{():}
+            \PYG{k}{if} \PYG{n}{type\PYGZus{}arete} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}retour\PYGZsq{}}\PYG{p}{:}
+                \PYG{k}{return} \PYG{k+kc}{False}
+        \PYG{k}{return} \PYG{k+kc}{True}
+
+    \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{topological\PYGZus{}sort}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+\PYG{+w}{        }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Effectue un tri topologique des nœuds (uniquement pour les DAG).}
+
+\PYG{l+s+sd}{        Returns}
+\PYG{l+s+sd}{        \PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{l+s+sd}{        list or None}
+\PYG{l+s+sd}{            Liste des nœuds ordonnée linéairement, ou None si cycle détecté.}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}acyclic}\PYG{p}{():}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Erreur : Le graphe contient un cycle, tri topologique impossible.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{return} \PYG{k+kc}{None}
+
+        \PYG{n}{res} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{DFS}\PYG{p}{()}
+        \PYG{c+c1}{\PYGZsh{} L\PYGZsq{}ordre topologique est l\PYGZsq{}inverse de l\PYGZsq{}ordre de fin de traitement}
+        \PYG{k}{return} \PYG{n}{res}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}ordre\PYGZus{}fin\PYGZsq{}}\PYG{p}{][::}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{} Tests unitaires basiques \PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}}
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZdq{}}\PYG{p}{:}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZsh{} Graph lib tests\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{} 1. Création et affichage\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{g} \PYG{o}{=} \PYG{n}{graph}\PYG{p}{(}\PYG{n}{directed}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}node}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{,} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}weight\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{5}\PYG{p}{\PYGZcb{})}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{g}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{} 2. Graphe non dirigé\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{g2} \PYG{o}{=} \PYG{n}{graph}\PYG{p}{(}\PYG{n}{directed}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+    \PYG{n}{g2}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{g2}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{g2}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}D\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{g2}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}E\PYGZsq{}}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} Création d\PYGZsq{}un cycle pour tester is\PYGZus{}acyclic plus tard (A\PYGZhy{}B\PYGZhy{}D\PYGZhy{}A impossible direct mais A\PYGZhy{}B\PYGZhy{}A oui en non dirigé)}
+    \PYG{c+c1}{\PYGZsh{} Pour le test clustering}
+    \PYG{n}{g2}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{g2}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Nombre de noeuds: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{g2}\PYG{o}{.}\PYG{n}{nb\PYGZus{}nodes}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Nombre d\PYGZsq{}arêtes: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{g2}\PYG{o}{.}\PYG{n}{nb\PYGZus{}edges}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{} 3. BFS (Plus court chemin)\PYGZdq{}}\PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} Chemin A \PYGZhy{}\PYGZgt{} E}
+    \PYG{n}{res\PYGZus{}bfs} \PYG{o}{=} \PYG{n}{g2}\PYG{o}{.}\PYG{n}{BFS}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}E\PYGZsq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Chemin A \PYGZhy{}\PYGZgt{} E :\PYGZdq{}}\PYG{p}{,} \PYG{n}{res\PYGZus{}bfs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}chemin\PYGZsq{}}\PYG{p}{))}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Distance :\PYGZdq{}}\PYG{p}{,} \PYG{n}{res\PYGZus{}bfs}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Distance\PYGZsq{}}\PYG{p}{))}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{} 4. Clustering Coefficient\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{cc} \PYG{o}{=} \PYG{n}{g2}\PYG{o}{.}\PYG{n}{clustering\PYGZus{}coefficient}\PYG{p}{()}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Coefficients de clustering :\PYGZdq{}}\PYG{p}{,} \PYG{n}{cc}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{} 5. DFS et Tri Topologique (Sur un DAG)\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{dag} \PYG{o}{=} \PYG{n}{graph}\PYG{p}{(}\PYG{n}{directed}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{dag}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Chemise\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Ceinture\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dag}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Chemise\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Cravate\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dag}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Cravate\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Veste\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dag}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Ceinture\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Veste\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dag}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Pantalon\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Ceinture\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dag}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Pantalon\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Chaussures\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dag}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Chaussettes\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Chaussures\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Est acyclique ?\PYGZdq{}}\PYG{p}{,} \PYG{n}{dag}\PYG{o}{.}\PYG{n}{is\PYGZus{}acyclic}\PYG{p}{())}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Tri topologique (Ordre d\PYGZsq{}habillage) :\PYGZdq{}}\PYG{p}{,} \PYG{n}{dag}\PYG{o}{.}\PYG{n}{topological\PYGZus{}sort}\PYG{p}{())}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZsh{}\PYGZsh{} 6. Détection de cycle\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{cycle\PYGZus{}g} \PYG{o}{=} \PYG{n}{graph}\PYG{p}{(}\PYG{n}{directed}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{cycle\PYGZus{}g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{cycle\PYGZus{}g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}B\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{cycle\PYGZus{}g}\PYG{o}{.}\PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}C\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}A\PYGZsq{}}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Cycle}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Graphe cyclique est acyclique ?\PYGZdq{}}\PYG{p}{,} \PYG{n}{cycle\PYGZus{}g}\PYG{o}{.}\PYG{n}{is\PYGZus{}acyclic}\PYG{p}{())}
+\end{Verbatim}
